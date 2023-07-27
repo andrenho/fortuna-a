@@ -7,7 +7,6 @@
 # Phase 1 - basic computer
 
 - [ ] Debugger card
-- [ ] Memory card
 - [ ] CPU card
 - [ ] Debugger for CPU
 
