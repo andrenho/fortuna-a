@@ -958,6 +958,91 @@
     )
   )
 
+  (sheet (at 255.27 22.86) (size 15.875 19.685) (fields_autoplaced)
+    (stroke (width 0.1524) (type solid))
+    (fill (color 0 0 0 0.0000))
+    (uuid 0ad0c907-f2a9-47ff-aff1-7aaecbdef7ee)
+    (property "Sheetname" "Storage" (at 255.27 22.1484 0)
+      (effects (font (size 1.27 1.27)) (justify left bottom))
+    )
+    (property "Sheetfile" "storage.kicad_sch" (at 255.27 43.1296 0)
+      (effects (font (size 1.27 1.27)) (justify left top))
+    )
+    (instances
+      (project "fortuna-box"
+        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209" (page "5"))
+      )
+    )
+  )
+
+  (sheet (at 172.085 51.435) (size 16.51 19.685) (fields_autoplaced)
+    (stroke (width 0.1524) (type solid))
+    (fill (color 0 0 0 0.0000))
+    (uuid 34f47b44-6e82-4397-9bc8-849df4113da9)
+    (property "Sheetname" "Debugger" (at 172.085 50.7234 0)
+      (effects (font (size 1.27 1.27)) (justify left bottom))
+    )
+    (property "Sheetfile" "debugger.kicad_sch" (at 172.085 71.7046 0)
+      (effects (font (size 1.27 1.27)) (justify left top))
+    )
+    (instances
+      (project "fortuna-box"
+        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209" (page "6"))
+      )
+    )
+  )
+
+  (sheet (at 229.235 22.86) (size 15.24 19.05) (fields_autoplaced)
+    (stroke (width 0.1524) (type solid))
+    (fill (color 0 0 0 0.0000))
+    (uuid 4037b4b4-0005-458e-a3e9-fe2ae826ab0c)
+    (property "Sheetname" "Serial" (at 229.235 22.1484 0)
+      (effects (font (size 1.27 1.27)) (justify left bottom))
+    )
+    (property "Sheetfile" "serial.kicad_sch" (at 229.235 42.4946 0)
+      (effects (font (size 1.27 1.27)) (justify left top))
+    )
+    (instances
+      (project "fortuna-box"
+        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209" (page "4"))
+      )
+    )
+  )
+
+  (sheet (at 200.025 22.86) (size 15.24 18.415) (fields_autoplaced)
+    (stroke (width 0.1524) (type solid))
+    (fill (color 0 0 0 0.0000))
+    (uuid 4fe6965a-72a4-4531-8bd8-5a46765186a2)
+    (property "Sheetname" "Memory" (at 200.025 22.1484 0)
+      (effects (font (size 1.27 1.27)) (justify left bottom))
+    )
+    (property "Sheetfile" "memory.kicad_sch" (at 200.025 41.8596 0)
+      (effects (font (size 1.27 1.27)) (justify left top))
+    )
+    (instances
+      (project "fortuna-box"
+        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209" (page "3"))
+      )
+    )
+  )
+
+  (sheet (at 172.72 22.86) (size 15.24 17.78) (fields_autoplaced)
+    (stroke (width 0.1524) (type solid))
+    (fill (color 0 0 0 0.0000))
+    (uuid afd1b413-de30-4838-bb16-3d0c9f3cd196)
+    (property "Sheetname" "CPU" (at 172.72 22.1484 0)
+      (effects (font (size 1.27 1.27)) (justify left bottom))
+    )
+    (property "Sheetfile" "cpu.kicad_sch" (at 172.72 41.2246 0)
+      (effects (font (size 1.27 1.27)) (justify left top))
+    )
+    (instances
+      (project "fortuna-box"
+        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209" (page "2"))
+      )
+    )
+  )
+
   (sheet_instances
     (path "/" (page "1"))
   )
