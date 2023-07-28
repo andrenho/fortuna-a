@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Fortuna Box debugger</title>
+    <link rel="stylesheet" href="main.css" />
+    <!-- <link rel="icon" href="images/favicon.png" /> -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata&family=REM&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <h1>Fortuna Box debugger</h1>
+
+    <!-- TABS -->
+    
+    <div class="tabs">
+        <div class="tab tab-selected" id="tab-code" onclick="selectTab('code')">Code</div>
+        <div class="tab" id="tab-memory" onclick="selectTab('memory')">Memory</div>
+        <div class="tab" id="tab-selftest" onclick="selectTab('selftest')">Self-test</div>
+    </div>
+
+    <!-- CODE -->
+
+    <div id="code" class="code">
+        <div class="buttons">
+            <button type="button" id="step">Step</button>
+            <button type="button" id="next">Next</button>
+            <button type="button" id="run">Run</button>
+        </div>
+        <div class="code-debug">
+            <!-- use: code-line -->
+        </div>
+        <div class="registers"></div>
+    </div>
+
+    <!-- MEMORY -->
+
+    <div id="memory" class="memory" style="display: none;">
+        <div class="memory-header">
+            <div class="page">Page: <span id="page">0x20</span></div>
+            <button type="button" id="step">&lt;&lt;</button>
+            <button type="button" id="next">&gt;&gt;</button>
+        </div>
+        <div id="memory-data" class="memory-data"></div>
+    </div>
+
+    <!-- SELF-TEST -->
+
+    <div id="selftest" style="display: none;">
+        self-test
+    </div>
+
+    <script src="debugger.js"></script>
+</body>
+</html>

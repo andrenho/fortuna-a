@@ -1,0 +1,89 @@
+body {
+    font-family: 'REM', sans-serif;
+}
+
+button {
+    font-family: 'REM', sans-serif;
+    font-size: 14pt;
+    padding: 4px 12px;
+}
+
+.tabs {
+    display: flex;
+    gap: 16px;
+    padding-bottom: 16px;
+}
+
+.tab {
+    border: 1px gray dotted;
+    padding: 8px 24px;
+    cursor: pointer;
+}
+
+.tab-selected {
+    border: 1px black solid;
+    background: beige;
+}
+
+.buttons {
+    display: flex;
+    gap: 12px;
+    padding-bottom: 8px;
+}
+
+.code {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 150px);
+}
+
+.code-debug {
+    border: 1px black solid;
+    margin-bottom: 12px;
+    flex-grow: 1;
+    padding: 6px;
+    overflow-y: auto;
+    overflow-x: clip;
+    box-shadow: 5px 5px 5px gray;
+    margin-right: 10px;
+}
+
+.code-line {
+    font-family: 'Inconsolata', monospace;
+    font-size: 20px;
+    margin-bottom: 1px;
+}
+
+.registers {
+    border: 1px black solid;
+    margin-bottom: 8px;
+    min-height: 100px;
+    box-shadow: 5px 5px 5px gray;
+    margin-right: 10px;
+}
+
+.memory {
+    flex-direction: column;
+}
+
+.memory-header {
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+    margin-bottom: 16px;
+}
+
+.page {
+    font-size: 14pt;
+}
+
+.memory-data {
+    font-family: 'Inconsolata', monospace;
+    font-size: 20px;
+    margin-bottom: 1px;
+    box-shadow: 5px 5px 5px gray;
+    margin-right: 10px;
+    border: 1px black solid;
+    width: 700px;
+    height: 400px;
+}
