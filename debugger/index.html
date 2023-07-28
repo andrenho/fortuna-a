@@ -16,22 +16,23 @@
 
 <body>
     <h1>Fortuna Box debugger</h1>
+    <div class="spinner" id="spinner">&#9676;</div>
 
     <!-- TABS -->
     
     <div class="tabs">
-        <div class="tab tab-selected" id="tab-code" onclick="selectTab('code')">Code</div>
-        <div class="tab" id="tab-memory" onclick="selectTab('memory')">Memory</div>
-        <div class="tab" id="tab-selftest" onclick="selectTab('selftest')">Self-test</div>
+        <div class="tab tab-selected" id="tab-code" onclick="tabSelect('code')">Code (1)</div>
+        <div class="tab" id="tab-memory" onclick="tabSelect('memory')">Memory (2)</div>
+        <div class="tab" id="tab-selftest" onclick="tabSelect('selftest')">Self-test (3)</div>
     </div>
 
     <!-- CODE -->
 
     <div id="code" class="code">
         <div class="buttons">
-            <button type="button" id="step">Step</button>
-            <button type="button" id="next">Next</button>
-            <button type="button" id="run">Run</button>
+            <button type="button" id="step">Step (s)</button>
+            <button type="button" id="next">Next (n)</button>
+            <button type="button" id="run">Run (r)</button>
         </div>
         <div class="code-debug">
             <!-- use: code-line -->
@@ -44,10 +45,18 @@
     <div id="memory" class="memory" style="display: none;">
         <div class="memory-header">
             <div class="page">Page: <span id="page">0x20</span></div>
-            <button type="button" id="step">&lt;&lt;</button>
-            <button type="button" id="next">&gt;&gt;</button>
+            <button type="button" id="step" onclick="memoryChangePage(-1);">&lt;&lt;</button>
+            <button type="button" id="next" onclick="memoryChangePage(1);">&gt;&gt;</button>
         </div>
-        <div id="memory-data" class="memory-data"></div>
+        <div id="memory-data" class="memory-data">
+            <table>
+                <thead>
+                    <tr><th></th><th>_0</th><th>_1</th><th>_2</th><th>_3</th><th>_4</th><th>_5</th><th>_6</th><th>_7</th><th>_8</th><th>_9</th><th>_A</th><th>_B</th><th>_C</th><th>_D</th><th>_E</th><th>_F</th><th></th></tr>
+                </thead>
+                <tbody id="memory-body">
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <!-- SELF-TEST -->

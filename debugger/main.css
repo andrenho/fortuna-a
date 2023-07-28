@@ -8,6 +8,23 @@ button {
     padding: 4px 12px;
 }
 
+.spinner {
+    font-size: 64px;
+    position: absolute;
+    top: 8px;
+    right: 36px;
+    animation:spin 2s linear infinite;
+    color: orangered;
+    visibility: hidden;
+}
+
+@keyframes spin { 
+    100% { 
+        transform:rotate(360deg); 
+        transform-origin: 50% 55%;
+    }
+}
+
 .tabs {
     display: flex;
     gap: 16px;
@@ -86,4 +103,9 @@ button {
     border: 1px black solid;
     width: 700px;
     height: 400px;
+    padding: 16px;
+}
+
+.memory-pc {
+    background-color: lime;
 }
