@@ -56,6 +56,20 @@ async function memoryChangePage(offset) {
     memoryRequestUpdate();
 }
 
+async function memoryRequestSet(address) {
+    const data = prompt(`New data for address 0x${hex(address, 4)} (in hex):`);
+    if (data.trim() == "")
+        return;
+    const value = Number(`0x${data}`);
+    if (isNaN(value)) {
+        alert("Invalid value.");
+        return;
+    }
+    
+    await apiMemoryWrite(address, value);
+    await memoryRequestUpdate();
+}
+
 async function memoryRequestUpdate() {
     e("memory-holder").style.visibility = "hidden";
     
@@ -78,6 +92,7 @@ async function memoryRequestUpdate() {
             if (j == 7)
                 data.classList.add("memory-data-7");
             data.innerHTML = hex(array[(i * 16) + j]);
+            data.addEventListener("dblclick", () => memoryRequestSet((memoryPage << 8) + (i * 16) + j));
             tr.appendChild(data);
         }
 
@@ -126,8 +141,11 @@ async function callApi(path, options) {
         const response = await fetch(apiUrl + path, options);
         if (!response.ok)
             throw new Error(await response.text());
-        
-        return await response.json();
+
+        if (options && options.method && options.method != "GET")
+            return {};
+        else
+            return await response.json();
     } catch (ex) {
         e("error").style.display = "block";
         e("error").innerHTML = ex.message;
@@ -139,6 +157,13 @@ async function callApi(path, options) {
 
 async function apiMemoryRead(page) {
     return callApi(`/memory/${page}`);
+}
+
+async function apiMemoryWrite(page, value) {
+    return callApi(`/memory/${page}`, {
+        method: "POST",
+        body: JSON.stringify({ value: value })
+    });
 }
 
 //
