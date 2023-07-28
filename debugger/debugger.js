@@ -101,6 +101,20 @@ async function memoryRequestUpdate() {
 }
 
 //
+// CURSOR
+//
+
+function setHourglass(v) {
+    if (v) {
+        document.body.classList.add("executing");
+        document.querySelectorAll('button').forEach(t => t.classList.add("executing"));
+    } else {
+        document.body.classList.remove("executing");
+        document.querySelectorAll('button').forEach(t => t.classList.remove("executing"));
+    }
+}
+
+//
 // API
 //
 
@@ -108,7 +122,7 @@ const apiUrl = window.location.href.replace(/\/$/, "");
 
 async function callApi(path, options) {
     try {
-        e("spinner").style.visibility = "visible";
+        setHourglass(true);
         const response = await fetch(apiUrl + path, options);
         if (!response.ok)
             throw new Error(await response.text());
@@ -119,7 +133,7 @@ async function callApi(path, options) {
         e("error").innerHTML = ex.message;
         throw ex;
     } finally {
-        e("spinner").style.visibility = "hidden";
+        setHourglass(false);
     }
 }
 

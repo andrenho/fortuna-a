@@ -2,20 +2,14 @@ body {
     font-family: 'REM', sans-serif;
 }
 
+.executing {
+    cursor: wait !important;
+}
+
 button {
     font-family: 'REM', sans-serif;
     font-size: 14pt;
     padding: 4px 12px;
-}
-
-.spinner {
-    font-size: 64px;
-    position: absolute;
-    top: 8px;
-    right: 36px;
-    animation:spin 2s linear infinite;
-    color: orangered;
-    visibility: hidden;
 }
 
 .error {
