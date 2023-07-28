@@ -18,6 +18,8 @@
     <h1>Fortuna Box debugger</h1>
     <div class="spinner" id="spinner">&#9676;</div>
 
+    <div class="error" id="error" onclick="this.style.display = 'none';"></div>
+
     <!-- TABS -->
     
     <div class="tabs">
@@ -44,14 +46,14 @@
 
     <div id="memory" class="memory" style="display: none;">
         <div class="memory-header">
-            <div class="page">Page: <span id="page">0x20</span></div>
+            <div class="page">Page: <span id="memory-page">0x20</span></div>
             <button type="button" id="step" onclick="memoryChangePage(-1);">&lt;&lt;</button>
             <button type="button" id="next" onclick="memoryChangePage(1);">&gt;&gt;</button>
         </div>
-        <div id="memory-data" class="memory-data">
-            <table>
+        <div class="memory-array">
+            <table id="memory-holder">
                 <thead>
-                    <tr><th></th><th>_0</th><th>_1</th><th>_2</th><th>_3</th><th>_4</th><th>_5</th><th>_6</th><th>_7</th><th>_8</th><th>_9</th><th>_A</th><th>_B</th><th>_C</th><th>_D</th><th>_E</th><th>_F</th><th></th></tr>
+                    <tr><th class="memory-head"></th><th>_0</th><th>_1</th><th>_2</th><th>_3</th><th>_4</th><th>_5</th><th>_6</th><th>_7</th><th>_8</th><th>_9</th><th>_A</th><th>_B</th><th>_C</th><th>_D</th><th>_E</th><th>_F</th><th></th></tr>
                 </thead>
                 <tbody id="memory-body">
                 </tbody>
