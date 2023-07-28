@@ -312,8 +312,18 @@
       "version": 1
     },
     "net_format_name": "",
+    "ngspice": {
+      "fix_include_paths": true,
+      "fix_passive_vals": false,
+      "meta": {
+        "version": 0
+      },
+      "model_mode": 0,
+      "workbook_filename": ""
+    },
     "page_layout_descr_file": "",
     "plot_directory": "",
+    "spice_adjust_passive_values": false,
     "spice_current_sheet_as_root": false,
     "spice_external_command": "spice \"%I\"",
     "spice_model_current_sheet_as_root": true,
@@ -326,6 +336,30 @@
     [
       "0e4c4e8a-78e0-4f49-88dc-754c12656209",
       ""
+    ],
+    [
+      "afd1b413-de30-4838-bb16-3d0c9f3cd196",
+      "CPU"
+    ],
+    [
+      "4fe6965a-72a4-4531-8bd8-5a46765186a2",
+      "Memory"
+    ],
+    [
+      "4037b4b4-0005-458e-a3e9-fe2ae826ab0c",
+      "Serial"
+    ],
+    [
+      "0ad0c907-f2a9-47ff-aff1-7aaecbdef7ee",
+      "Storage"
+    ],
+    [
+      "7a4166e2-b1d1-4968-8160-8d4c6a581842",
+      "Video"
+    ],
+    [
+      "34f47b44-6e82-4397-9bc8-849df4113da9",
+      "Debugger"
     ]
   ],
   "text_variables": {}
