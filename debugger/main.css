@@ -56,8 +56,14 @@ button {
 
 .code {
     display: flex;
+    min-height: calc(100vh - 150px);
     flex-direction: column;
-    height: calc(100vh - 150px);
+}
+
+.code-area {
+    display: flex;
+    flex-grow: 1;
+    gap: 24px;
 }
 
 .code-debug {
@@ -80,9 +86,9 @@ button {
 .registers {
     border: 1px black solid;
     margin-bottom: 8px;
-    min-height: 100px;
+    min-width: 160px;
     box-shadow: 5px 5px 5px gray;
-    margin-right: 10px;
+    margin-right: 24px;
 }
 
 .memory {
