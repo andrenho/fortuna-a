@@ -1067,23 +1067,6 @@
     )
   )
 
-  (sheet (at 200.025 22.86) (size 15.24 18.415) (fields_autoplaced)
-    (stroke (width 0.1524) (type solid))
-    (fill (color 0 0 0 0.0000))
-    (uuid 4fe6965a-72a4-4531-8bd8-5a46765186a2)
-    (property "Sheetname" "Memory" (at 200.025 22.1484 0)
-      (effects (font (size 1.27 1.27)) (justify left bottom))
-    )
-    (property "Sheetfile" "memory.kicad_sch" (at 200.025 41.8596 0)
-      (effects (font (size 1.27 1.27)) (justify left top))
-    )
-    (instances
-      (project "fortuna-box"
-        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209" (page "3"))
-      )
-    )
-  )
-
   (sheet (at 172.72 52.07) (size 15.875 20.32) (fields_autoplaced)
     (stroke (width 0.1524) (type solid))
     (fill (color 0 0 0 0.0000))
@@ -1097,6 +1080,23 @@
     (instances
       (project "fortuna-box"
         (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209" (page "6"))
+      )
+    )
+  )
+
+  (sheet (at 201.93 22.225) (size 12.7 19.685) (fields_autoplaced)
+    (stroke (width 0.1524) (type solid))
+    (fill (color 0 0 0 0.0000))
+    (uuid 9a1861e1-3c11-472c-8fe5-ac282332e2ba)
+    (property "Sheetname" "Memory" (at 201.93 21.5134 0)
+      (effects (font (size 1.27 1.27)) (justify left bottom))
+    )
+    (property "Sheetfile" "memory2.kicad_sch" (at 201.93 42.4946 0)
+      (effects (font (size 1.27 1.27)) (justify left top))
+    )
+    (instances
+      (project "fortuna-box"
+        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209" (page "3"))
       )
     )
   )

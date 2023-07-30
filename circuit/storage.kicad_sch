@@ -2230,9 +2230,6 @@
         (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/afd1b413-de30-4838-bb16-3d0c9f3cd196"
           (reference "D4") (unit 1)
         )
-        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/4fe6965a-72a4-4531-8bd8-5a46765186a2"
-          (reference "D8") (unit 1)
-        )
         (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/4037b4b4-0005-458e-a3e9-fe2ae826ab0c"
           (reference "D11") (unit 1)
         )
@@ -2351,9 +2348,6 @@
       (project "fortuna-box"
         (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/afd1b413-de30-4838-bb16-3d0c9f3cd196"
           (reference "D4") (unit 1)
-        )
-        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/4fe6965a-72a4-4531-8bd8-5a46765186a2"
-          (reference "D8") (unit 1)
         )
         (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/4037b4b4-0005-458e-a3e9-fe2ae826ab0c"
           (reference "D11") (unit 1)
