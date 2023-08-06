@@ -2,7 +2,7 @@
 
 #include <avr/pgmspace.h>
 
-#include "uart.h"
+#include "uart.hh"
 
 int main(void)
 {
