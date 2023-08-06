@@ -10,7 +10,7 @@ OBJECTS=main.o uart.o
 
 # Avrdude configuration to connect on the PI. See avrdude.conf.
 AVRDUDE_CONFIG=wiring
-AVRDUDE_PORT=/dev/ttyUSB0
+SERIAL_PORT=/dev/ttyUSB0
 
 # Microcontroller
 MCU_GCC=atmega2560
@@ -21,18 +21,19 @@ F_CPU=16000000UL
 
 # Serial speed, in baud. Used by avr-libc for UART speed calculation.
 BAUD=115200
+BAUD_TOL=3       # error tolerance
 
 #
 # Rules
 #
 
-AVRDUDE_FLAGS=-p ${MCU_AVRDUDE} -c ${AVRDUDE_CONFIG} -b 115200 -D -V -P ${AVRDUDE_PORT}
+AVRDUDE_FLAGS=-p ${MCU_AVRDUDE} -c ${AVRDUDE_CONFIG} -b 115200 -D -V -P ${SERIAL_PORT}
 CC=avr-gcc
 WARNINGS=-Wall -Wextra \
 	 -Wformat=2 -Wno-unused-parameter -Wshadow \
 	 -Wwrite-strings -Wold-style-definition \
 	 -Wredundant-decls -Wnested-externs -Wmissing-include-dirs -Wjump-misses-init -Wlogical-op
-CPPFLAGS=-std=c11 ${WARNINGS} -Os -DF_CPU=${F_CPU} -DBAUD=${BAUD} -mmcu=${MCU_GCC} -ffunction-sections -fdata-sections -mcall-prologues
+CPPFLAGS=-std=c11 ${WARNINGS} -Os -DF_CPU=${F_CPU} -DBAUD=${BAUD} -DBAUD_TOL=${BAUD_TOL} -mmcu=${MCU_GCC} -ffunction-sections -fdata-sections -mcall-prologues
 
 all: ${PROJECT}.hex
 
@@ -59,7 +60,7 @@ size: ${PROJECT}.elf
 talk:
 	@echo "Press Ctrl+A and then Shift+K to exit."
 	@sleep 1
-	screen /dev/ttyAMA0 ${BAUD}
+	screen ${SERIAL_PORT} ${BAUD}
 
 clean:
 	rm -f ${OBJECTS} ${PROJECT}.elf ${PROJECT}.hex
