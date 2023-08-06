@@ -1,7 +1,7 @@
 #ifndef BUS_HH_
 #define BUS_HH_
 
-#include <cstdint>
+#include <stdint.h>
 
 struct MemPins {
     bool wr : 1;
@@ -21,9 +21,9 @@ void     set_rst(bool v);
 
 void     clk_pulse();
 
-MemPins  get_wr();
-void     set_wr(MemPins mem);
-void     release_mempins();
+MemPins  get_mem();
+void     set_mem(MemPins mem);
+void     release_mem();
 
 void     set_y0w(bool v);
 void     release_y0w();

@@ -6,7 +6,7 @@
 PROJECT=fortunabox-dbg
 
 # Object files (one for each source file)
-OBJECTS=main.o uart.o
+OBJECTS=main.o uart.o bus.o memory.o
 
 # Avrdude configuration to connect on the PI. See avrdude.conf.
 AVRDUDE_CONFIG=wiring
@@ -31,8 +31,8 @@ AVRDUDE_FLAGS=-p ${MCU_AVRDUDE} -c ${AVRDUDE_CONFIG} -b 115200 -D -V -P ${SERIAL
 CXX=avr-g++
 WARNINGS=-Wall -Wextra \
 	 -Wformat=2 -Wno-unused-parameter -Wshadow \
-	 -Wwrite-strings \
-	 -Wredundant-decls -Wmissing-include-dirs -Wlogical-op
+	 -Wwrite-strings -Wshadow -pedantic -Wstrict-aliasing \
+	 -Wredundant-decls -Wmissing-include-dirs -Wlogical-op -Wno-array-bounds
 CXXFLAGS=-std=c++17 ${WARNINGS} -Os -DF_CPU=${F_CPU} -DBAUD=${BAUD} -DBAUD_TOL=${BAUD_TOL} -mmcu=${MCU_GCC} -ffunction-sections -fdata-sections -mcall-prologues
 
 all: ${PROJECT}.hex

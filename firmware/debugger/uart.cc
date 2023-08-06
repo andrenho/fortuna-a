@@ -11,7 +11,7 @@ static int uart_putchar(char c, FILE* f)
     if (c == '\n')
         uart_putchar('\r', f);
     loop_until_bit_is_set(UCSR0A, UDRE0);
-    UDR0 = c;
+    UDR0 = (uint8_t) c;
     return 0;
 }
 
