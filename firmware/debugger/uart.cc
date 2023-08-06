@@ -41,7 +41,10 @@ void uart_init(void)
     UCSR0A &= ~(1 << U2X0);
 #endif
 
-    static FILE uart = FDEV_SETUP_STREAM(uart_putchar, uart_getchar, _FDEV_SETUP_RW);
+    static FILE uart;
+    fdev_setup_stream(&uart, uart_putchar, uart_getchar, _FDEV_SETUP_RW);
+
+    // static FILE uart = FDEV_SETUP_STREAM(uart_putchar, uart_getchar, _FDEV_SETUP_RW);
     stdin = stdout = &uart;
 
     _delay_ms(100);

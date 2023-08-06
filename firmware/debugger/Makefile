@@ -28,12 +28,12 @@ BAUD_TOL=3       # error tolerance
 #
 
 AVRDUDE_FLAGS=-p ${MCU_AVRDUDE} -c ${AVRDUDE_CONFIG} -b 115200 -D -V -P ${SERIAL_PORT}
-CC=avr-gcc
+CXX=avr-g++
 WARNINGS=-Wall -Wextra \
 	 -Wformat=2 -Wno-unused-parameter -Wshadow \
-	 -Wwrite-strings -Wold-style-definition \
-	 -Wredundant-decls -Wnested-externs -Wmissing-include-dirs -Wjump-misses-init -Wlogical-op
-CPPFLAGS=-std=c11 ${WARNINGS} -Os -DF_CPU=${F_CPU} -DBAUD=${BAUD} -DBAUD_TOL=${BAUD_TOL} -mmcu=${MCU_GCC} -ffunction-sections -fdata-sections -mcall-prologues
+	 -Wwrite-strings \
+	 -Wredundant-decls -Wmissing-include-dirs -Wlogical-op
+CXXFLAGS=-std=c++17 ${WARNINGS} -Os -DF_CPU=${F_CPU} -DBAUD=${BAUD} -DBAUD_TOL=${BAUD_TOL} -mmcu=${MCU_GCC} -ffunction-sections -fdata-sections -mcall-prologues
 
 all: ${PROJECT}.hex
 
@@ -42,7 +42,7 @@ ${PROJECT}.hex: ${PROJECT}.elf
 	avr-size ${PROJECT}.hex
 
 ${PROJECT}.elf: ${OBJECTS}
-	$(CC) -mmcu=${MCU_GCC} -flto -o $@ $^ -Wl,--gc-sections
+	$(CXX) -mmcu=${MCU_GCC} -flto -o $@ $^ -Wl,--gc-sections
 	avr-size -C --mcu=${MCU_GCC} ${PROJECT}.elf	
 
 test-connection:
@@ -50,9 +50,6 @@ test-connection:
 
 upload: ${PROJECT}.hex
 	sudo avrdude ${AVRDUDE_FLAGS} -U flash:w:$<:i
-
-# fuse:
-# 	sudo avrdude ${AVRDUDE_FLAGS} ${FUSES}
 
 size: ${PROJECT}.elf
 	avr-size -C --mcu=${MCU_GCC} ${PROJECT}.elf	
