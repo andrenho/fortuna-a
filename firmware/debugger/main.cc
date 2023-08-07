@@ -11,7 +11,7 @@ int main(void)
     bus::init();
     uart_init();
 
-    memory::set(0, 0);
+    memory::get(0x1000);
     
     for(;;);
 
