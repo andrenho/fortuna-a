@@ -4,8 +4,8 @@
 #include <stdint.h>
 
 struct MemPins {
-    bool wr : 1;
-    bool rd : 1;
+    bool wr   : 1;
+    bool rd   : 1;
     bool mreq : 1;
 };
 
@@ -19,14 +19,14 @@ void     set_clk_ena(bool v);
 void     set_busrq(bool v);
 void     set_rst(bool v);
 
-void     clk_pulse();
+void     pulse_clk();
+void     release_clk();
+
+void     pulse_y0w();
 
 MemPins  get_mem();
 void     set_mem(MemPins mem);
 void     release_mem();
-
-void     set_y0w(bool v);
-void     release_y0w();
 
 uint8_t  get_data();
 void     set_data(uint8_t data);

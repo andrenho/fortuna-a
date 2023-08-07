@@ -31,11 +31,25 @@ void set_busrq(bool v) { SET_PIN(PORTA, PA1, v) }
 
 void set_rst(bool v) { SET_PIN(PORTJ, PJ1, v) }
 
-void clk_pulse()
+void pulse_clk()
 {
     PORTA |= _BV(PA3);
     _NOP();
     PORTA &= ~_BV(PA3);
+}
+
+void release_clk()
+{
+    DDRA &= ~0b1000;
+}
+
+void pulse_y0w()
+{
+    DDRJ |= 0b1;
+    SET_PIN(PORTJ, PJ0, false);
+    _NOP();
+    SET_PIN(PORTJ, PJ0, true);
+    DDRJ &= ~0b1;
 }
 
 MemPins get_mem()
@@ -59,17 +73,6 @@ void set_mem(MemPins mem)
 void release_mem()
 {
     DDRA &= ~0b11100000;
-}
-
-void set_y0w(bool v)
-{
-    DDRJ |= 0b1;
-    SET_PIN(PORTJ, PJ0, v);
-}
-
-void release_y0w()
-{
-    DDRJ &= (uint8_t) ~0b1;
 }
 
 uint8_t get_data()
