@@ -41,7 +41,7 @@ bool set(uint16_t addr, uint8_t data)
             uint8_t read_data = get(addr);
             if (read_data == data)
                 goto ok;
-            _delay_us(100000);
+            _delay_us(10000);
         }
         return false;
     }
