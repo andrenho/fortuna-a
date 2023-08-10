@@ -2,6 +2,7 @@
 
 #include <avr/cpufunc.h>
 #include <util/delay.h>
+#include <stdio.h>
 
 #include "bus.hh"
 #include "z80.hh"
@@ -20,16 +21,19 @@ bool set(uint16_t addr, uint8_t data)
     // set pinout
     bus::set_addr(addr);
     bus::set_data(data);
-    bus::set_mem({ 0, 1, 0 });
-    _NOP();
 
-    // if writing to ROM, set additional pinout and wait
+    // set WE pin, and wait
     if (write_to_rom) {
+        bus::set_mem({ 1, 1, 0 });
         bus::set_rom_we(0);
-        _delay_us(10000);
+        _NOP();
+    } else {
+        bus::set_mem({ 0, 1, 0 });
+        _NOP();
     }
 
     // release pins
+    bus::set_rom_we(1);
     bus::release_addr();
     bus::release_mem();
     bus::set_data(~data);  // mess up DATA
@@ -37,11 +41,11 @@ bool set(uint16_t addr, uint8_t data)
 
     // if writing to ROM, wait until data has been written
     if (write_to_rom) {
-        for (int i = 0; i < 200; ++i) {
+        for (int i = 0; i < 1000; ++i) {
             uint8_t read_data = get(addr);
             if (read_data == data)
                 goto ok;
-            _delay_us(10000);
+            _delay_us(100);
         }
         return false;
     }
