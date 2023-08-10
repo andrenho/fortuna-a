@@ -37,7 +37,7 @@ bool set(uint16_t addr, uint8_t data)
 
     // if writing to ROM, wait until data has been written
     if (write_to_rom) {
-        for (int i = 0; i < 1000; ++i) {
+        for (int i = 0; i < 200; ++i) {
             uint8_t read_data = get(addr);
             if (read_data == data)
                 goto ok;
