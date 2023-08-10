@@ -6,7 +6,7 @@
 PROJECT=fortunabox-dbg
 
 # Object files (one for each source file)
-OBJECTS=main.o uart.o bus.o memory.o
+OBJECTS=main.o random.o uart.o bus.o memory.o z80.o
 
 # Avrdude configuration to connect on the PI. See avrdude.conf.
 AVRDUDE_CONFIG=wiring

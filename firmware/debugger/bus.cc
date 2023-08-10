@@ -18,6 +18,8 @@ void init()
     set_clk_ena(false);  // clock is controlled by debugger
     set_rst(0);          // put Z80 in reset mode
     
+    release_mem();       // set memory pins as pull up
+    
     PORTA &= ~_BV(PA3);  // clock initial position = 0
 }
 
@@ -73,6 +75,7 @@ void set_mem(MemPins mem)
 void release_mem()
 {
     DDRA &= ~0b11100000;
+    PORTA |= 0b11100000;   // set as pullups
 }
 
 uint8_t get_data()
