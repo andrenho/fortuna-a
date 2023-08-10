@@ -31,8 +31,9 @@ bool set(uint16_t addr, uint8_t data)
 
     // release pins
     bus::release_addr();
-    bus::release_data();
     bus::release_mem();
+    bus::set_data(~data);  // mess up DATA
+    bus::release_data();
 
     // if writing to ROM, wait until data has been written
     if (write_to_rom) {

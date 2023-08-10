@@ -5,22 +5,22 @@
 #include "bus.hh"
 #include "memory.hh"
 #include "uart.hh"
+#include "post.hh"
+#include "random.hh"
 
 int main(void)
 {
+    random::init();
     bus::init();
     uart_init();
 
-    // bus::set_rst(1);  // TODO - this will not work when we have the CPU
-    // memory::set_memory_state(0, true);
+    printf("Start:\n");
+    printf("%d\n", post::read_rom_memory());
+    printf("%d\n", post::read_shared_memory());
+    printf("%d\n", post::read_high_memory());
 
-    for (size_t i = 0; i < 32; ++i)
-        memory::set(0x9000, i);
+    random::write_to_eeprom();
 
-    for (size_t i = 0; i < 32; ++i)
-        printf("%02X ", memory::get(0x9000 + i));
-    printf("\n");
-    
     for(;;);
 
     return 0;
