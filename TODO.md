@@ -1,12 +1,12 @@
 # Phase 0 - initial setup
 
+- [x] Debugger card
+- [x] Memory card
 - [ ] Debugger for memory
-- [ ] Debugger card
-- [ ] Memory card
+- [ ] Documentation
 
 # Phase 1 - basic computer
 
-- [ ] Debugger card
 - [ ] CPU card
 - [ ] Debugger for CPU
 
