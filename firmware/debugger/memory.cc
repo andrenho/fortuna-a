@@ -16,7 +16,7 @@ bool set(uint16_t addr, uint8_t data)
     if (data == current_data)
         return true;
 
-    bool write_to_rom = addr < 0x2000 && !bus::get_ramonly();
+    bool write_to_rom = addr < 0x2000 && bus::get_ramonly();
 
     // set pinout
     bus::set_addr(addr);
