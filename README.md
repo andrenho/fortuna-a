@@ -10,4 +10,6 @@ A modular Z80 computer, made up of independent boards connected vertically:
 * **Audio board**: outputs audio (?)
 * **Debugger board**: the debugger board is optional. It'll sit on the bottom of the computer and allow for step-by-step debugging of the computer when connected to a PC via a USB cable.
 
+![image](https://github.com/andrenho/fortuna-box/assets/84652/010e9e95-f799-40ed-a7cb-9f8369b3372e)
+
 See [the wiki](https://github.com/andrenho/fortuna-box/wiki) for more information.
