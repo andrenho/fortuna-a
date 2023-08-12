@@ -2,16 +2,56 @@
 
 import json
 import http.server
+import os
+import serial
 import socketserver
+import sys
+import time
+
+DEBUG = 0
 
 class Serial:
 
+    def __init__(self, port):
+        self.ser = serial.Serial(port, 115200)
+        time.sleep(1)
+        print("Talking to " + self.ser.name)
+        self.ack()
+        print("Communication acknowledged.")
+
+    def __del__(self):
+        self.ser.close()
+
+    def ack(self):
+        self.send('A')
+        if not self.get_response()[0]:
+            print("Acknowledgment error.")
+            sys.exit(1)
+
+    def get_response(self):
+        self.ser.readline()  # discard request
+        r = self.ser.readline().decode('utf-8').replace('\r', '').replace('\n', '')
+        if DEBUG != 0:
+            print("<- " + r)
+        s = r.split()
+        return (s[0] == '+', list(map(lambda h: int(h, 16), s[1:])))
+
+    def send(self, cmd, pars=[]):
+        req = cmd + ' ' + ' '.join(map(lambda v: '%x' % v, pars))
+        if DEBUG != 0:
+            print("-> " + req)
+        self.ser.write(bytes(req + '\n', 'utf-8'))
+
     def memory_page(self, page):
-        return 256 * [0x65]
+        self.send('R', [page * 0x100, 256])
+        ok, data = self.get_response()
+        print(data)
+        return data[1:] if ok else None
 
     def memory_set(self, address, value):
-        print(address, value)
-
+        self.send('W', [address, 1, value])
+        ok, _ = self.get_response()
+        return ok
 
 class Server(http.server.SimpleHTTPRequestHandler):
 
@@ -47,8 +87,11 @@ class Server(http.server.SimpleHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(b'404 - Not found.\n')
 
+if len(sys.argv) != 2:
+    print("Usage: " + sys.argv[0] + " SERIAL_PORT")
+    sys.exit(1)
 
-serial = Serial()
+serial = Serial(sys.argv[1])
 
 socketserver.TCPServer.allow_reuse_address = True
 print("Listening on 8000...")

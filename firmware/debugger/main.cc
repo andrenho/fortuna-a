@@ -18,7 +18,7 @@ int main(void)
     // _NOP();
     // bus::set_rst(0);
 
-    printf("Start.\n");  // TODO
+    // printf("Start.\n");  // TODO
 
     for (;;)
         comm::listen();
