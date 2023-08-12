@@ -99,6 +99,32 @@ static bool read_memory(size_t i)
     return true;
 }
 
+static bool write_memory(size_t i)
+{
+    uint32_t addr = next_value(&i);
+    if (addr == NO_VALUE)
+       return false;
+
+    uint32_t count = next_value(&i);
+    if (count == NO_VALUE)
+        return false;
+
+    for (size_t j = 0; j < count; ++j) {
+        uint32_t data = next_value(&i);
+        if (data == NO_VALUE)
+            return false;
+
+        if (!memory::set(addr + j, data)) {
+            printf_P(PSTR("- %04X\n"), addr + j);
+            return true;
+        }
+    }
+
+    puts_P(PSTR("+"));
+    
+    return true;
+}
+
 static bool parse_input()
 {
     size_t i = 0;
@@ -115,6 +141,8 @@ static bool parse_input()
             return post_tests();
         case 'R':
             return read_memory(i + 2);
+        case 'W':
+            return write_memory(i + 2);
     }
 
     return false;
