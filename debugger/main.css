@@ -143,7 +143,7 @@ button :active {
     padding-right: 20px;
 }
 
-.memory-data {
+.memory-data {3
     padding: 1px 3px;
 }
 
@@ -157,4 +157,13 @@ button :active {
 
 .memory-pc {
     background-color: lime;
+}
+
+.selftest {
+    padding: 32px;3
+}
+
+.selftest-results {
+    display: flex;
+    flex-direction: column;
 }
