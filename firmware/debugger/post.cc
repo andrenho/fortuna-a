@@ -6,13 +6,12 @@
 
 #include <avr/pgmspace.h>
 
+#include "buffer.hh"
 #include "io.hh"
 #include "memory.hh"
 #include "random.hh"
 
 namespace post {
-
-char error[256] = {0};
 
 static bool test_memory(uint16_t min_memory, uint16_t max_memory, bool write)
 {
@@ -32,7 +31,7 @@ static bool test_memory(uint16_t min_memory, uint16_t max_memory, bool write)
         if (write) {
             data[i] = random::nextb();
             if (!memory::set(addr[i], data[i])) {
-                snprintf_P(error, sizeof error, PSTR("write [%04X] = %02X item %d"), addr[i], data[i], i);
+                snprintf_P(buffer::error, ERROR_SZ, PSTR("write [%04X] = %02X item %d"), addr[i], data[i], i);
                 return false;
             }
         } else {
@@ -44,7 +43,7 @@ static bool test_memory(uint16_t min_memory, uint16_t max_memory, bool write)
         for (size_t j = 0; j < N_ADDR; ++j) {
             uint8_t value = memory::get(addr[j]);
             if (value != data[j]) {
-                snprintf_P(error, sizeof error, PSTR("verify [%04X] = %02X attempt %d item %d"), addr[j], data[j], i, j);
+                snprintf_P(buffer::error, ERROR_SZ, PSTR("verify [%04X] = %02X attempt %d item %d"), addr[j], data[j], i, j);
                 return false;
             }
         }
@@ -108,13 +107,13 @@ bool write_memory_banks()
 
         uint8_t value = memory::get(low_addr);
         if (value != fixed_data) {
-            snprintf_P(error, sizeof error, PSTR("low memory changed with bankswitch: [%04X]=(expected: %02X, found %02X)"), low_addr, fixed_data, value);
+            snprintf_P(buffer::error, ERROR_SZ, PSTR("low memory changed with bankswitch: [%04X]=(expected: %02X, found %02X)"), low_addr, fixed_data, value);
             goto fail;
         }
 
         value = memory::get(high_addr);
         if (value != data[i]) {
-            snprintf_P(error, sizeof error, PSTR("mismatching value in bank %d"), i);
+            snprintf_P(buffer::error, ERROR_SZ, PSTR("mismatching value in bank %d"), i);
             goto fail;
         }
     }
@@ -142,13 +141,13 @@ bool write_ramonly()
     io::write(0, 0b0);      // set ROM
     uint8_t value = memory::get(addr);
     if (value != rom_data) {
-        snprintf_P(error, sizeof error, PSTR("ROM value changed with ROMONLY: [%04X]=(expected: %02X, found %02X)"), addr, rom_data, value);
+        snprintf_P(buffer::error, ERROR_SZ, PSTR("ROM value changed with ROMONLY: [%04X]=(expected: %02X, found %02X)"), addr, rom_data, value);
         goto fail;
     }
     io::write(0, 0b1000);   // set RAM
     value = memory::get(addr);
     if (value != ram_data) {
-        snprintf_P(error, sizeof error, PSTR("RAM value changed with ROMONLY: [%04X]=(found: %02X, ROM data: %02X, RAM data: %02X)"), addr, value, rom_data, ram_data);
+        snprintf_P(buffer::error, ERROR_SZ, PSTR("RAM value changed with ROMONLY: [%04X]=(found: %02X, ROM data: %02X, RAM data: %02X)"), addr, value, rom_data, ram_data);
         goto fail;
     }
 
@@ -157,6 +156,27 @@ bool write_ramonly()
 fail:
     io::write(0, 0);
     return false;
+}
+
+size_t run_tests(uint32_t* results)
+{
+    size_t count = 0;
+    *results = 0;
+    
+#define TEST(test) { (*results) <<= 1; (*results) |= (!test()) & 1; ++count; }
+    TEST(read_rom_memory)
+    TEST(read_shared_memory)
+    TEST(read_high_memory)
+
+    TEST(write_rom_memory)
+    TEST(write_shared_memory)
+    TEST(write_high_memory)
+
+    TEST(write_memory_banks)
+    TEST(write_ramonly)
+#undef TEST
+
+    return count;
 }
 
 }

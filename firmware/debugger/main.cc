@@ -1,12 +1,11 @@
 #include <stdio.h>
 
-#include <avr/pgmspace.h>
+#include <avr/cpufunc.h>
 
+#include "buffer.hh"
 #include "bus.hh"
-#include "io.hh"
-#include "memory.hh"
+#include "comm.hh"
 #include "uart.hh"
-#include "post.hh"
 #include "random.hh"
 
 int main(void)
@@ -16,27 +15,13 @@ int main(void)
     uart_init();
 
     bus::set_rst(1);
+    // _NOP();
+    // bus::set_rst(0);
 
-    const uint16_t ADDR = 0x1;
+    printf("Start.\n");  // TODO
 
-    printf("Start:\n");
-
-    printf("%d\n", post::read_rom_memory());
-    printf("%d\n", post::read_shared_memory());
-    printf("%d\n", post::read_high_memory());
-    printf("%d\n", post::write_rom_memory());
-    printf("%d\n", post::write_shared_memory());
-    printf("%d\n", post::write_high_memory());
-    printf("%d\n", post::write_memory_banks());
-    
-    printf("%d\n", post::write_ramonly());
-    printf("%s\n", post::error);
-
-    random::write_to_eeprom();
-
-    printf("End.\n");
-
-    for(;;);
+    for (;;)
+        comm::listen();
 
     return 0;
 }
