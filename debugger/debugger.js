@@ -116,6 +116,15 @@ async function memoryRequestUpdate() {
 }
 
 //
+// SELF-TEST
+//
+
+async function runSelfTest() {
+    const text = (await apiSelfTest()).map(r => `${r.test}: ${r.result ? "<span style='color: green;'>OK</span>" : "<span style='color: red;'>ERROR</span>"}`);
+    e("selftest-results").innerHTML = text.map(t => `<div>${t}</div>`).join('');
+}
+
+//
 // CURSOR
 //
 
@@ -142,10 +151,7 @@ async function callApi(path, options) {
         if (!response.ok)
             throw new Error(await response.text());
 
-        if (options && options.method && options.method != "GET")
-            return {};
-        else
-            return await response.json();
+        return await response.json();
     } catch (ex) {
         e("error").style.display = "block";
         e("error").innerHTML = ex.message;
@@ -164,6 +170,10 @@ async function apiMemoryWrite(page, value) {
         method: "POST",
         body: JSON.stringify({ value: value })
     });
+}
+
+async function apiSelfTest() {
+    return callApi(`/post`, { method: "POST" });
 }
 
 //

@@ -10,6 +10,17 @@ import time
 
 DEBUG = 0
 
+postTests = {
+    'a': 'Read ROM memory',
+    'b': 'Read shared memory',
+    'c': 'Read high memory',
+    'd': 'Write ROM memory',
+    'e': 'Write shared memory',
+    'f': 'Write high memory',
+    'g': 'Write memory banks',
+    'h': 'Write RAMONLY',
+}
+
 class Serial:
 
     def __init__(self, port):
@@ -28,13 +39,16 @@ class Serial:
             print("Acknowledgment error.")
             sys.exit(1)
 
-    def get_response(self):
+    def get_response(self, convert_to_int=True):
         self.ser.readline()  # discard request
         r = self.ser.readline().decode('utf-8').replace('\r', '').replace('\n', '')
         if DEBUG != 0:
             print("<- " + r)
         s = r.split()
-        return (s[0] == '+', list(map(lambda h: int(h, 16), s[1:])))
+        if convert_to_int:
+            return (s[0] == '+', list(map(lambda h: int(h, 16), s[1:])))
+        else:
+            return (s[0] == '+', s[1:])
 
     def send(self, cmd, pars=[]):
         req = cmd + ' ' + ' '.join(map(lambda v: '%x' % v, pars))
@@ -53,13 +67,19 @@ class Serial:
         ok, _ = self.get_response()
         return ok
 
+    def self_test(self):
+        self.send('P')
+        ok, r = self.get_response(False)
+        return list(map(lambda m: { 'test': postTests[m[1]], 'result': m[0] == '+' }, r))
+
 class Server(http.server.SimpleHTTPRequestHandler):
 
     def send_object(self, obj=None):
         self.send_response(200, 'OK')
         self.end_headers()
-        if obj != None:
-            self.wfile.write(bytes(json.dumps(obj), 'utf-8'))
+        if obj == None:
+            obj = {}
+        self.wfile.write(bytes(json.dumps(obj), 'utf-8'))
 
     def do_GET(self):
         path = self.path.split('?')[0]
@@ -82,6 +102,8 @@ class Server(http.server.SimpleHTTPRequestHandler):
             value = json.loads(self.rfile.read(int(self.headers['Content-Length'])))['value']
             serial.memory_set(address, value)
             self.send_object()
+        elif resource[0] == 'post':
+            self.send_object(serial.self_test())
         else:
             self.send_response(404, 'Not found')
             self.end_headers()
