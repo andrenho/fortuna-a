@@ -15,16 +15,18 @@
 </head>
 
 <body>
-    <h1>Fortuna Box debugger</h1>
+    <!-- HEADERS -->
 
-    <div class="error" id="error" onclick="this.style.display = 'none';"></div>
-
-    <!-- TABS -->
+    <div class="header">
+        <h2 class="title">Fortuna Box debugger</h2>
     
-    <div class="tabs">
-        <div class="tab tab-selected" id="tab-code" onclick="tabSelect('code')">Code (1)</div>
-        <div class="tab" id="tab-memory" onclick="tabSelect('memory')">Memory (2)</div>
-        <div class="tab" id="tab-selftest" onclick="tabSelect('selftest')">Self-test (3)</div>
+        <div class="error" id="error" onclick="this.style.display = 'none';"></div>
+    
+        <div class="tabs">
+            <div class="tab tab-selected" id="tab-code" onclick="tabSelect('code')">Code (1)</div>
+            <div class="tab" id="tab-memory" onclick="tabSelect('memory')">Memory (2)</div>
+            <div class="tab" id="tab-selftest" onclick="tabSelect('selftest')">Self-test (3)</div>
+        </div>
     </div>
 
     <!-- CODE -->

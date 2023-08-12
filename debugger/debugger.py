@@ -51,6 +51,7 @@ class Server(http.server.SimpleHTTPRequestHandler):
 serial = Serial()
 
 socketserver.TCPServer.allow_reuse_address = True
+print("Listening on 8000...")
 httpd = socketserver.TCPServer(('127.0.0.1', 8000), Server)
 httpd.allow_reuse_address = True
 httpd.serve_forever()
