@@ -52,37 +52,37 @@ static bool test_memory(uint16_t min_memory, uint16_t max_memory, bool write)
     return true;
 }
 
-bool read_rom_memory()
+static bool read_rom_memory()
 {
     return test_memory(0x0, 0x1fff, false);
 }
 
-bool read_shared_memory()
+static bool read_shared_memory()
 {
     return test_memory(0x2000, 0x3fff, false);
 }
 
-bool read_high_memory()
+static bool read_high_memory()
 {
     return test_memory(0x4000, 0xffff, false);
 }
 
-bool write_rom_memory()
+static bool write_rom_memory()
 {
     return test_memory(0x0, 0x1fff, true);
 }
 
-bool write_shared_memory()
+static bool write_shared_memory()
 {
     return test_memory(0x2000, 0x3fff, true);
 }
 
-bool write_high_memory()
+static bool write_high_memory()
 {
     return test_memory(0x4000, 0xffff, true);
 }
 
-bool write_memory_banks()
+static bool write_memory_banks()
 {
     // This test write one byte into each memory bank at the same address.
     // It also tests if the low memory remains the same when the banks change.
@@ -125,7 +125,7 @@ fail:
     return false;
 }
 
-bool write_ramonly()
+static bool write_ramonly()
 {
     uint16_t addr;
     do { addr = random::nextw(); } while (addr >= 0x2000);
