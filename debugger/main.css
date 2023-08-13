@@ -1,3 +1,7 @@
+/*
+ * GLOBAL
+ */
+
 body {
     /* font-family: 'REM', sans-serif; */
     font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
@@ -70,6 +74,10 @@ button :active {
     padding-bottom: 8px;
 }
 
+/*
+ * CODE
+ */
+
 .code {
     display: flex;
     min-height: calc(100vh - 150px);
@@ -108,6 +116,10 @@ button :active {
     margin-right: 24px;
 }
 
+/*
+ * MEMORY
+ */
+
 .memory {
     flex-direction: column;
     padding: 32px;
@@ -143,7 +155,7 @@ button :active {
     padding-right: 20px;
 }
 
-.memory-data {3
+.memory-data {
     padding: 1px 3px;
 }
 
@@ -159,11 +171,19 @@ button :active {
     background-color: lime;
 }
 
+/*
+ * SELF-TEST
+ */
+
 .selftest {
     padding: 32px;
+    flex-direction: column;
+    align-items: baseline;
+    gap: 18px;
 }
 
 .selftest-results {
     display: flex;
     flex-direction: column;
+    font-family: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace !important;
 }

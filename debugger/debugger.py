@@ -59,7 +59,6 @@ class Serial:
     def memory_page(self, page):
         self.send('R', [page * 0x100, 256])
         ok, data = self.get_response()
-        print(data)
         return data[1:] if ok else None
 
     def memory_set(self, address, value):
