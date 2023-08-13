@@ -1132,6 +1132,23 @@
     )
   )
 
+  (sheet (at 229.87 53.34) (size 13.97 19.05) (fields_autoplaced)
+    (stroke (width 0.1524) (type solid))
+    (fill (color 0 0 0 0.0000))
+    (uuid d2f430b4-da21-4110-8f57-2ae6492d9e39)
+    (property "Sheetname" "Power" (at 229.87 52.6284 0)
+      (effects (font (size 1.27 1.27)) (justify left bottom))
+    )
+    (property "Sheetfile" "power.kicad_sch" (at 229.87 72.9746 0)
+      (effects (font (size 1.27 1.27)) (justify left top))
+    )
+    (instances
+      (project "fortuna-box"
+        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209" (page "8"))
+      )
+    )
+  )
+
   (sheet_instances
     (path "/" (page "1"))
   )
