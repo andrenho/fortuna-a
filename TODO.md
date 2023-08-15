@@ -2,13 +2,16 @@
 
 - [x] Debugger card
 - [x] Memory card
-- [ ] Debugger for memory
-- [ ] Documentation
+- [x] Debugger for memory
+- [x] Documentation
 
 # Phase 1 - basic computer
 
-- [ ] CPU card
+- [x] CPU card
 - [ ] Debugger for CPU
+  - [ ] Determine protocol
+  - [ ] Write tests
+  - [ ] Modify interface
 
 # Phase 2 - UART
 
