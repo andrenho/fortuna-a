@@ -11,33 +11,58 @@ void init()
 {
     DDRA = 0b00011111;   // rom_we, busrq, nmi, clk, clk_ena
     DDRJ = 0b00000010;   // rst
-    
+
     set_rom_we(1);
     set_busrq(1);
     set_nmi(1);
     set_clk_ena(false);  // clock is controlled by debugger
     set_rst(0);          // put Z80 in reset mode
-    
+
     release_mem();       // set memory pins as pull up
-    
-    PORTA &= ~_BV(PA3);  // clock initial position = 0
+
+    PORTA &= ~_BV(PA4);  // clock initial position = 0
 }
 
 void set_rom_we(bool v) { SET_PIN(PORTA, PA0, v) }
 
 void set_nmi(bool v) { SET_PIN(PORTA, PA2, v) }
 
-void set_clk_ena(bool v) { SET_PIN(PORTA, PA4, v) }
+void set_clk_ena(bool v) { SET_PIN(PORTA, PA3, v) }
 
 void set_busrq(bool v) { SET_PIN(PORTA, PA1, v) }
 
 void set_rst(bool v) { SET_PIN(PORTJ, PJ1, v) }
 
+bool get_busak()
+{
+    return PINL & _BV(PINL2);
+}
+
+bool get_m1()
+{
+    return PINL & _BV(PINL0);
+}
+
+bool get_int()
+{
+    return PINL & _BV(PINL5);
+}
+
+bool get_wait()
+{
+    return PINL & _BV(PINL3);
+}
+
+bool get_iorq()
+{
+    return PINL & _BV(PINL1);
+}
+
 void pulse_clk()
 {
-    PORTA |= _BV(PA3);
+    PORTA |= _BV(PA4);
     _NOP();
-    PORTA &= ~_BV(PA3);
+    PORTA &= ~_BV(PA4);
 }
 
 void release_clk()

@@ -46,10 +46,10 @@ ${PROJECT}.elf: ${OBJECTS}
 	avr-size -C --mcu=${MCU_GCC} ${PROJECT}.elf	
 
 test-connection:
-	sudo avrdude ${AVRDUDE_FLAGS}
+	avrdude ${AVRDUDE_FLAGS}
 
 upload: ${PROJECT}.hex
-	sudo avrdude ${AVRDUDE_FLAGS} -U flash:w:$<:i
+	avrdude ${AVRDUDE_FLAGS} -U flash:w:$<:i
 
 size: ${PROJECT}.elf
 	avr-size -C --mcu=${MCU_GCC} ${PROJECT}.elf	

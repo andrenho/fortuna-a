@@ -7,14 +7,15 @@
 #include "comm.hh"
 #include "uart.hh"
 #include "random.hh"
+#include "z80.hh"
 
-int main(void)
+int main()
 {
     random::init();
     bus::init();
     uart_init();
 
-    bus::set_rst(1);
+    z80::reset();
     // _NOP();
     // bus::set_rst(0);
 

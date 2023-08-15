@@ -6,6 +6,7 @@
 
 #include <avr/pgmspace.h>
 
+#include "bus.hh"
 #include "buffer.hh"
 #include "io.hh"
 #include "memory.hh"
@@ -84,6 +85,8 @@ static bool write_high_memory()
 
 static bool write_memory_banks()
 {
+    return false;  // TODO
+
     // This test write one byte into each memory bank at the same address.
     // It also tests if the low memory remains the same when the banks change.
 
@@ -127,6 +130,8 @@ fail:
 
 static bool write_ramonly()
 {
+    return false; // TODO
+
     uint16_t addr;
     do { addr = random::nextw(); } while (addr >= 0x2000);
 
@@ -164,6 +169,9 @@ size_t run_tests(uint32_t* results)
     *results = 0;
     
 #define TEST(test) { (*results) <<= 1; (*results) |= (!test()) & 1; ++count; }
+
+    bus::set_rst(0);
+
     TEST(read_rom_memory)
     TEST(read_shared_memory)
     TEST(read_high_memory)
@@ -172,8 +180,9 @@ size_t run_tests(uint32_t* results)
     TEST(write_shared_memory)
     TEST(write_high_memory)
 
-    TEST(write_memory_banks)
+    TEST(write_memory_banks);
     TEST(write_ramonly)
+
 #undef TEST
 
     return count;

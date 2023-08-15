@@ -7,6 +7,7 @@
 #include "buffer.hh"
 #include "memory.hh"
 #include "post.hh"
+#include "z80.hh"
 
 #define NO_VALUE 0x80000000
 
@@ -125,6 +126,17 @@ static bool write_memory(size_t i)
     return true;
 }
 
+static bool step()
+{
+    z80::StepStatus ss = z80::step();
+    unsigned int data = (ss.mem_pins.mreq == 0) ? ss.data : 0xff;
+    unsigned int addr = (ss.mem_pins.mreq == 0) ? ss.addr : 0xffff;
+    printf_P(PSTR("%u %u %d %d %d %d %d %d %d %d\n"),
+             data, addr, ss.m1, ss.iorq, ss.busak, ss.wait, ss.int_,
+             ss.mem_pins.wr, ss.mem_pins.rd, ss.mem_pins.mreq);
+    return true;
+}
+
 static bool parse_input()
 {
     size_t i = 0;
@@ -143,6 +155,8 @@ static bool parse_input()
             return read_memory(i + 2);
         case 'W':
             return write_memory(i + 2);
+        case 's':
+            return step();
     }
 
     return false;
