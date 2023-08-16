@@ -26,15 +26,19 @@ def compile(source_filename):
     if platform.system() == 'Darwin':
         exe += '_macos'
     cp = subprocess.run([exe, '-chklabels', '-L', 'listing.txt', '-Llo', '-Lns', '-ignore-mult-inc', '-nosym', '-x', '-Fbin', '-o', 'rom.bin', source_filename], capture_output=True, text=True)
+
+    if cp.returncode != 0:
+        return { 'stderr': cp.stderr, 'status': cp.returncode }
+
     dbg_source = ''
     rom = None
     with open('listing.txt', 'r') as f:
         dbg_source = f.read()
     if os.path.exists('listing.txt'):
         os.remove('listing.txt')
-    with open('rom.bin', 'rb') as f:
-        rom = bytearray(f.read())
     if os.path.exists('rom.bin'):
+        with open('rom.bin', 'rb') as f:
+            rom = [x for x in bytearray(f.read())]
         os.remove('rom.bin')
     return { 'src': dbg_source, 'rom': rom, 'stdout': cp.stdout, 'stderr': cp.stderr, 'status': cp.returncode }
 
@@ -95,8 +99,8 @@ class Serial:
         ok, data = self.get_response()
         return data[1:] if ok else None
 
-    def memory_set(self, address, value):
-        self.send('W', [address, 1, value])
+    def memory_set(self, address, data):
+        self.send('W', [address, len(data)] + data)
         ok, _ = self.get_response()
         return ok
 
@@ -122,6 +126,11 @@ class Serial:
             'mreq': mreq == 1
         }
 
+    def reset(self):
+        self.send('X')
+        ok, _ = self.get_response()
+        return ok
+
 #################
 #               #
 #  HTTP SERVER  #
@@ -130,8 +139,11 @@ class Serial:
 
 class Server(http.server.SimpleHTTPRequestHandler):
 
-    def send_object(self, obj=None):
-        self.send_response(200, 'OK')
+    def send_object(self, obj=None, success=True):
+        if success:
+            self.send_response(200, 'OK')
+        else:
+            self.send_response(500, 'Server error')
         self.end_headers()
         if obj == None:
             obj = {}
@@ -145,6 +157,9 @@ class Server(http.server.SimpleHTTPRequestHandler):
         elif resource[0] == 'memory':
             page = int(resource[1])
             self.send_object(serial.memory_page(page))
+        elif resource[0] == 'code':
+            r = compile(args.source)
+            self.send_object(r, r['status'] == 0)
         else:
             self.send_response(404, 'Not found')
             self.end_headers()
@@ -155,13 +170,16 @@ class Server(http.server.SimpleHTTPRequestHandler):
         resource = path[1:].split('/')
         if resource[0] == 'memory':
             address = int(resource[1])
-            value = json.loads(self.rfile.read(int(self.headers['Content-Length'])))['value']
-            serial.memory_set(address, value)
+            data = json.loads(self.rfile.read(int(self.headers['Content-Length'])))['data']
+            serial.memory_set(address, data)
             self.send_object()
         elif resource[0] == 'post':
             self.send_object(serial.self_test())
         elif resource[0] == 'step':
             self.send_object(serial.step())
+        elif resource[0] == 'reset':
+            serial.reset()
+            self.send_object()
         else:
             self.send_response(404, 'Not found')
             self.end_headers()

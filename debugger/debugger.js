@@ -3,7 +3,7 @@
 // 
 
 let tabSelected = "code";
-let memoryPage = 0x20;
+let memoryPage = 0x0;
 let singleCycleCounter = 0;
 
 //
@@ -42,6 +42,48 @@ function tabSelect(tab) {
 }
 
 //
+// CODE
+//
+
+async function uploadRom(rom) {
+    const codeDebug = e("code-debug");
+    codeDebug.innerHTML = "Uploading ROM ";
+    for (let i = 0; i < rom.length; i += 64) {
+        codeDebug.innerHTML += ".";
+        try {
+            await apiMemoryWrite(i, rom.slice(i, i + 64));
+        } catch (ex) {
+            codeDebug.innerHTML += "X";
+        }
+    }
+    codeDebug.innerHTML += " Done!";
+}
+
+function updateCode(src) {
+    
+}
+
+async function recompileAndReset() {
+    let r;
+    try {
+        r = await apiRecompile();
+    } catch (ex) {
+        r = JSON.parse(ex.message);
+        e("error").innerHTML = `<pre>${r.stderr}</pre>`;
+        return;
+    } finally {
+        if (r.stdout) 
+            console.log(r.stdout);
+        if (r.stderr)
+            console.warn(r.stderr);
+    }
+    
+    await apiReset();
+    await uploadRom(r.rom);
+    updateCode(r.src);
+}
+
+//
 // CODE (advanced)
 //
 
@@ -74,8 +116,25 @@ async function advancedStep() {
 // MEMORY
 //
 
+async function updatePage() {
+    const data = prompt(`New page (in hex):`);
+    if (data.trim() == "")
+        return;
+    const value = Number(`0x${data}`);
+    if (isNaN(value)) {
+        alert("Invalid value.");
+        return;
+    }
+    
+    await memorySetPage(value);
+}
+
 async function memoryChangePage(offset) {
-    memoryPage += offset;
+    memorySetPage(memoryPage + offset);
+}
+
+async function memorySetPage(page) {
+    memoryPage = page;
     if (memoryPage > 0xff)
         memoryPage = 0x0;
     else if (memoryPage < 0x00)
@@ -96,7 +155,7 @@ async function memoryRequestSet(address) {
         return;
     }
     
-    await apiMemoryWrite(address, value);
+    await apiMemoryWrite(address, [value]);
     await memoryRequestUpdate();
 }
 
@@ -195,10 +254,10 @@ async function apiMemoryRead(page) {
     return callApi(`/memory/${page}`);
 }
 
-async function apiMemoryWrite(page, value) {
+async function apiMemoryWrite(page, data) {
     return callApi(`/memory/${page}`, {
         method: "POST",
-        body: JSON.stringify({ value: value })
+        body: JSON.stringify({ data })
     });
 }
 
@@ -209,6 +268,15 @@ async function apiSelfTest() {
 async function apiStep() {
     return callApi(`/step`, { method: "POST" });
 }
+
+async function apiRecompile() {
+    return callApi(`/code`);
+}
+
+async function apiReset() {
+    return callApi(`/reset`, { method: "POST" });
+}
+
 
 //
 // UTILS

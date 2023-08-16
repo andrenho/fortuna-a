@@ -137,6 +137,13 @@ static bool step()
     return true;
 }
 
+static bool reset()
+{
+    z80::reset();
+    puts_P(PSTR("+"));
+    return true;
+}
+
 static bool parse_input()
 {
     size_t i = 0;
@@ -153,6 +160,8 @@ static bool parse_input()
             return post_tests();
         case 'R':
             return read_memory(i + 2);
+        case 'X':
+            return reset();
         case 'W':
             return write_memory(i + 2);
         case 's':

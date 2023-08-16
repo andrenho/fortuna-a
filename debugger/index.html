@@ -37,10 +37,10 @@
             <button type="button" id="next">Next (n)</button>
             <button type="button" id="run">Run (r)</button>
             <button type="button" id="step">Reset (w)</button>
-            <button type="button" id="step">Recompile & Reset (x)</button>
+            <button type="button" id="step" onclick="recompileAndReset()">Recompile & Reset (x)</button>
         </div>
         <div class="code-area">
-            <div class="code-debug">
+            <div id="code-debug" class="code-debug">
                 <!-- use: code-line -->
             </div>
             <div class="registers">
@@ -75,7 +75,7 @@
 
     <div id="memory" class="memory" style="display: none;">
         <div class="memory-header">
-            <div class="page">Page: <span id="memory-page">0x20</span></div>
+            <div class="page" ondblclick="updatePage()">Page: <span id="memory-page">0x00</span></div>
             <button type="button" id="step" onclick="memoryChangePage(-1);">&lt;&lt;</button>
             <button type="button" id="next" onclick="memoryChangePage(1);">&gt;&gt;</button>
         </div>

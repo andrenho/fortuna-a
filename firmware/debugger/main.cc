@@ -16,8 +16,6 @@ int main()
     bus::init();
     uart_init();
 
-    memory::get(1);
-
     z80::reset();
 
     for (;;)
