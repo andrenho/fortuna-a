@@ -5,6 +5,7 @@
 #include "buffer.hh"
 #include "bus.hh"
 #include "comm.hh"
+#include "memory.hh"
 #include "uart.hh"
 #include "random.hh"
 #include "z80.hh"
@@ -15,11 +16,9 @@ int main()
     bus::init();
     uart_init();
 
-    z80::reset();
-    // _NOP();
-    // bus::set_rst(0);
+    memory::get(1);
 
-    // printf("Start.\n");  // TODO
+    z80::reset();
 
     for (;;)
         comm::listen();

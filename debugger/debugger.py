@@ -8,7 +8,7 @@ import socketserver
 import sys
 import time
 
-DEBUG = 0
+DEBUG = 1
 
 postTests = {
     'a': 'Read ROM memory',
@@ -71,6 +71,23 @@ class Serial:
         ok, r = self.get_response(False)
         return list(map(lambda m: { 'test': postTests[m[1]], 'result': m[0] == '+' }, r))
 
+    def step(self):
+        self.send('s')
+        ok, r = self.get_response()
+        data, addr, m1, iorq, busak, wait, int_, wr, rd, mreq = r
+        return {
+            'data': data if mreq == 0 else None,
+            'addr': addr if mreq == 0 else None,
+            'm1': m1 == 1,
+            'iorq': iorq == 1,
+            'busak': busak == 1,
+            'wait': wait == 1,
+            'int': int_ == 1,
+            'wr': wr == 1,
+            'rd': rd == 1,
+            'mreq': mreq == 1
+        }
+
 class Server(http.server.SimpleHTTPRequestHandler):
 
     def send_object(self, obj=None):
@@ -103,6 +120,8 @@ class Server(http.server.SimpleHTTPRequestHandler):
             self.send_object()
         elif resource[0] == 'post':
             self.send_object(serial.self_test())
+        elif resource[0] == 'step':
+            self.send_object(serial.step())
         else:
             self.send_response(404, 'Not found')
             self.end_headers()

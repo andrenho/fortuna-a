@@ -15,7 +15,7 @@ void init()
     set_rom_we(1);
     set_busrq(1);
     set_nmi(1);
-    set_clk_ena(false);  // clock is controlled by debugger
+    set_clk_ena(1);      // clock is controlled by debugger
     set_rst(0);          // put Z80 in reset mode
 
     release_mem();       // set memory pins as pull up

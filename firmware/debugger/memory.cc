@@ -11,6 +11,9 @@ namespace memory {
 
 bool set(uint16_t addr, uint8_t data)
 {
+    if (z80::is_present())
+        z80::release_bus();
+
     // don't set if data is already there
     uint8_t current_data = get(addr);
     if (data == current_data)
@@ -56,7 +59,8 @@ ok:
 
 uint8_t get(uint16_t addr)
 {
-    z80::release_bus();
+    if (z80::is_present())
+        z80::release_bus();
 
     bus::set_addr(addr);
     bus::set_mem({ 1, 0, 0 });

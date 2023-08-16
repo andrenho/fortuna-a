@@ -68,11 +68,6 @@ button :active {
 
 .tab-selected {border-bottom: 3px orange solid;font-weight: bold;}
 
-.buttons {
-    display: flex;
-    gap: 12px;
-    padding-bottom: 8px;
-}
 
 /*
  * CODE
@@ -83,37 +78,77 @@ button :active {
     min-height: calc(100vh - 150px);
     flex-direction: column;
     padding-top: 16px;
+    margin-left: 32px;
+    gap: 16px;
+}
+
+.buttons {
+    display: flex;
+    gap: 12px;
 }
 
 .code-area {
     display: flex;
     flex-grow: 1;
-    gap: 24px;
 }
 
 .code-debug {
-    border: 1px black solid;
-    margin-bottom: 12px;
     flex-grow: 1;
     padding: 6px;
     overflow-y: auto;
     overflow-x: clip;
-    box-shadow: 5px 5px 5px gray;
-    margin-right: 10px;
+    font-family: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace !important;
+    border: 1px lightgray solid;
+    border-radius: 8px;
+    margin-right: 16px;
+}
+
+.advanced {
+    flex-grow: 1;
+    padding: 6px;
+    overflow-y: auto;
+    overflow-x: clip;
+    font-family: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace !important;
+    border: 1px lightgray solid;
+    border-radius: 8px;
+    margin-right: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    max-height: 250px;
+}
+
+.advanced-table {
+    border-collapse: collapse;
+}
+
+.advanced-table th, .advanced-table td {
+    border: 1px lightgray solid;
+    padding: 1px 5px;
+}
+
+.advanced-table td {
+    text-align: right;
+}
+
+.advanced-table tr:nth-child(even){background-color: #f2f2f2;}
+
+.advanced-text {
+    overflow-y: auto;
+    width: 100%;
 }
 
 .code-line {
-    font-family: 'Inconsolata', monospace;
-    font-size: 20px;
     margin-bottom: 1px;
 }
 
 .registers {
-    border: 1px black solid;
-    margin-bottom: 8px;
     min-width: 160px;
-    box-shadow: 5px 5px 5px gray;
-    margin-right: 24px;
+    font-family: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace !important;
+    margin-right: 16px;
+    border: 1px lightgray solid;
+    padding: 16px;
+    border-radius: 8px;
 }
 
 /*

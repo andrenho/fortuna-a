@@ -49,6 +49,24 @@
                 </table>
             </div>
         </div>
+        <div>
+            <input type="checkbox" onclick="advancedChecked(this);">Advanced</input>
+        </div>
+        
+        <div class="advanced" style="display: none;" id="advancedText">
+            <div class="buttons">
+                <button type="button" id="step" onclick="advancedStep();">Single cycle</button>
+                <button type="button" id="next" onclick="e('advanced-body').innerHTML = '';">Clear</button>
+            </div>
+            <div class="advanced-text">
+                <table class="advanced-table">
+                    <thead>
+                        <tr><th>#</th><th>ADDR</th><th>DATA</th><th>M1</th><th>IORQ</th><th>BUSAK</th><th>WAIT</th><th>INT</th><th>WR</th><th>RD</th><th>MREQ</th></tr>
+                    </thead>
+                    <tbody id="advanced-body"></tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
     <!-- MEMORY -->

@@ -4,6 +4,7 @@
 
 let tabSelected = "code";
 let memoryPage = 0x20;
+let singleCycleCounter = 0;
 
 //
 // EVENTS
@@ -39,6 +40,35 @@ function tabSelect(tab) {
     if (tab == "memory")
         memoryRequestUpdate();
 }
+
+//
+// CODE (advanced)
+//
+
+function advancedChecked(event) {
+    const elem = e("advancedText");
+    elem.style.display = event.checked ? "flex" : "none";
+}
+
+async function advancedStep() {
+    const ss = await apiStep();
+    const row = `<tr>
+        <td>${singleCycleCounter++}</td>
+        <td>${!ss.mreq ? hex(ss.addr, 4) : ""}</td>
+        <td>${!ss.mreq ? hex(ss.data, 2) : ""}</td>
+        <td>${!ss.m1 ? "0" : ""}</td>
+        <td>${!ss.iorq ? "0" : ""}</td>
+        <td>${!ss.busak ? "0" : ""}</td>
+        <td>${!ss.wait ? "0" : ""}</td>
+        <td>${!ss.int ? "0" : ""}</td>
+        <td>${!ss.wr ? "0" : ""}</td>
+        <td>${!ss.rd ? "0" : ""}</td>
+        <td>${!ss.mreq ? "0" : ""}</td>
+    </tr>`;
+    e("advanced-body").innerHTML = row + e("advanced-body").innerHTML;
+}
+
+
 
 //
 // MEMORY
@@ -174,6 +204,10 @@ async function apiMemoryWrite(page, value) {
 
 async function apiSelfTest() {
     return callApi(`/post`, { method: "POST" });
+}
+
+async function apiStep() {
+    return callApi(`/step`, { method: "POST" });
 }
 
 //

@@ -6,12 +6,19 @@ namespace z80 {
 
 bool is_present()
 {
-    return false;  // TODO
+    return true;  // TODO
 }
 
 void release_bus()
 {
-    // TODO
+    if (bus::get_busak() == 0)
+        return;
+
+    bus::set_busrq(0);
+    bus::pulse_clk();
+    while (bus::get_busak() != 0)
+        bus::pulse_clk();
+    bus::set_busrq(1);
 }
 
 void reset()
