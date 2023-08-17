@@ -101,6 +101,7 @@ button :active {
     border: 1px lightgray solid;
     border-radius: 8px;
     margin-right: 16px;
+    max-height: calc(100vh - 240px);
 }
 
 .advanced {
@@ -169,6 +170,14 @@ button :active {
     border: 1px lightgray solid;
     padding: 16px;
     border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 6px;
+}
+
+.register {
+    padding-right: 12px;
 }
 
 /*

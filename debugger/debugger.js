@@ -74,8 +74,17 @@ function updateCodeLocation(pc) {
     for (let el of document.getElementsByClassName("code-line-pc"))
         el.classList.remove("code-line-pc");
     const el = e(`code-line-${pc}`);
-    if (el)
+    if (el) {
         el.classList.add("code-line-pc");
+        el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        /*
+        const topPos = el.offsetTop;
+        console.log(topPos);
+        e("code-debug").scrollTo({
+            top: 0,
+        });
+        */
+    }
 }
 
 function updateCode(src) {
@@ -95,10 +104,19 @@ function updateCode(src) {
     }
 }
 
+async function updateRegisters(r) {
+    e("reg-pc").innerHTML = hex(r.pc, 4);
+}
+
 async function step() {
     const r = await apiStep();
     updateCodeLocation(r.pc);
-    // TODO - update registers
+    updateRegisters(r);
+}
+
+async function reset() {
+    await apiReset();
+    updateCodeLocation(0);
 }
 
 async function recompileAndReset() {

@@ -28,7 +28,8 @@ void release_bus();
 void            reset();
 void            clk();
 StepCycleStatus step_cycle();
-StepStatus      step();
+StepStatus      step(bool nmi = true);
+uint16_t        debug_run();
 
 }
 

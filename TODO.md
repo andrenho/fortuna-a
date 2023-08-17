@@ -14,12 +14,12 @@
     - [x] Reload and reset
     - [x] Step cycle
     - [x] Step
-    - [ ] Reset
-    - [ ] Debug run
-    - [ ] Step with debugging info
-    - [ ] Next
-    - [ ] Normal run
+    - [x] Reset
+    - [ ] Step with debugging info (requires NMI)
     - [ ] Breakpoints
+    - [ ] Next (requires breakpoints)
+    - [ ] Debug run (requires breakpoints)
+    - [ ] Normal run (requires CLKENA)
   - [ ] Write tests
 
 # Phase 2 - UART

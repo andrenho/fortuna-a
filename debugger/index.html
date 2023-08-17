@@ -36,7 +36,7 @@
             <button type="button" id="step" onclick="step()">Step (s)</button>
             <button type="button" id="next">Next (n)</button>
             <button type="button" id="run">Run (r)</button>
-            <button type="button" id="step">Reset (w)</button>
+            <button type="button" id="step" onclick="reset()">Reset (w)</button>
             <button type="button" id="step" onclick="recompileAndReset()">Recompile & Reset (x)</button>
         </div>
         <div class="code-area">
@@ -45,10 +45,23 @@
             </div>
             <div class="registers">
                 <table>
-                    <tr>
-                        <td><b>AF</b></td><td id="reg-af">0000</td><td><b>AF</b></td><td id="reg-af">0000</td>
-                    </tr>
+                    <tr><td><b>AF</b></td><td id="reg-af" class="register">0000</td><td><b>BC</b></td><td id="reg-bc" class="register">0000</td></tr>
+                    <tr><td><b>DE</b></td><td id="reg-de" class="register">0000</td><td><b>HL</b></td><td id="reg-hl" class="register">0000</td></tr>
+                    <tr><td><b>IX</b></td><td id="reg-ix" class="register">0000</td><td><b>IY</b></td><td id="reg-iy" class="register">0000</td></tr>
+                    <tr><td><b>PC</b></td><td id="reg-pc" class="register">0000</td><td><b>IY</b></td><td id="reg-sp" class="register">0000</td></tr>
+                    <tr><td><b>AF'</b></td><td id="reg-afx" class="register">0000</td><td><b>BC'</b></td><td id="reg-bcx" class="register">0000</td></tr>
+                    <tr><td><b>DE'</b></td><td id="reg-dex" class="register">0000</td><td><b>HL'</b></td><td id="reg-hlx" class="register">0000</td></tr>
                 </table>
+                <div>
+                    <input type="checkbox" id="flag-s" onclick="return false;">S
+                    <input type="checkbox" id="flag-z" onclick="return false;">Z
+                    <input type="checkbox" id="flag-h" onclick="return false;">H
+                </div>
+                <div>
+                    <input type="checkbox" id="flag-n" onclick="return false;">N
+                    <input type="checkbox" id="flag-c" onclick="return false;">C
+                    <input type="checkbox" id="flag-pv" onclick="return false;">P/V
+                </div>
             </div>
         </div>
         <div>

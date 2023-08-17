@@ -49,14 +49,40 @@ StepCycleStatus step_cycle()
     };
 }
 
-StepStatus step()
+StepStatus step(bool nmi)
 {
-    while (bus::get_m1() != 1)
-        bus::pulse_clk();
+    bus::set_busrq(1);  // make sure we're not requesting the bus
+    bus::pulse_clk();
+
     while (bus::get_m1() != 0)
         bus::pulse_clk();
 
+    bus::pulse_clk();
+
+    static uint8_t previous_instruction = 0x00;
+    bool combined_instruction = (previous_instruction == 0xcb || previous_instruction == 0xdd || previous_instruction == 0xed || previous_instruction == 0xfd);
+    previous_instruction = bus::get_data();
+    if (combined_instruction)
+        step(nmi);
+
+    // TODO - NMI
+
     return { bus::get_addr() };
+}
+
+static bool is_breakpoint(uint16_t addr)
+{
+    return false;
+}
+
+uint16_t debug_run() {
+    StepStatus ss;
+
+    do {
+        ss = step(false);
+    } while (!is_breakpoint(ss.pc));
+
+    return ss.pc;
 }
 
 }
