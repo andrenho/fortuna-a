@@ -109,7 +109,7 @@ class Serial:
         ok, r = self.get_response(False)
         return list(map(lambda m: { 'test': postTests[m[1]], 'result': m[0] == '+' }, r))
 
-    def step(self):
+    def step_cycle(self):
         self.send('s')
         ok, r = self.get_response()
         data, addr, m1, iorq, busak, wait, int_, wr, rd, mreq = r
@@ -124,6 +124,13 @@ class Serial:
             'wr': wr == 1,
             'rd': rd == 1,
             'mreq': mreq == 1
+        }
+
+    def step(self):
+        self.send('S')
+        ok, r = self.get_response()
+        return {
+            'pc': r[0]  # TODO
         }
 
     def reset(self):
@@ -175,6 +182,8 @@ class Server(http.server.SimpleHTTPRequestHandler):
             self.send_object()
         elif resource[0] == 'post':
             self.send_object(serial.self_test())
+        elif resource[0] == 'step-cycle':
+            self.send_object(serial.step_cycle())
         elif resource[0] == 'step':
             self.send_object(serial.step())
         elif resource[0] == 'reset':

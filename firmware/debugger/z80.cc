@@ -34,7 +34,7 @@ void clk()
     bus::pulse_clk();
 }
 
-StepStatus step()
+StepCycleStatus step_cycle()
 {
     bus::pulse_clk();
     return {
@@ -47,6 +47,16 @@ StepStatus step()
         bus::get_int(),
         bus::get_mem()
     };
+}
+
+StepStatus step()
+{
+    while (bus::get_m1() != 1)
+        bus::pulse_clk();
+    while (bus::get_m1() != 0)
+        bus::pulse_clk();
+
+    return { bus::get_addr() };
 }
 
 }

@@ -9,9 +9,18 @@
 
 - [x] CPU card
 - [ ] Debugger for CPU
-  - [ ] Determine protocol
-  - [ ] Write tests
+  - [x] Determine protocol
   - [ ] Modify interface
+    - [x] Reload and reset
+    - [x] Step cycle
+    - [x] Step
+    - [ ] Reset
+    - [ ] Debug run
+    - [ ] Step with debugging info
+    - [ ] Next
+    - [ ] Normal run
+    - [ ] Breakpoints
+  - [ ] Write tests
 
 # Phase 2 - UART
 

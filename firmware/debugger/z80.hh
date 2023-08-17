@@ -7,7 +7,7 @@
 
 namespace z80 {
 
-struct StepStatus {
+struct StepCycleStatus {
     uint8_t  data;
     uint16_t addr;
     bool     m1    : 1;
@@ -18,12 +18,17 @@ struct StepStatus {
     MemPins  mem_pins;
 };
 
+struct StepStatus {
+    uint16_t pc;
+};
+
 bool is_present();
 void release_bus();
 
-void       reset();
-void       clk();
-StepStatus step();
+void            reset();
+void            clk();
+StepCycleStatus step_cycle();
+StepStatus      step();
 
 }
 

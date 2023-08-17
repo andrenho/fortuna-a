@@ -19,6 +19,10 @@ document.addEventListener("keydown", (e) => {
         tabSelect("selftest");
 });
 
+window.addEventListener("load", async (e) => {
+    await recompileAndReset();
+});
+
 //
 // TABS
 //
@@ -59,12 +63,42 @@ async function uploadRom(rom) {
     codeDebug.innerHTML += " Done!";
 }
 
+function parseLine(line) {
+    line = `<span class="code-line-header">${line.slice(0,32)}</span>${line.slice(32)}`;
+    line = line.replace(/Source: "(.+?)"/, `Source: "<span class="code-line-filename">$1</span>"`);
+    line = line.replace(/;(.+?)$/, `<span class="code-line-comment">;$1</span>`);
+    return line;
+}
+
+function updateCodeLocation(pc) {
+    for (let el of document.getElementsByClassName("code-line-pc"))
+        el.classList.remove("code-line-pc");
+    const el = e(`code-line-${pc}`);
+    if (el)
+        el.classList.add("code-line-pc");
+}
+
 function updateCode(src) {
-    const r = [];
+    const codeDebug = e("code-debug");
+    codeDebug.innerHTML = "";
+    
     for (const line of src.split("\n")) {
-        r.push(`<div class="code-line">${line}</div>`);
+        const addr = parseInt(line.slice(3, 7), 16);
+        const codeLine = document.createElement("div");
+        codeLine.classList.add("code-line");
+        if (!isNaN(addr))
+            codeLine.id = `code-line-${addr}`;
+        if (addr === 0)
+            codeLine.classList.add("code-line-pc");
+        codeLine.innerHTML = parseLine(line);
+        codeDebug.appendChild(codeLine);
     }
-    e("code-debug").innerHTML = r.join("");
+}
+
+async function step() {
+    const r = await apiStep();
+    updateCodeLocation(r.pc);
+    // TODO - update registers
 }
 
 async function recompileAndReset() {
@@ -96,8 +130,8 @@ function advancedChecked(event) {
     elem.style.display = event.checked ? "flex" : "none";
 }
 
-async function advancedStep() {
-    const ss = await apiStep();
+async function advancedStepCycle() {
+    const ss = await apiStepCycle();
     const row = `<tr>
         <td>${singleCycleCounter++}</td>
         <td>${!ss.mreq ? hex(ss.addr, 4) : ""}</td>
@@ -269,8 +303,8 @@ async function apiSelfTest() {
     return callApi(`/post`, { method: "POST" });
 }
 
-async function apiStep() {
-    return callApi(`/step`, { method: "POST" });
+async function apiStepCycle() {
+    return callApi(`/step-cycle`, { method: "POST" });
 }
 
 async function apiRecompile() {
@@ -279,6 +313,10 @@ async function apiRecompile() {
 
 async function apiReset() {
     return callApi(`/reset`, { method: "POST" });
+}
+
+async function apiStep() {
+    return callApi(`/step`, { method: "POST" });
 }
 
 

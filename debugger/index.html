@@ -33,7 +33,7 @@
 
     <div id="code" class="code">
         <div class="buttons">
-            <button type="button" id="step">Step (s)</button>
+            <button type="button" id="step" onclick="step()">Step (s)</button>
             <button type="button" id="next">Next (n)</button>
             <button type="button" id="run">Run (r)</button>
             <button type="button" id="step">Reset (w)</button>
@@ -57,7 +57,7 @@
         
         <div class="advanced" style="display: none;" id="advancedText">
             <div class="buttons">
-                <button type="button" id="step" onclick="advancedStep();">Single cycle</button>
+                <button type="button" id="step" onclick="advancedStepCycle();">Single cycle</button>
                 <button type="button" id="next" onclick="e('advanced-body').innerHTML = '';">Clear</button>
             </div>
             <div class="advanced-text">

@@ -139,7 +139,27 @@ button :active {
 }
 
 .code-line {
-    margin-bottom: 1px;
+    white-space: pre;
+    min-height: 22px;
+    padding-left: 10px;
+}
+
+.code-line-header {
+    color: darkgray;
+}
+
+.code-line-filename {
+    font-weight: bold;
+    color: deeppink;
+}
+
+.code-line-comment {
+    color: forestgreen;
+    font-style: italic;
+}
+
+.code-line-pc {
+    background-color: yellow;
 }
 
 .registers {

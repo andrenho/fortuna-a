@@ -126,14 +126,21 @@ static bool write_memory(size_t i)
     return true;
 }
 
-static bool step()
+static bool step_cycle()
 {
-    z80::StepStatus ss = z80::step();
+    z80::StepCycleStatus ss = z80::step_cycle();
     unsigned int data = (ss.mem_pins.mreq == 0) ? ss.data : 0xff;
     unsigned int addr = (ss.mem_pins.mreq == 0) ? ss.addr : 0xffff;
     printf_P(PSTR("+ %x %x %d %d %d %d %d %d %d %d\n"),
              data, addr, ss.m1, ss.iorq, ss.busak, ss.wait, ss.int_,
              ss.mem_pins.wr, ss.mem_pins.rd, ss.mem_pins.mreq);
+    return true;
+}
+
+static bool step()
+{
+    z80::StepStatus ss = z80::step();
+    printf_P(PSTR("+ %x\n"), ss.pc);
     return true;
 }
 
@@ -164,8 +171,10 @@ static bool parse_input()
             return reset();
         case 'W':
             return write_memory(i + 2);
-        case 's':
+        case 'S':
             return step();
+        case 's':
+            return step_cycle();
     }
 
     return false;
