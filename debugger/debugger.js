@@ -60,7 +60,11 @@ async function uploadRom(rom) {
 }
 
 function updateCode(src) {
-    
+    const r = [];
+    for (const line of src.split("\n")) {
+        r.push(`<div class="code-line">${line}</div>`);
+    }
+    e("code-debug").innerHTML = r.join("");
 }
 
 async function recompileAndReset() {
