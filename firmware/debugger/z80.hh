@@ -19,7 +19,8 @@ struct StepCycleStatus {
 };
 
 struct StepStatus {
-    uint16_t pc;
+    uint16_t af, bc, de, hl, afx, bcx, dex, hlx, ix, iy, sp, pc;
+    uint16_t stack[8];
 };
 
 bool is_present();
@@ -28,7 +29,8 @@ void release_bus();
 void            reset();
 void            clk();
 StepCycleStatus step_cycle();
-uint16_t        step(bool nmi = true);
+uint16_t        step();
+StepStatus      step_nmi();
 uint16_t        debug_run();
 
 }

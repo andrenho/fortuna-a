@@ -144,9 +144,36 @@ static bool step()
     return true;
 }
 
+static bool step_nmi()
+{
+    z80::StepStatus ss = z80::step_nmi();
+    putchar('+');
+    putchar('+ ');
+
+    auto prhex = [](uint16_t v) { printf_P(PSTR("%x "), v); };
+    prhex(ss.af);
+    prhex(ss.bc);
+    prhex(ss.de);
+    prhex(ss.hl);
+    prhex(ss.afx);
+    prhex(ss.bcx);
+    prhex(ss.dex);
+    prhex(ss.hlx);
+    prhex(ss.ix);
+    prhex(ss.iy);
+    prhex(ss.sp);
+    prhex(ss.pc);
+    for (size_t i = 0; i < 8; ++i)
+        prhex(ss.stack[i]);
+
+    putchar('\n');
+    return true;
+}
+
 static bool reset()
 {
     z80::reset();
+    z80::step();
     puts_P(PSTR("+"));
     return true;
 }
@@ -173,6 +200,8 @@ static bool parse_input()
             return write_memory(i + 2);
         case 'S':
             return step();
+        case 'N':
+            return step_nmi();
         case 's':
             return step_cycle();
     }

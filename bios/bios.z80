@@ -2,9 +2,8 @@
 	; Initialization
 	;
 
-	; jp	init
-	jp	0x66
-
+	ld	sp, 0xfffe
+	jp	init
 
 	;
 	; Interrupts

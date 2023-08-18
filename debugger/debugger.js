@@ -21,6 +21,7 @@ document.addEventListener("keydown", (e) => {
 
 window.addEventListener("load", async (e) => {
     await recompileAndReset();
+    await reset();
 });
 
 //
@@ -77,13 +78,6 @@ function updateCodeLocation(pc) {
     if (el) {
         el.classList.add("code-line-pc");
         el.scrollIntoView({ behavior: "smooth", block: "nearest" });
-        /*
-        const topPos = el.offsetTop;
-        console.log(topPos);
-        e("code-debug").scrollTo({
-            top: 0,
-        });
-        */
     }
 }
 
@@ -105,11 +99,29 @@ function updateCode(src) {
 }
 
 async function updateRegisters(r) {
-    e("reg-pc").innerHTML = hex(r.pc, 4);
+    const hx = (n) => n !== undefined ? hex(n, 4) : "----";
+    e("reg-af").innerHTML = hx(r.af, 4);
+    e("reg-bc").innerHTML = hx(r.bc, 4);
+    e("reg-de").innerHTML = hx(r.de, 4);
+    e("reg-hl").innerHTML = hx(r.hl, 4);
+    e("reg-afx").innerHTML = hx(r.afx, 4);
+    e("reg-bcx").innerHTML = hx(r.bcx, 4);
+    e("reg-dex").innerHTML = hx(r.dex, 4);
+    e("reg-hlx").innerHTML = hx(r.hlx, 4);
+    e("reg-ix").innerHTML = hx(r.ix, 4);
+    e("reg-iy").innerHTML = hx(r.iy, 4);
+    e("reg-sp").innerHTML = hx(r.sp, 4);
+    e("reg-pc").innerHTML = hx(r.pc, 4);
+}
+
+async function simpleStep() {
+    const r = await apiStep(false);
+    updateCodeLocation(r.pc);
+    updateRegisters(r);
 }
 
 async function step() {
-    const r = await apiStep();
+    const r = await apiStep(true);
     updateCodeLocation(r.pc);
     updateRegisters(r);
 }
@@ -333,8 +345,8 @@ async function apiReset() {
     return callApi(`/reset`, { method: "POST" });
 }
 
-async function apiStep() {
-    return callApi(`/step`, { method: "POST" });
+async function apiStep(nmi) {
+    return callApi(`/step?nmi=${nmi ? "true" : "false"}`, { method: "POST" });
 }
 
 

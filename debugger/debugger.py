@@ -131,6 +131,16 @@ class Serial:
         ok, r = self.get_response()
         return r[0]
 
+    def step_nmi(self):
+        self.send('N')
+        ok, r = self.get_response()
+        af, bc, de, hl, afx, bcx, dex, hlx, ix, iy, sp, pc, st0, st1, st2, st3, st4, st5, st6, st7 = r
+        return {
+            'af': af, 'bc': bc, 'de': de, 'hl': hl, 'afx': afx, 'bcx': bcx, 'dex': dex, 'hlx': hlx, 
+            'ix': ix, 'iy': iy, 'sp': sp, 'pc': pc,
+            'stack': [st0, st1, st2, st3, st4, st5, st6, st7]
+        }
+
     def reset(self):
         self.send('X')
         ok, _ = self.get_response()
@@ -192,7 +202,10 @@ class Server(http.server.SimpleHTTPRequestHandler):
         elif resource[0] == 'step-cycle':
             self.send_object(serial.step_cycle())
         elif resource[0] == 'step':
-            self.send_object({ 'pc': serial.step() })
+            if 'nmi' in variables and variables['nmi'] == 'true':
+                self.send_object(serial.step_nmi())
+            else:
+                self.send_object({ 'pc': serial.step() })
         elif resource[0] == 'reset':
             serial.reset()
             self.send_object()

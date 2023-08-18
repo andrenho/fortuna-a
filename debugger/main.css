@@ -178,6 +178,7 @@ button :active {
 
 .register {
     padding-right: 12px;
+    white-space: nowrap;
 }
 
 /*

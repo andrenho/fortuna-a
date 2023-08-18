@@ -2,6 +2,8 @@
 
 #include <stddef.h>
 
+#include "memory.hh"
+
 namespace z80 {
 
 bool is_present()
@@ -49,7 +51,7 @@ StepCycleStatus step_cycle()
     };
 }
 
-uint16_t step(bool nmi)
+uint16_t step()
 {
     bus::set_busrq(1);  // make sure we're not requesting the bus
     bus::pulse_clk();
@@ -63,11 +65,44 @@ uint16_t step(bool nmi)
     bool combined_instruction = (previous_instruction == 0xcb || previous_instruction == 0xdd || previous_instruction == 0xed || previous_instruction == 0xfd);
     previous_instruction = bus::get_data();
     if (combined_instruction)
-        step(nmi);
-
-    // TODO - NMI
+        step();
 
     return bus::get_addr();
+}
+
+StepStatus step_nmi()
+{
+    // activate NMI
+    bus::set_nmi(0);
+    step();
+    step();
+    bus::set_nmi(1);
+
+    // execute NMI subroutine
+    while (bus::get_data() != 0xc9)  // run until 'ret'
+        step();
+
+    // get registers
+    auto ram = [](uint16_t pos) {
+        return ((uint16_t) memory::get(pos + 1) << 8) | memory::get(pos);
+    };
+
+    uint16_t sp = ram(0x2014);
+    StepStatus ss = {
+            ram(0x2000), ram(0x2002), ram(0x2004), ram(0x2006), ram(0x2008), ram(0x200a), ram(0x200c), ram(0x200e),
+            ram(0x2010), ram(0x2012), sp, 0, {0}
+    };
+
+    // get stack
+    for (size_t i = 0; i < 8; ++i)
+        ss.stack[i] = ram(sp + ((i + 1) * 2));
+
+    bus::set_busrq(1);   // regain control of the bus
+
+    // return from NMI
+    step();
+    ss.pc = bus::get_addr();
+    return ss;
 }
 
 static bool is_breakpoint(uint16_t addr)
@@ -76,13 +111,13 @@ static bool is_breakpoint(uint16_t addr)
 }
 
 uint16_t debug_run() {
-    StepStatus ss;
+    uint16_t pc;
 
     do {
-        ss = step(false);
-    } while (!is_breakpoint(ss.pc));
+        pc = step();
+    } while (!is_breakpoint(pc));
 
-    return ss.pc;
+    return pc;
 }
 
 }
