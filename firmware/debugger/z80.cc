@@ -49,7 +49,7 @@ StepCycleStatus step_cycle()
     };
 }
 
-StepStatus step(bool nmi)
+uint16_t step(bool nmi)
 {
     bus::set_busrq(1);  // make sure we're not requesting the bus
     bus::pulse_clk();
@@ -67,7 +67,7 @@ StepStatus step(bool nmi)
 
     // TODO - NMI
 
-    return { bus::get_addr() };
+    return bus::get_addr();
 }
 
 static bool is_breakpoint(uint16_t addr)

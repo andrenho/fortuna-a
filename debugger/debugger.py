@@ -129,9 +129,7 @@ class Serial:
     def step(self):
         self.send('S')
         ok, r = self.get_response()
-        return {
-            'pc': r[0]  # TODO
-        }
+        return r[0]
 
     def reset(self):
         self.send('X')
@@ -156,9 +154,19 @@ class Server(http.server.SimpleHTTPRequestHandler):
             obj = {}
         self.wfile.write(bytes(json.dumps(obj), 'utf-8'))
 
-    def do_GET(self):
-        path = self.path.split('?')[0]
+    def parse_url(self, path):
+        urlp = path.split('?')
+        path = urlp[0]
         resource = path[1:].split('/')
+        variables = {}
+        if len(urlp) > 1:
+            for v in urlp[1].split('&'):
+                key, value = v.split('=')
+                variables[key] = value
+        return path, resource, variables
+
+    def do_GET(self):
+        path, resource, variables = self.parse_url(self.path)
         if path == '/' or path.endswith('.html') or path.endswith('.css') or path.endswith('.js'):
             super().do_GET()
         elif resource[0] == 'memory':
@@ -173,8 +181,7 @@ class Server(http.server.SimpleHTTPRequestHandler):
             self.wfile.write(b'404 - Not found.\n')
 
     def do_POST(self):
-        path = self.path.split('?')[0]
-        resource = path[1:].split('/')
+        path, resource, variables = self.parse_url(self.path)
         if resource[0] == 'memory':
             address = int(resource[1])
             data = json.loads(self.rfile.read(int(self.headers['Content-Length'])))['data']
@@ -185,7 +192,7 @@ class Server(http.server.SimpleHTTPRequestHandler):
         elif resource[0] == 'step-cycle':
             self.send_object(serial.step_cycle())
         elif resource[0] == 'step':
-            self.send_object(serial.step())
+            self.send_object({ 'pc': serial.step() })
         elif resource[0] == 'reset':
             serial.reset()
             self.send_object()

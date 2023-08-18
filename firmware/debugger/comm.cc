@@ -139,8 +139,8 @@ static bool step_cycle()
 
 static bool step()
 {
-    z80::StepStatus ss = z80::step();
-    printf_P(PSTR("+ %x\n"), ss.pc);
+    uint16_t pc = z80::step();
+    printf_P(PSTR("+ %x\n"), pc);
     return true;
 }
 
