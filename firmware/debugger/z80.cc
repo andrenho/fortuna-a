@@ -20,10 +20,8 @@ void release_bus()
         return;
 
     bus::set_busrq(0);
-    bus::pulse_clk();
     while (bus::get_busak() != 0)
         bus::pulse_clk();
-    bus::set_busrq(1);
 }
 
 void reset()
@@ -142,7 +140,9 @@ static bool is_breakpoint(uint16_t addr)
 StepStatus next()
 {
     int8_t sz = next_instruction_subroutine_size();
-    if (sz != -1) {
+    if (sz == -1) {
+        return step_nmi();
+    } else {
         uint16_t bkp = current_pc + sz;
         if (!is_breakpoint(bkp))
             bkp_swap(bkp);
@@ -154,20 +154,17 @@ StepStatus next()
         ss.pc = pc;
         ss.has_info = false;
         return ss;
-    } else {
-        return step_nmi();
     }
 }
 
 uint16_t debug_run() {
-    uint16_t pc;
-
-    do {
-        pc = step();
-    } while (!is_breakpoint(pc));
-
-    current_pc = pc;
-    return pc;
+    while (1) {
+        uint16_t pc = step();
+        if (is_breakpoint(pc)) {
+            current_pc = pc;
+            return pc;
+        }
+    }
 }
 
 void bkp_swap(uint16_t bkp)
