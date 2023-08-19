@@ -8,17 +8,17 @@
 # Phase 1 - basic computer
 
 - [x] CPU card
-- [ ] Debugger for CPU
+- [x] Debugger for CPU
   - [x] Determine protocol
-  - [ ] Modify interface
+  - [x] Modify interface
     - [x] Reload and reset
     - [x] Step cycle
     - [x] Step
     - [x] Reset
     - [x] Step with debugging info (requires NMI)
     - [x] Breakpoints
-    - [ ] Debug run (requires breakpoints)
-    - [ ] Next (requires breakpoints)
+    - [x] Debug run (requires breakpoints)
+    - [x] Next (requires breakpoints)
     - [ ] Stop running
     - [ ] Normal run (requires CLKENA)
   - [ ] Write tests
