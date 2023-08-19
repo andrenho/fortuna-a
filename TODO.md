@@ -19,6 +19,7 @@
     - [x] Breakpoints
     - [ ] Debug run (requires breakpoints)
     - [ ] Next (requires breakpoints)
+    - [ ] Stop running
     - [ ] Normal run (requires CLKENA)
   - [ ] Write tests
 

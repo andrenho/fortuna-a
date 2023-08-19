@@ -84,8 +84,18 @@ button :active {
 
 .buttons {
     display: flex;
+    align-items: center;
     gap: 12px;
 }
+
+.running {
+    color: red;
+    font-weight: bold;
+    font-size: large;
+    animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker { to { opacity: 0; } }
 
 .code-area {
     display: flex;
@@ -120,8 +130,11 @@ button :active {
 }
 
 .bkp-area {
-    min-width: 16px;
+    min-width: 20px;
     cursor: pointer;
+    margin-right: 6px;
+    margin-left: -10px;
+    background-color: aliceblue;
 }
 
 .bkp {

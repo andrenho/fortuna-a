@@ -35,10 +35,11 @@
         <div class="buttons">
             <!-- <button type="button" id="step" onclick="simpleStep()">Simple Step</button> -->
             <button type="button" id="step" onclick="step()">Step (s)</button>
-            <button type="button" id="next">Next (n)</button>
-            <button type="button" id="run">Run (r)</button>
+            <button type="button" id="next" onclick="next()">Next (n)</button>
+            <button type="button" id="run" onclick="debugRun()">Run (r)</button>
             <button type="button" id="step" onclick="reset()">Reset (w)</button>
             <button type="button" id="step" onclick="recompileAndReset()">Recompile & Reset (x)</button>
+            <div class="running" id="running" style="display: none;">Running...</div>
         </div>
         <div class="code-area">
             <div id="code-debug" class="code-debug">

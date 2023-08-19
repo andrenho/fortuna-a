@@ -144,29 +144,46 @@ static bool step()
     return true;
 }
 
-static bool step_nmi()
+static void print_step_status(z80::StepStatus ss)
 {
-    z80::StepStatus ss = z80::step_nmi();
+    auto prhex = [](uint16_t v) { printf_P(PSTR("%x "), v); };
+
     putchar('+');
     putchar(' ');
 
-    auto prhex = [](uint16_t v) { printf_P(PSTR("%x "), v); };
-    prhex(ss.af);
-    prhex(ss.bc);
-    prhex(ss.de);
-    prhex(ss.hl);
-    prhex(ss.afx);
-    prhex(ss.bcx);
-    prhex(ss.dex);
-    prhex(ss.hlx);
-    prhex(ss.ix);
-    prhex(ss.iy);
-    prhex(ss.sp);
-    prhex(ss.pc);
-    for (size_t i = 0; i < 8; ++i)
-        prhex(ss.stack[i]);
+    if (ss.has_info) {
+        prhex(ss.af);
+        prhex(ss.bc);
+        prhex(ss.de);
+        prhex(ss.hl);
+        prhex(ss.afx);
+        prhex(ss.bcx);
+        prhex(ss.dex);
+        prhex(ss.hlx);
+        prhex(ss.ix);
+        prhex(ss.iy);
+        prhex(ss.sp);
+        prhex(ss.pc);
+        for (size_t i = 0; i < 8; ++i)
+            prhex(ss.stack[i]);
+    } else {
+        prhex(ss.pc);
+    }
 
     putchar('\n');
+}
+
+static bool step_nmi()
+{
+    z80::StepStatus ss = z80::step_nmi();
+    print_step_status(ss);
+    return true;
+}
+
+static bool next()
+{
+    z80::StepStatus ss = z80::next();
+    print_step_status(ss);
     return true;
 }
 
@@ -187,11 +204,18 @@ static bool swap_bkp(size_t i)
     z80::bkp_swap((uint16_t) bkp);
 
     printf_P(PSTR("+ "));
-    for (size_t i = 0; i < MAX_BKP; ++i)
-        if (z80::bkp_list()[i] != NO_BKP)
-            printf_P(PSTR("%x "), z80::bkp_list()[i]);
+    for (size_t j = 0; j < MAX_BKP; ++j)
+        if (z80::bkp_list()[j] != NO_BKP)
+            printf_P(PSTR("%x "), z80::bkp_list()[j]);
     printf_P(PSTR("\n"));
 
+    return true;
+}
+
+static bool debug_run()
+{
+    uint16_t pc = z80::debug_run();
+    printf_P(PSTR("+ %x\n"), pc);
     return true;
 }
 
@@ -221,6 +245,10 @@ static bool parse_input()
             return step_nmi();
         case 's':
             return step_cycle();
+        case 'n':
+            return next();
+        case 'D':
+            return debug_run();
         case 'B':
             return swap_bkp(i + 2);
     }

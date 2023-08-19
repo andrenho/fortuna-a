@@ -73,9 +73,13 @@ function parseLine(line) {
     return line;
 }
 
-function updateCodeLocation(pc) {
+function removeCodeLocation() {
     for (let el of document.getElementsByClassName("code-line-pc"))
         el.classList.remove("code-line-pc");
+}
+
+function updateCodeLocation(pc) {
+    removeCodeLocation();
     const el = e(`code-line-${pc}`);
     if (el) {
         el.classList.add("code-line-pc");
@@ -150,15 +154,35 @@ function updateBreakpoints(bkps) {
 }
 
 async function simpleStep() {
+    removeCodeLocation();
     const r = await apiStep(false);
     updateCodeLocation(r.pc);
     updateRegisters(r);
 }
 
 async function step() {
+    removeCodeLocation();
     const r = await apiStep(true);
     updateCodeLocation(r.pc);
     updateRegisters(r);
+}
+
+async function next() {
+    e("running").style.display = "block";
+    removeCodeLocation();
+    const r = await apiNext();
+    updateCodeLocation(r.pc);
+    updateRegisters(r);
+    e("running").style.display = "none";
+}
+
+async function debugRun() {
+    e("running").style.display = "block";
+    removeCodeLocation();
+    const r = await apiDebugRun();
+    updateCodeLocation(r.pc);
+    updateRegisters(r);
+    e("running").style.display = "none";
 }
 
 async function reset() {
@@ -392,6 +416,14 @@ async function apiStep(nmi) {
 
 async function apiSwapBreakpoint(addr) {
     return callApi(`/breakpoint/${addr}`, { method: "POST" });
+}
+
+async function apiDebugRun() {
+    return callApi(`/debug-run`, { method: "POST" });
+}
+
+async function apiNext() {
+    return callApi(`/next`, { method: "POST" });
 }
 
 

@@ -24,6 +24,7 @@ struct StepCycleStatus {
 struct StepStatus {
     uint16_t af, bc, de, hl, afx, bcx, dex, hlx, ix, iy, sp, pc;
     uint16_t stack[8];
+    bool has_info;
 };
 
 bool is_present();
@@ -34,6 +35,7 @@ void            clk();
 StepCycleStatus step_cycle();
 uint16_t        step();
 StepStatus      step_nmi();
+StepStatus      next();
 uint16_t        debug_run();
 
 void             bkp_swap(uint16_t bkp);

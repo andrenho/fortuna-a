@@ -131,15 +131,26 @@ class Serial:
         ok, r = self.get_response()
         return r[0]
 
+    def step_status(self, r):
+        if len(r) == 1:
+            return { 'pc': r[0] }
+        else:
+            af, bc, de, hl, afx, bcx, dex, hlx, ix, iy, sp, pc, st0, st1, st2, st3, st4, st5, st6, st7 = r
+            return {
+                'af': af, 'bc': bc, 'de': de, 'hl': hl, 'afx': afx, 'bcx': bcx, 'dex': dex, 'hlx': hlx, 
+                'ix': ix, 'iy': iy, 'sp': sp, 'pc': pc,
+                'stack': [st0, st1, st2, st3, st4, st5, st6, st7]
+            }
+
     def step_nmi(self):
         self.send('N')
         ok, r = self.get_response()
-        af, bc, de, hl, afx, bcx, dex, hlx, ix, iy, sp, pc, st0, st1, st2, st3, st4, st5, st6, st7 = r
-        return {
-            'af': af, 'bc': bc, 'de': de, 'hl': hl, 'afx': afx, 'bcx': bcx, 'dex': dex, 'hlx': hlx, 
-            'ix': ix, 'iy': iy, 'sp': sp, 'pc': pc,
-            'stack': [st0, st1, st2, st3, st4, st5, st6, st7]
-        }
+        return self.step_status(r)
+
+    def next(self):
+        self.send('n')
+        ok, r = self.get_response()
+        return self.step_status(r)
 
     def reset(self):
         self.send('X')
@@ -150,6 +161,11 @@ class Serial:
         self.send('B', [bkp])
         ok, r = self.get_response()
         return r
+
+    def debug_run(self):
+        self.send('D')
+        ok, r = self.get_response()
+        return r[0]
 
 
 #################
@@ -212,6 +228,10 @@ class Server(http.server.SimpleHTTPRequestHandler):
                 self.send_object(serial.step_nmi())
             else:
                 self.send_object({ 'pc': serial.step() })
+        elif resource[0] == 'next':
+            self.send_object(serial.next())
+        elif resource[0] == 'debug-run':
+            self.send_object({ 'pc': serial.debug_run() })
         elif resource[0] == 'reset':
             serial.reset()
             self.send_object()
