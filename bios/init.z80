@@ -1,13 +1,6 @@
 init:
-	nop
-	call	test
-	ld	a, 5
-	nop
+	ld	a, 0xff
+	out	(0x0), a
 j:	jr	j
-
-test:
-	nop
-	nop
-	ret
 
 ; vim:ts=8:sw=8:sts=8:noexpandtab
