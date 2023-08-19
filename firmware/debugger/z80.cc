@@ -7,7 +7,8 @@
 namespace z80 {
 
 static uint16_t bkps[MAX_BKP];
-static uint16_t current_pc = 0;
+
+static LastOp current = {0, 0 };
 
 bool is_present()
 {
@@ -32,7 +33,7 @@ void reset()
     for (size_t i = 0; i < MAX_BKP; ++i)
         bkps[i] = NO_BKP;
     bus::set_rst(1);
-    current_pc = 0;
+    current = { 0, 0 };
 }
 
 void clk()
@@ -44,7 +45,7 @@ StepCycleStatus step_cycle()
 {
     bus::pulse_clk();
     if (bus::get_m1() == 0)
-        current_pc = bus::get_addr();
+        current = { bus::get_addr(), bus::get_data() };
     return {
         bus::get_data(),
         bus::get_addr(),
@@ -57,7 +58,7 @@ StepCycleStatus step_cycle()
     };
 }
 
-uint16_t step()
+LastOp step()
 {
     bus::set_busrq(1);  // make sure we're not requesting the bus
     bus::pulse_clk();
@@ -73,8 +74,8 @@ uint16_t step()
     if (combined_instruction)
         step();
 
-    current_pc = bus::get_addr();
-    return current_pc;
+    current = { bus::get_addr(), bus::get_data() };
+    return current;
 }
 
 StepStatus step_nmi()
@@ -108,8 +109,8 @@ StepStatus step_nmi()
 
     // return from NMI
     step();
-    ss.pc = bus::get_addr();
-    current_pc = ss.pc;
+    current = { bus::get_addr(), bus::get_data() };
+    ss.pc = current.pc;
     return ss;
 }
 
@@ -118,7 +119,7 @@ static int8_t next_instruction_subroutine_size()  // return call/rst instruction
     static const uint8_t CALL_OPS[] = { 0xC4, 0xCC, 0xCD, 0xD4, 0xDC, 0xE4, 0xEC, 0xF4, 0xFC };  // TODO - move this to PROGMEM
     static const uint8_t RST_OPS[] = { 0xC7, 0xCF, 0xD7, 0xDF, 0xE7, 0xEF, 0xF7, 0xFF };
 
-    uint8_t op = memory::get(current_pc);
+    uint8_t op = current.op;
     for (size_t i = 0; i < sizeof(CALL_OPS); ++i)
         if (op == CALL_OPS[i])
             return 3;
@@ -143,26 +144,25 @@ StepStatus next()
     if (sz == -1) {
         return step_nmi();
     } else {
-        uint16_t bkp = current_pc + sz;
+        uint16_t bkp = current.pc + sz;
         if (!is_breakpoint(bkp))
             bkp_swap(bkp);
-        uint16_t pc = debug_run();
-        current_pc = pc;
+        current = debug_run();
         bkp_swap(bkp);
 
         StepStatus ss;
-        ss.pc = pc;
+        ss.pc = current.pc;
         ss.has_info = false;
         return ss;
     }
 }
 
-uint16_t debug_run() {
+LastOp debug_run() {
     while (1) {
-        uint16_t pc = step();
-        if (is_breakpoint(pc)) {
-            current_pc = pc;
-            return pc;
+        LastOp c = step();
+        if (is_breakpoint(c.pc)) {
+            current = c;
+            return c;
         }
     }
 }

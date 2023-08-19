@@ -139,8 +139,8 @@ static bool step_cycle()
 
 static bool step()
 {
-    uint16_t pc = z80::step();
-    printf_P(PSTR("+ %x\n"), pc);
+    z80::LastOp c = z80::step();
+    printf_P(PSTR("+ %x\n"), c.pc);
     return true;
 }
 
@@ -214,8 +214,8 @@ static bool swap_bkp(size_t i)
 
 static bool debug_run()
 {
-    uint16_t pc = z80::debug_run();
-    printf_P(PSTR("+ %x\n"), pc);
+    z80::LastOp c = z80::debug_run();
+    printf_P(PSTR("+ %x\n"), c.pc);
     return true;
 }
 

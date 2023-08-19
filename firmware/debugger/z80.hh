@@ -27,16 +27,21 @@ struct StepStatus {
     bool has_info;
 };
 
+struct LastOp {
+    uint16_t pc;
+    uint8_t  op;
+};
+
 bool is_present();
 void release_bus();
 
 void            reset();
 void            clk();
 StepCycleStatus step_cycle();
-uint16_t        step();
+LastOp          step();
 StepStatus      step_nmi();
 StepStatus      next();
-uint16_t        debug_run();
+LastOp          debug_run();
 
 void             bkp_swap(uint16_t bkp);
 uint16_t const*  bkp_list();
