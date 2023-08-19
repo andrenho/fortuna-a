@@ -15,10 +15,10 @@
     - [x] Step cycle
     - [x] Step
     - [x] Reset
-    - [ ] Step with debugging info (requires NMI)
-    - [ ] Breakpoints
-    - [ ] Next (requires breakpoints)
+    - [x] Step with debugging info (requires NMI)
+    - [x] Breakpoints
     - [ ] Debug run (requires breakpoints)
+    - [ ] Next (requires breakpoints)
     - [ ] Normal run (requires CLKENA)
   - [ ] Write tests
 

@@ -11,12 +11,14 @@ let singleCycleCounter = 0;
 //
 
 document.addEventListener("keydown", (e) => {
-    if (e.key == "1")
-        tabSelect("code");
-    else if (e.key == "2")
-        tabSelect("memory");
-    else if (e.key == "3")
-        tabSelect("selftest");
+    switch (e.key) {
+        case "1": tabSelect("code"); break;
+        case "2": tabSelect("memory"); break;
+        case "3": tabSelect("selftest"); break;
+        case "s": step(); break;
+        case "w": reset(); break;
+        case "x": recompileAndReset(); break;
+    }
 });
 
 window.addEventListener("load", async (e) => {
@@ -93,7 +95,19 @@ function updateCode(src) {
             codeLine.id = `code-line-${addr}`;
         if (addr === 0)
             codeLine.classList.add("code-line-pc");
-        codeLine.innerHTML = parseLine(line);
+
+        const bkp = document.createElement("div");
+        bkp.classList.add("bkp-area");
+        if (!isNaN(addr)) {
+            bkp.id = `bkp-${addr}`;
+            bkp.addEventListener("click", () => swapBreakpoint(addr));
+        }
+        codeLine.appendChild(bkp);
+
+        const lineElement = document.createElement("div");
+        lineElement.innerHTML = parseLine(line);
+        codeLine.appendChild(lineElement);
+        
         codeDebug.appendChild(codeLine);
     }
 }
@@ -112,6 +126,27 @@ async function updateRegisters(r) {
     e("reg-iy").innerHTML = hx(r.iy, 4);
     e("reg-sp").innerHTML = hx(r.sp, 4);
     e("reg-pc").innerHTML = hx(r.pc, 4);
+
+    e("flag-s").checked = r.af & (1 << 7);
+    e("flag-z").checked = r.af & (1 << 6);
+    e("flag-h").checked = r.af & (1 << 4);
+    e("flag-pv").checked = r.af & (1 << 2);
+    e("flag-n").checked = r.af & (1 << 1);
+    e("flag-c").checked = r.af & 1;
+
+    for (let i = 0; i < 8; ++i)
+        e(`stack-${i}`).innerHTML = r.stack ? hx(r.stack[i]) : "----";
+}
+
+function updateBreakpoints(bkps) {
+    for (const el of document.getElementsByClassName("bkp")) {
+        el.classList.remove("bkp");
+    }
+    for (const bkp of bkps) {
+        let el = e(`bkp-${bkp}`);
+        if (el)
+            el.classList.add("bkp");
+    }
 }
 
 async function simpleStep() {
@@ -129,6 +164,12 @@ async function step() {
 async function reset() {
     await apiReset();
     updateCodeLocation(0);
+    updateBreakpoints([]);
+}
+
+async function swapBreakpoint(addr) {
+    const r = await apiSwapBreakpoint(addr);
+    updateBreakpoints(r);
 }
 
 async function recompileAndReset() {
@@ -347,6 +388,10 @@ async function apiReset() {
 
 async function apiStep(nmi) {
     return callApi(`/step?nmi=${nmi ? "true" : "false"}`, { method: "POST" });
+}
+
+async function apiSwapBreakpoint(addr) {
+    return callApi(`/breakpoint/${addr}`, { method: "POST" });
 }
 
 

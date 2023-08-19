@@ -148,7 +148,7 @@ static bool step_nmi()
 {
     z80::StepStatus ss = z80::step_nmi();
     putchar('+');
-    putchar('+ ');
+    putchar(' ');
 
     auto prhex = [](uint16_t v) { printf_P(PSTR("%x "), v); };
     prhex(ss.af);
@@ -178,6 +178,23 @@ static bool reset()
     return true;
 }
 
+static bool swap_bkp(size_t i)
+{
+    uint32_t bkp = next_value(&i);
+    if (bkp == NO_VALUE)
+        return false;
+
+    z80::bkp_swap((uint16_t) bkp);
+
+    printf_P(PSTR("+ "));
+    for (size_t i = 0; i < MAX_BKP; ++i)
+        if (z80::bkp_list()[i] != NO_BKP)
+            printf_P(PSTR("%x "), z80::bkp_list()[i]);
+    printf_P(PSTR("\n"));
+
+    return true;
+}
+
 static bool parse_input()
 {
     size_t i = 0;
@@ -204,6 +221,8 @@ static bool parse_input()
             return step_nmi();
         case 's':
             return step_cycle();
+        case 'B':
+            return swap_bkp(i + 2);
     }
 
     return false;

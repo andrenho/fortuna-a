@@ -6,6 +6,8 @@
 
 namespace z80 {
 
+static uint16_t bkps[MAX_BKP];
+
 bool is_present()
 {
     return true;  // TODO
@@ -28,6 +30,8 @@ void reset()
     bus::set_rst(0);
     for (size_t i = 0; i < 50; ++i)
         bus::pulse_clk();
+    for (size_t i = 0; i < MAX_BKP; ++i)
+        bkps[i] = NO_BKP;
     bus::set_rst(1);
 }
 
@@ -118,6 +122,28 @@ uint16_t debug_run() {
     } while (!is_breakpoint(pc));
 
     return pc;
+}
+
+void bkp_swap(uint16_t bkp)
+{
+    for (size_t i = 0; i < MAX_BKP; ++i) {
+        if (bkps[i] == bkp) {
+            bkps[i] = NO_BKP;
+            return;
+        }
+    }
+
+    for (size_t i = 0; i < MAX_BKP; ++i) {
+        if (bkps[i] == NO_BKP) {
+            bkps[i] = bkp;
+            return;
+        }
+    }
+}
+
+uint16_t const* bkp_list()
+{
+    return bkps;
 }
 
 }

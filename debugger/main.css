@@ -119,6 +119,19 @@ button :active {
     max-height: 250px;
 }
 
+.bkp-area {
+    min-width: 16px;
+    cursor: pointer;
+}
+
+.bkp {
+    background-color: red;
+}
+
+/*
+ * CODE (advanced)
+ */
+
 .advanced-table {
     border-collapse: collapse;
 }
@@ -143,6 +156,8 @@ button :active {
     white-space: pre;
     min-height: 22px;
     padding-left: 10px;
+    display: flex;
+    flex-direction: row;
 }
 
 .code-line-header {

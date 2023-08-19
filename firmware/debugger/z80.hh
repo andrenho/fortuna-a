@@ -5,6 +5,9 @@
 
 #include "bus.hh"
 
+#define MAX_BKP 32
+#define NO_BKP 0xffff
+
 namespace z80 {
 
 struct StepCycleStatus {
@@ -32,6 +35,9 @@ StepCycleStatus step_cycle();
 uint16_t        step();
 StepStatus      step_nmi();
 uint16_t        debug_run();
+
+void             bkp_swap(uint16_t bkp);
+uint16_t const*  bkp_list();
 
 }
 

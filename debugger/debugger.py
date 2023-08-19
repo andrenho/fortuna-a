@@ -146,6 +146,12 @@ class Serial:
         ok, _ = self.get_response()
         return ok
 
+    def swap_breakpoint(self, bkp):
+        self.send('B', [bkp])
+        ok, r = self.get_response()
+        return r
+
+
 #################
 #               #
 #  HTTP SERVER  #
@@ -209,6 +215,9 @@ class Server(http.server.SimpleHTTPRequestHandler):
         elif resource[0] == 'reset':
             serial.reset()
             self.send_object()
+        elif resource[0] == 'breakpoint':
+            bkp = int(resource[1])
+            self.send_object(serial.swap_breakpoint(bkp))
         else:
             self.send_response(404, 'Not found')
             self.end_headers()
