@@ -19,7 +19,6 @@
     - [x] Breakpoints
     - [x] Debug run (requires breakpoints)
     - [x] Next (requires breakpoints)
-    - [ ] Stop running
     - [ ] Normal run (requires CLKENA)
   - [ ] Write tests
 
@@ -37,3 +36,8 @@
 
 - [ ] Video card
 - [ ] Video card code
+
+# Other improvements
+
+- [ ] Emulator: stop execution
+- [ ] Emulator: UART
