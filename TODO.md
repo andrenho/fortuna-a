@@ -19,7 +19,7 @@
     - [x] Breakpoints
     - [x] Debug run (requires breakpoints)
     - [x] Next (requires breakpoints)
-    - [ ] Normal run (requires CLKENA)
+    - [x] Normal run (requires CLKENA)
   - [ ] Write tests
 
 # Phase 2 - UART

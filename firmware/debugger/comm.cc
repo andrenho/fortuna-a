@@ -219,6 +219,14 @@ static bool debug_run()
     return true;
 }
 
+static bool run()
+{
+    bus::release_clk();
+    bus::set_clk_ena(0);   // start running with CPU clock
+    printf_P(PSTR("+\n"));
+    for (;;);
+}
+
 static bool parse_input()
 {
     size_t i = 0;
@@ -251,6 +259,8 @@ static bool parse_input()
             return debug_run();
         case 'B':
             return swap_bkp(i + 2);
+        case 'r':
+            return run();
     }
 
     return false;

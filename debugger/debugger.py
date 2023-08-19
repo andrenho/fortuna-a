@@ -167,6 +167,9 @@ class Serial:
         ok, r = self.get_response()
         return r[0]
 
+    def run(self):
+        self.send('r')
+        self.get_response()
 
 #################
 #               #
@@ -238,6 +241,9 @@ class Server(http.server.SimpleHTTPRequestHandler):
         elif resource[0] == 'breakpoint':
             bkp = int(resource[1])
             self.send_object(serial.swap_breakpoint(bkp))
+        elif resource[0] == 'run':
+            serial.run()
+            self.send_object()
         else:
             self.send_response(404, 'Not found')
             self.end_headers()
