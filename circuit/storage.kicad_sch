@@ -1852,7 +1852,7 @@
     (effects (font (size 1.27 1.27)) (justify right bottom))
     (uuid bbde4acc-edfd-45f9-bc93-5710b86c7f92)
   )
-  (label "~{RAMONLY}" (at 269.875 33.02 180) (fields_autoplaced)
+  (label "~{IORQ}" (at 269.875 33.02 180) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify right bottom))
     (uuid bd58a5f0-34a1-4e8d-9481-4e2708082f4f)
   )

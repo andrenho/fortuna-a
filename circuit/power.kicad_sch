@@ -970,7 +970,7 @@
     (uuid a606b3ba-cd5e-440a-86fc-da180101a90e)
   )
 
-  (label "~{RAMONLY}" (at 192.405 50.8 180) (fields_autoplaced)
+  (label "~{IORQ}" (at 192.405 50.8 180) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify right bottom))
     (uuid 03330b10-24c7-41da-b12a-8b9198baec3f)
   )
@@ -1094,7 +1094,7 @@
     (effects (font (size 1.27 1.27)) (justify right bottom))
     (uuid 931c4487-e6f0-4926-b0bb-a9f949aa20a8)
   )
-  (label "~{IORQ}" (at 221.615 114.935 180) (fields_autoplaced)
+  (label "RAMONLY" (at 221.615 114.935 180) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify right bottom))
     (uuid 9517d431-2ddb-4934-80fd-1b86606403eb)
   )
