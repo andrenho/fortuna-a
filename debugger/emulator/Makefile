@@ -1,6 +1,6 @@
 PROJECT=fortunabox-emulator
 
-OBJECTS=main.o comm.o
+OBJECTS=main.o comm.o fortuna.o z80/Z80.o
 
 CFLAGS=-std=c11 -Wall -Wextra -O0 -ggdb
 

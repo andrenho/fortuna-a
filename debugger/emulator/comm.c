@@ -52,3 +52,25 @@ void comm_printf(const char* fmt, ...)
 
     va_end(args);
 }
+
+size_t comm_scanf(const char* buf, char* cmd, int* values, size_t max_values)
+{
+    size_t n_values = 0;
+
+    *cmd = buf[0];
+    if (buf[1] == ' ') {
+        size_t pos = 2;
+        int nxt;
+        int value;
+        while (1) {
+            if (buf[pos] == '\0')
+                return n_values;
+            if (sscanf(&buf[pos], "%x%n", &value, &nxt) == 0 || n_values >= max_values)
+                return n_values;
+            pos += nxt;
+            values[n_values++] = value;
+        }
+    }
+
+    return 0;
+}
