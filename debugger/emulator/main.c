@@ -15,9 +15,11 @@ int main()
         char buffer[1024];
         comm_readline(buffer, sizeof buffer);
 
+        comm_printf("%s\n", buffer);  // echo
+
         switch (buffer[0]) {
             case 'A':
-                comm_printf("+\r\n");
+                comm_printf("+\n");
                 break;
         }
     }
