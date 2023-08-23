@@ -41,7 +41,7 @@ int main()
                 comm_printf("\n");
                 break;
             case 'W':
-                fortuna_write_to_rom(values, n_values);
+                fortuna_write_to_rom(values[0], &values[1], n_values - 1);
                 comm_printf("+\n");
                 break;
             default:

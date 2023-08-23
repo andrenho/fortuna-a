@@ -16,9 +16,9 @@ void fortuna_reset()
     ResetZ80(&z80);
 }
 
-void fortuna_write_to_rom(int* values, size_t n_values)
+void fortuna_write_to_rom(uint16_t addr, int* values, size_t n_values)
 {
-    for (size_t i = 0; i < n_values; ++i)
+    for (size_t i = addr; i < addr + n_values; ++i)
         ram[i] = (uint8_t) values[i];
 }
 
