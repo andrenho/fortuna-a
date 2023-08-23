@@ -120,11 +120,11 @@ static int8_t next_instruction_subroutine_size()  // return call/rst instruction
     static const uint8_t RST_OPS[] = { 0xC7, 0xCF, 0xD7, 0xDF, 0xE7, 0xEF, 0xF7, 0xFF };
 
     uint8_t op = current.op;
-    for (size_t i = 0; i < sizeof(CALL_OPS); ++i)
-        if (op == CALL_OPS[i])
+    for (uint8_t call_op : CALL_OPS)
+        if (op == call_op)
             return 3;
-    for (size_t i = 0; i < sizeof(RST_OPS); ++i)
-        if (op == RST_OPS[i])
+    for (uint8_t rst_op : RST_OPS)
+        if (op == rst_op)
             return 1;
 
     return -1;
@@ -158,7 +158,7 @@ StepStatus next()
 }
 
 LastOp debug_run() {
-    while (1) {
+    while (true) {
         LastOp c = step();
         if (is_breakpoint(c.pc)) {
             current = c;

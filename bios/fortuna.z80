@@ -1,0 +1,5 @@
+IO_MEMORY	= 0x0
+IO_UART_CONFIG	= 0x1
+IO_UART		= 0x5
+
+; vim:ts=8:sw=8:sts=8:noexpandtab
