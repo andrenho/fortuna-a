@@ -1,9 +1,10 @@
+	include fortuna.z80
+
 	; 
 	; Initialization
 	;
 
-	ld	sp, 0xfffe
-
+	ld	sp, 0x0
 	jp	init
 
 	;

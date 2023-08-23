@@ -1,6 +1,16 @@
+ACIA_RESET	= 0b11
+ACIA_CONFIG	= 0b10010110     ; clock divider 64, 8N1, TX int disabled, RX int enabled
+
 init:
-	ld	a, 0xff
-	out	(0xff), a
+	ld	a, ACIA_RESET
+	out	(IO_UART_CONFIG), a
+
+	ld	a, ACIA_CONFIG
+	out	(IO_UART_CONFIG), a
+
+	ld	a, 'A'
+	out	(IO_UART), a
+
 j:	jr	j
 
 ; vim:ts=8:sw=8:sts=8:noexpandtab
