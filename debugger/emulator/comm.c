@@ -1,8 +1,11 @@
 #include "comm.h"
 
 #include <stdarg.h>
+#include <string.h>
 #include <util.h>
 #include <unistd.h>
+
+#define DEBUG 1
 
 static int master_fd;
 
@@ -32,6 +35,9 @@ void comm_readline(char* line, size_t max_size)
         if (num_bytes > 0) {
             if (line[i] == 13 || line[i] == 10) {
                 line[i] = '\0';
+#ifdef DEBUG
+        printf("\e[1;32m%s\e[0m", line);
+#endif
                 return;
             }
             ++i;
@@ -41,6 +47,12 @@ void comm_readline(char* line, size_t max_size)
     }
 }
 
+void comm_echo(const char* str)
+{
+    write(master_fd, str, strlen(str));
+    write(master_fd, &"\n", 1);
+}
+
 void comm_printf(const char* fmt, ...)
 {
     va_list args;
@@ -48,6 +60,9 @@ void comm_printf(const char* fmt, ...)
 
     char buffer[1024];
     int sz = vsnprintf(buffer, sizeof buffer, fmt, args);
+#ifdef DEBUG
+        printf("\e[0;31m%s\e[0m", buffer);
+#endif
     write(master_fd, buffer, sz);
 
     va_end(args);

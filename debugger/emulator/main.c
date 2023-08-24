@@ -19,8 +19,7 @@ int main()
     while (1) {
         char buffer[1024];
         comm_readline(buffer, sizeof buffer);
-
-        comm_printf("%s\n", buffer);  // echo
+        comm_echo(buffer);
 
         char cmd;
         int values[512];
@@ -41,7 +40,7 @@ int main()
                 comm_printf("\n");
                 break;
             case 'W':
-                fortuna_write_to_rom(values[0], &values[1], n_values - 1);
+                fortuna_write_to_rom(values[0], &values[2], n_values - 2);
                 comm_printf("+\n");
                 break;
             default:
