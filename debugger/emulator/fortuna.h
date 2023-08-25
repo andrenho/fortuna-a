@@ -4,8 +4,11 @@
 #include <stddef.h>
 #include <stdint.h>
 
-void fortuna_init();
-void fortuna_reset();
-void fortuna_write_to_rom(uint16_t addr, int* values, size_t n_values);
+#include "z80/Z80.h"
+
+void       fortuna_init();
+void       fortuna_reset();
+Z80 const* fortuna_step();
+void       fortuna_write_to_rom(uint16_t addr, int* values, size_t n_values);
 
 #endif //EMULATOR_FORTUNA_H

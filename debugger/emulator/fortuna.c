@@ -22,6 +22,12 @@ void fortuna_reset()
     ResetZ80(&z80);
 }
 
+Z80 const* fortuna_step()
+{
+    RunZ80(&z80);
+    return &z80;
+}
+
 void fortuna_write_to_rom(uint16_t addr, int* values, size_t n_values)
 {
     for (size_t i = 0; i < n_values; ++i) {
@@ -51,6 +57,10 @@ word LoopZ80(register Z80 *R)
 
 static uint32_t translate_addr(uint16_t addr)
 {
+    if (ramonly)
+        return addr;
+    else
+        return addr + (bank * 0x10000);
 }
 
 void WrZ80(register word Addr,register byte Value)
