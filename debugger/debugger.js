@@ -216,14 +216,6 @@ async function recompileAndReset() {
     updateCode(r.src);
 }
 
-async function runAtFullSpeed() {
-    if (confirm("Are you sure you want to run at full speed?")) {
-        await apiRun();
-        document.removeEventListener("keydown", listeners);
-        document.body.innerHTML = "<h2>Running at full speed...</h2>";
-    }
-}
-
 //
 // CODE (advanced)
 //
@@ -434,9 +426,6 @@ async function apiNext() {
     return callApi(`/next`, { method: "POST" });
 }
 
-async function apiRun() {
-    return callApi(`/run`, { method: "POST" });
-}
 
 //
 // UTILS

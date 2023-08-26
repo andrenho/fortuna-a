@@ -15,7 +15,6 @@ void     init();
 
 void     set_rom_we(bool v);
 void     set_nmi(bool v);
-void     set_clk_ena(bool v);
 void     set_busrq(bool v);
 
 void     set_rst(bool v);

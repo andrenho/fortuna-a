@@ -9,13 +9,12 @@ namespace bus {
 
 void init()
 {
-    DDRA = 0b00011111;   // rom_we, busrq, nmi, clk, clk_ena
+    DDRA = 0b00010111;   // rom_we, busrq, nmi, clk, clk_ena
     DDRJ = 0b00000010;   // rst
 
     set_rom_we(1);
     set_busrq(1);
     set_nmi(1);
-    set_clk_ena(1);      // clock is controlled by debugger
     set_rst(0);          // put Z80 in reset mode
 
     release_mem();       // set memory pins as pull up
@@ -26,8 +25,6 @@ void init()
 void set_rom_we(bool v) { SET_PIN(PORTA, PA0, v) }
 
 void set_nmi(bool v) { SET_PIN(PORTA, PA2, v) }
-
-void set_clk_ena(bool v) { SET_PIN(PORTA, PA4, v) }
 
 void set_busrq(bool v) { SET_PIN(PORTA, PA1, v) }
 
