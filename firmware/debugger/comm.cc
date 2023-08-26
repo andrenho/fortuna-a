@@ -129,8 +129,8 @@ static bool write_memory(size_t i)
 static bool step_cycle()
 {
     z80::StepCycleStatus ss = z80::step_cycle();
-    unsigned int data = (ss.mem_pins.mreq == 0) ? ss.data : 0xff;
-    unsigned int addr = (ss.mem_pins.mreq == 0) ? ss.addr : 0xffff;
+    unsigned int data = (ss.mem_pins.wr == 0 || ss.mem_pins.rd == 0) ? ss.data : 0xff;
+    unsigned int addr = (ss.mem_pins.wr == 0 || ss.mem_pins.rd == 0) ? ss.addr : 0xffff;
     printf_P(PSTR("+ %x %x %d %d %d %d %d %d %d %d\n"),
              data, addr, ss.m1, ss.iorq, ss.busak, ss.wait, ss.int_,
              ss.mem_pins.wr, ss.mem_pins.rd, ss.mem_pins.mreq);

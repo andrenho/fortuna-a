@@ -237,8 +237,8 @@ async function advancedStepCycle() {
     const ss = await apiStepCycle();
     const row = `<tr>
         <td>${singleCycleCounter++}</td>
-        <td>${!ss.mreq ? hex(ss.addr, 4) : ""}</td>
-        <td>${!ss.mreq ? hex(ss.data, 2) : ""}</td>
+        <td>${hex(ss.addr, 4)}</td>
+        <td>${hex(ss.data, 2)}</td>
         <td>${!ss.m1 ? "0" : ""}</td>
         <td>${!ss.iorq ? "0" : ""}</td>
         <td>${!ss.busak ? "0" : ""}</td>
@@ -443,4 +443,4 @@ async function apiRun() {
 //
 
 const e = (id) => document.getElementById(id);
-const hex = (num, digits) => num.toString(16).toUpperCase().padStart(digits || 2, '0');
+const hex = (num, digits) => (num !== undefined && num !== null) ? num.toString(16).toUpperCase().padStart(digits || 2, '0') : "";

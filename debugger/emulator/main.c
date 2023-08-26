@@ -5,6 +5,11 @@
 
 #include "z80/Z80.h"
 
+static uint16_t i(uint16_t v)
+{
+    return (v << 8) | (v >> 8);
+}
+
 int main()
 {
     char serial_port[100];
@@ -58,9 +63,9 @@ int main()
                     // af, bc, de, hl, afx, bcx, dex, hlx, ix, iy, sp, pc, st0, st1, st2, st3, st4, st5, st6, st7
                     Z80 const* z80 = fortuna_step();
                     comm_printf("+ %x %x %x %x %x %x %x %x %x %x %x %x %x %x %x %x %x %x %x %x\n",
-                                z80->AF.W, z80->BC.W, z80->DE.W, z80->HL.W,
-                                z80->AF1.W, z80->BC1.W, z80->DE1.W, z80->HL1.W,
-                                z80->IX.W, z80->IY.W, z80->SP.W, z80->PC,
+                                i(z80->AF.W), i(z80->BC.W), i(z80->DE.W), i(z80->HL.W),
+                                i(z80->AF1.W), i( z80->BC1.W), i(z80->DE1.W), i(z80->HL1.W),
+                                i(z80->IX.W), i(z80->IY.W), i(z80->SP.W), i(z80->PC.W),
                                 0, 0, 0, 0, 0, 0, 0, 0);
                 }
                 break;

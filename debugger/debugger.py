@@ -114,8 +114,8 @@ class Serial:
         ok, r = self.get_response()
         data, addr, m1, iorq, busak, wait, int_, wr, rd, mreq = r
         return {
-            'data': data if mreq == 0 else None,
-            'addr': addr if mreq == 0 else None,
+            'data': data,
+            'addr': addr,
             'm1': m1 == 1,
             'iorq': iorq == 1,
             'busak': busak == 1,
