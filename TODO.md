@@ -20,12 +20,17 @@
     - [x] Debug run (requires breakpoints)
     - [x] Next (requires breakpoints)
     - [x] Normal run (requires CLKENA)
-  - [ ] Write tests
+  - [x] Write tests
 
 # Phase 2 - UART
 
-- [ ] Serial card
+- [x] Serial card
+  - [ ] Add beeper
 - [ ] Z80 Monitor
+- [ ] Documentation
+  - [ ] CPU card
+  - [ ] Serial card
+  - [ ] Memory map and monitor
 
 # Phase 3 - storage
 
