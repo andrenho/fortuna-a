@@ -27,7 +27,7 @@ void set_rom_we(bool v) { SET_PIN(PORTA, PA0, v) }
 
 void set_nmi(bool v) { SET_PIN(PORTA, PA2, v) }
 
-void set_clk_ena(bool v) { SET_PIN(PORTA, PA3, v) }
+void set_clk_ena(bool v) { SET_PIN(PORTA, PA4, v) }
 
 void set_busrq(bool v) { SET_PIN(PORTA, PA1, v) }
 
