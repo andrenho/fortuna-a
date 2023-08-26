@@ -11,6 +11,8 @@ A modular Z80 computer, made up of independent boards connected vertically:
 
 See [the wiki](https://github.com/andrenho/fortuna-box/wiki) for more information.
 
-![image](https://github.com/andrenho/fortuna-box/assets/84652/010e9e95-f799-40ed-a7cb-9f8369b3372e)
-_(temporary build with only the debugger and memory board)_
+![image](https://github.com/andrenho/fortuna-box/assets/84652/571ce277-cac7-4cbd-bccd-8077d5380f3b)
+
+![image](https://github.com/andrenho/fortuna-box/assets/84652/438a42ad-da06-4cc9-8324-24db5f6ff985)
+
 
