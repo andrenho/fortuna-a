@@ -60,9 +60,26 @@ sys_print:
 	;   HL - buffer location in memory
 	;
 sys_input:
+	push	hl
 	call	sys_getcw
+
+	cp	13			; was ENTER pressed?
+	jr	nz, .cont1
+
+	call	.print_enter		; if so, - print enter
+	ld	(hl), 0			;        - add null pointer
+	pop	hl			;        - restore buffer location
+	ret				;        - return
+
+.cont1:
 	call	sys_putc
 	jr	sys_input
+
+.print_enter:
+	ld	a, 13
+	call	sys_putc
+	ld	a, 10
+	call	sys_putc
 	ret
 
 ; vim:ts=8:sw=8:sts=8:noexpandtab

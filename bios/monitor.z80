@@ -4,13 +4,14 @@ monitor:
 	ld	hl, welcome
 	call	SYS_PRINT
 
+.next_line:
 	ld	hl, prompt
 	call	SYS_PRINT
 
 	ld	hl, BUFFER
 	call	SYS_INPUT
 
-	ret
+	jr	.next_line
 
 welcome:
 	asciiz	"Fortuna Box monitor", 13, 10
