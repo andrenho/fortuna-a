@@ -4,6 +4,7 @@ SYS_GETC:	jp	sys_getc
 SYS_GETCW:	jp	sys_getcw
 SYS_PRINT:	jp	sys_print
 SYS_INPUT:	jp	sys_input
+SYS_PRINTHEX:	jp	sys_printhex
 
 	include	syscalls/sys_uart.z80
 

@@ -14,6 +14,7 @@ int main()
 {
     random::init();
     bus::init();
+    z80::init();
     uart_init();
 
     z80::reset();

@@ -25,20 +25,20 @@ void release_bus()
         bus::pulse_clk();
 }
 
+void init()
+{
+    for (size_t i = 0; i < MAX_BKP; ++i)
+        bkps[i] = NO_BKP;
+    current = { 0, 0 };
+}
+
 void reset()
 {
     bus::set_rst(0);
     for (size_t i = 0; i < 50; ++i)
         bus::pulse_clk();
-    for (size_t i = 0; i < MAX_BKP; ++i)
-        bkps[i] = NO_BKP;
     bus::set_rst(1);
     current = { 0, 0 };
-}
-
-void clk()
-{
-    bus::pulse_clk();
 }
 
 StepCycleStatus step_cycle()

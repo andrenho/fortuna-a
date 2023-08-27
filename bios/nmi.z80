@@ -20,4 +20,7 @@ STACK_SAVE = 2014h
 	ld	sp, (STACK_SAVE)
 	ret
 
+	; important: if any instructions are added here, the syscall initial location
+	;            must be changed
+
 ; vim:ts=8:sw=8:sts=8:noexpandtab

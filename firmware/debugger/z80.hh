@@ -35,8 +35,8 @@ struct LastOp {
 bool is_present();
 void release_bus();
 
+void            init();
 void            reset();
-void            clk();
 StepCycleStatus step_cycle();
 LastOp          step();
 StepStatus      step_nmi();
