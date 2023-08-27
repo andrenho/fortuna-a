@@ -1,0 +1,9 @@
+monitor:
+	ld	hl, welcome
+	call	SYS_PRINT
+	ret
+
+welcome:
+	asciiz	"Fortuna Box monitor", 13, 10
+
+; vim:ts=8:sw=8:sts=8:noexpandtab

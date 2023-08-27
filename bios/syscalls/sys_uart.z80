@@ -1,0 +1,49 @@
+UART_INPUT_MSK	= 01b
+UART_OUTPUT_MSK = 10b
+
+	;
+	; Print character in A to serial
+	;
+sys_putc:
+	push	af
+.reg_not_empty
+	in	a, (IO_UART_CONFIG)
+	and	UART_OUTPUT_MSK
+	jr	z, .reg_not_empty
+	pop	af
+	out	(IO_UART), a
+	ret
+
+	; 
+	; Read serial and place result in A (0 if empty)
+	;
+sys_getc:
+	ret
+
+	; 
+	; Wait for a character in serial input, and place it on A
+	;
+sys_getcw:
+	ret
+
+	; 
+	; Print null-terminated string in HL
+	;   - trashes A, HL
+	;
+sys_print:
+	ld	a, (hl)
+	cp	a, 0
+	ret	z
+	call	sys_putc
+	inc	hl
+	jr	sys_print
+
+	;
+	; Input string from the user
+	;   A - max string size
+	;   HL - buffer location in memory
+	;
+sys_input:
+	ret
+
+; vim:ts=8:sw=8:sts=8:noexpandtab

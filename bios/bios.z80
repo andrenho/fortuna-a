@@ -1,23 +1,28 @@
-	include fortuna.z80
+	include	ioports.z80 
 
-	; 
 	; Initialization
-	;
 
-	ld	sp, 0x0
+	ld	sp, 0h
 	jp	init
 
-	;
-	; Interrupts
-	;
+	; RST 08h - open monitor
+
+	org	08h
+	jp	monitor
+
+	; NMI interrupt (66h) - used by the debugger
 	
-	org	0x66		; NMI interrupt - used by the debugger
-	include nmi.z80	
+	org	66h
+	include nmi.z80
+
+	; System call table
+	include	syscalls/syscalls.z80
 
 	;
 	; BIOS code
 	;
 
 	include init.z80
+	include monitor.z80
 
 ; vim:ts=8:sw=8:sts=8:noexpandtab

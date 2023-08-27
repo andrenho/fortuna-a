@@ -1,0 +1,10 @@
+	org	80h
+SYS_PUTC:	jp	sys_putc
+SYS_GETC:	jp	sys_getc
+SYS_GETCW:	jp	sys_getcw
+SYS_PRINT:	jp	sys_print
+SYS_INPUT:	jp	sys_input
+
+	include	syscalls/sys_uart.z80
+
+; vim:ts=8:sw=8:sts=8:noexpandtab
