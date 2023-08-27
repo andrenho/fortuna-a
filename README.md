@@ -9,6 +9,8 @@ A modular Z80 computer, made up of independent boards connected vertically:
 * **[Video board](https://github.com/andrenho/fortuna-box/wiki/Video-board)**: VGA output terminal
 * **[Debugger board](https://github.com/andrenho/fortuna-box/wiki/Debugger-board)**: the debugger board is optional. It'll sit on the bottom of the computer and allow for step-by-step debugging of the computer when connected to a PC via a USB cable.
 
+The computer **BIOS** include the [Monitor](https://github.com/andrenho/fortuna-box/wiki/Monitor), which allows interacting with the internals of the computer, and several [system calls](https://github.com/andrenho/fortuna-box/wiki/BIOS-system-calls) that makes development simpler.
+
 See [the wiki](https://github.com/andrenho/fortuna-box/wiki) for more information.
 
 ![image](https://github.com/andrenho/fortuna-box/assets/84652/571ce277-cac7-4cbd-bccd-8077d5380f3b)
