@@ -5,25 +5,40 @@ UART_OUTPUT_MSK = 10b
 	; Print character in A to serial
 	;
 sys_putc:
-	push	af
+	push	af			; save A
 .reg_not_empty
-	in	a, (IO_UART_CONFIG)
+	in	a, (IO_UART_CONFIG)	; is the transmit register free?
 	and	UART_OUTPUT_MSK
-	jr	z, .reg_not_empty
-	pop	af
-	out	(IO_UART), a
+	jr	z, .reg_not_empty	;	if not, try again
+	
+	pop	af			; restore A
+	
+	out	(IO_UART), a		; print char
 	ret
 
 	; 
 	; Read serial and place result in A (0 if empty)
 	;
 sys_getc:
+	in	a, (IO_UART_CONFIG)	; is a new char available?
+	and	UART_INPUT_MSK
+	jr	nz, .cont		;	if yes, continure
+
+	ld	a, 0			;	if not, return 0
+	ret
+.cont:
+	in	a, (IO_UART)		; read char
 	ret
 
 	; 
 	; Wait for a character in serial input, and place it on A
 	;
 sys_getcw:
+	in	a, (IO_UART_CONFIG)	; is a new char available?
+	and	UART_INPUT_MSK
+	jr	z, sys_getcw		;	if not, try again
+	
+	in	a, (IO_UART)		; read char
 	ret
 
 	; 
@@ -31,11 +46,12 @@ sys_getcw:
 	;   - trashes A, HL
 	;
 sys_print:
-	ld	a, (hl)
-	cp	a, 0
+	ld	a, (hl)			; load next char
+	cp	a, 0			; if null, return
 	ret	z
-	call	sys_putc
-	inc	hl
+
+	call	sys_putc		; print char
+	inc	hl			; increment buffer pointer, and go to next
 	jr	sys_print
 
 	;
@@ -44,6 +60,9 @@ sys_print:
 	;   HL - buffer location in memory
 	;
 sys_input:
+	call	sys_getcw
+	call	sys_putc
+	jr	sys_input
 	ret
 
 ; vim:ts=8:sw=8:sts=8:noexpandtab

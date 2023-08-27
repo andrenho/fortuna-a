@@ -24,11 +24,24 @@ void init()
 
 void set_rom_we(bool v) { SET_PIN(PORTA, PA0, v) }
 
-void set_nmi(bool v) { SET_PIN(PORTA, PA2, v) }
+void set_nmi(bool v)
+{
+    DDRA |= (1 << DDA2);
+    SET_PIN(PORTA, PA2, v)
+    if (v != 0) DDRA &= ~(1 << DDA2);
+}
 
-void set_busrq(bool v) { SET_PIN(PORTA, PA1, v) }
+void set_busrq(bool v) {
+    DDRA |= (1 << DDA1);
+    SET_PIN(PORTA, PA1, v)
+    if (v != 0) DDRA &= ~(1 << DDA1);
+}
 
-void set_rst(bool v) { SET_PIN(PORTJ, PJ1, v) }
+void set_rst(bool v) {
+    DDRJ |= (1 << DDJ1);
+    SET_PIN(PORTJ, PJ1, v)
+    if (v != 0) DDRJ &= ~(1 << DDJ1);
+}
 
 bool get_busak()
 {

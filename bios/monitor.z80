@@ -1,9 +1,21 @@
+BUFFER		= 2020h
+
 monitor:
 	ld	hl, welcome
 	call	SYS_PRINT
+
+	ld	hl, prompt
+	call	SYS_PRINT
+
+	ld	hl, BUFFER
+	call	SYS_INPUT
+
 	ret
 
 welcome:
 	asciiz	"Fortuna Box monitor", 13, 10
+
+prompt:
+	asciiz "* "
 
 ; vim:ts=8:sw=8:sts=8:noexpandtab
