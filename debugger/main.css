@@ -280,3 +280,35 @@ button :active {
     flex-direction: column;
     font-family: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace !important;
 }
+
+/*
+ * DARK MODE
+ */
+
+@media (prefers-color-scheme: dark) {
+    body {
+        color: #ccc;
+        background: #222222;
+        color-scheme: dark;
+    }
+
+    .header {
+        background-color: #333333;
+    }
+
+    .bkp-area {
+        background-color: darkslategray;
+    }
+
+    .code-line-filename {
+        color: hotpink;
+    }
+
+    .code-line-pc {
+        background: sienna;
+    }
+
+    .bkp {
+        background-color: darkred;
+    }
+}
