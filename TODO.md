@@ -26,11 +26,11 @@
 
 - [x] Serial card
   - [ ] Add beeper
+- [x] Documentation
+  - [x] CPU card
+  - [x] Serial card
+  - [x] Memory map and monitor
 - [ ] Z80 Monitor
-- [ ] Documentation
-  - [ ] CPU card
-  - [ ] Serial card
-  - [ ] Memory map and monitor
 
 # Phase 3 - storage
 
@@ -42,7 +42,12 @@
 - [ ] Video card
 - [ ] Video card code
 
-# Other improvements
+# Emulator improvements
 
 - [ ] Emulator: stop execution
 - [ ] Emulator: UART
+- [ ] Better registers
+- [ ] Bank + RAMONLY
+- [ ] Choose file + symbol
+- [ ] Hide addresses (checkbox)
+- [ ] Bug: show breakpoints after reset
