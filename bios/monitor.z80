@@ -1,5 +1,13 @@
 BUFFER		= 2020h
 
+TOK_
+
+	; =============================================
+	;
+	; Run the monitor
+	;
+	; =============================================
+
 monitor:
 	ld	hl, welcome
 	call	SYS_PRINT
@@ -12,6 +20,22 @@ monitor:
 	call	SYS_INPUT
 
 	jr	.next_line
+
+	; =============================================
+	; 
+	; Parse the next token. Returns:
+	;    A - the token
+	;    DE - if token is hex, the value
+	;
+	; =============================================
+.parse_next_token:
+	ret
+
+	; =============================================
+	; 
+	; Strings
+	; 
+	; =============================================
 
 welcome:
 	asciiz	"Fortuna Box monitor", 13, 10
