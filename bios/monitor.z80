@@ -29,11 +29,15 @@ monitor:
 	;
 	; =============================================
 
+	macro	NEXT
+		cp	\1
+		jp	z, \2
+	endmacro
+
 .state_machine:
 	call	.parse_next_token
 
-	cp	TOK_HEX
-	jr	z, .sm_addr
+	NEXT	TOK_HEX, .sm_addr
 
 	jr	.syntax_error
 
@@ -42,10 +46,19 @@ monitor:
 
 	call	.parse_next_token
 
-	cp	13
-	call	.print_mem
+	NEXT	13, .print_mem
 
-	jp	.next_line
+	cp	'.'
+	jp	nz, .not_a_dot
+
+	; TODO
+
+.not_a_dot:
+	cp	':'
+	jp	nz, .not_a_colon
+
+.not_a_colon:
+	jr	.syntax_error
 
 .syntax_error:
 	ld	hl, .str_syntax_error
@@ -141,9 +154,9 @@ monitor:
 	; 
 	; =============================================
 	
-print_mem:
+.print_mem:
 	; TODO
-	ret
+	jp	.next_line
 
 	; =============================================
 	; 
