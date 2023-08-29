@@ -43,7 +43,7 @@ monitor:
 	call	.parse_next_token
 
 	cp	13
-	call	z, .print_mem
+	call	.print_mem
 
 	jp	.next_line
 
