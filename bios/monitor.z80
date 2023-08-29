@@ -1,7 +1,9 @@
+BUFFER_SZ   = 128
 BUFFER_ADDR = 2020h
-ADDR_START  = 2022h
-ADDR_END    = 2024h
+DATA_1      = 20a0h
+DATA_2      = 20a2h
 
+TOK_NUL   = 0
 TOK_HEX   = 'H'
 TOK_ERROR = '?'
 
@@ -19,6 +21,7 @@ monitor:
 	ld	hl, .str_prompt
 	call	SYS_PRINT
 
+	ld	a, BUFFER_SZ
 	ld	hl, BUFFER_ADDR
 	call	SYS_INPUT
 
@@ -34,31 +37,34 @@ monitor:
 		jp	z, \2
 	endmacro
 
+	macro	EXPECT
+		cp	\1
+		jp	nz, .syntax_error
+	endmacro
+
 .state_machine:
 	call	.parse_next_token
-
+	NEXT	TOK_NUL, .next_line
 	NEXT	TOK_HEX, .sm_addr
-
 	jr	.syntax_error
 
 .sm_addr:
-	ld	(ADDR_START), de
+	ld	(DATA_1), de
+	ld	(DATA_2), de
 
 	call	.parse_next_token
-
-	NEXT	13, .print_mem
-
-	cp	'.'
-	jp	nz, .not_a_dot
-
-	; TODO
-
-.not_a_dot:
-	cp	':'
-	jp	nz, .not_a_colon
-
-.not_a_colon:
+	NEXT	TOK_NUL, .print_mem
+	NEXT	'.', .sm_mem_read
 	jr	.syntax_error
+
+.sm_mem_read:
+	call	.parse_next_token
+	EXPECT	TOK_HEX
+	ld	(DATA_2), de
+
+	call	.parse_next_token
+	EXPECT	TOK_NUL
+	jp	.print_mem
 
 .syntax_error:
 	ld	hl, .str_syntax_error
@@ -83,7 +89,10 @@ monitor:
 	jr	z, .parse_next_token
 
 .check_token_chars:
+	inc	hl
 	cp	13		; check for enter, dot, colon, r, i, o, space
+	ret	z
+	cp	0
 	ret	z
 	cp	'.'
 	ret	z
@@ -95,6 +104,7 @@ monitor:
 	ret	z
 	cp	'o'
 	ret	z
+	dec	hl
 
 .check_digit:
 	cp	'0'
@@ -154,9 +164,42 @@ monitor:
 	; 
 	; =============================================
 	
+	; print memory from DATA_1 to DATA_2
 .print_mem:
-	; TODO
+	ld	a, 4			; print address
+	ld	de, (DATA_1)
+	call	SYS_PRINTHEX
+	ld	a, ':'
+	call	SYS_PUTC
+
+.next_addr:
+	push	de			; print data
+	ld	a, ' '
+	call	SYS_PUTC
+	ld	a, (de)
+	ld	d, 0
+	ld	e, a
+	ld	a, 2
+	call	SYS_PRINTHEX
+	pop	de
+
+	inc	de			; DE++
+
+	; print until data 2
+	ld	hl, (DATA_2)
+	inc	hl
+	call	SYS_COMPARE_16		; compares DE (current addr) with HL (DATA_2)
+	jr	nz, .next_addr
+
+	call	.print_enter
 	jp	.next_line
+
+.print_enter:
+	ld	a, 13
+	call	SYS_PUTC
+	ld	a, 10
+	call	SYS_PUTC
+	ret
 
 	; =============================================
 	; 
