@@ -47,6 +47,8 @@ next_line:
 	NEXT	TOK_NUL, next_line
 	NEXT	TOK_HEX, .sm_addr
 	NEXT	':', sm_mem_write
+	cp	'x'
+	ret	z			; exit monitor if 'x'
 	jr	syntax_error
 
 .sm_addr:
@@ -113,6 +115,8 @@ parse_next_token:
 	cp	'i'
 	ret	z
 	cp	'o'
+	ret	z
+	cp	'x'
 	ret	z
 	dec	hl
 
