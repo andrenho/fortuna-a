@@ -17,7 +17,15 @@ SYS_PRINTHEX:	jp	sys_printhex
 
 SYS_COMPARE_16:	jp	sys_compare_16
 
+	;
+	; Strings
+	;
+
+SYS_STRFIND:	jp	sys_strfind
+
+
 	include	syscalls/sys_uart.z80
 	include	syscalls/sys_arith.z80
+	include	syscalls/sys_str.z80
 
 ; vim:ts=8:sw=8:sts=8:noexpandtab
