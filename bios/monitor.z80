@@ -14,11 +14,11 @@ TOK_ERROR = '?'
 	; =============================================
 
 monitor:
-	ld	hl, .str_welcome
+	ld	hl, str_welcome
 	call	SYS_PRINT
 
-.next_line:
-	ld	hl, .str_prompt
+next_line:
+	ld	hl, str_prompt
 	call	SYS_PRINT
 
 	ld	a, BUFFER_SZ
@@ -39,37 +39,45 @@ monitor:
 
 	macro	EXPECT
 		cp	\1
-		jp	nz, .syntax_error
+		jp	nz, syntax_error
 	endmacro
 
 .state_machine:
-	call	.parse_next_token
-	NEXT	TOK_NUL, .next_line
+	call	parse_next_token
+	NEXT	TOK_NUL, next_line
 	NEXT	TOK_HEX, .sm_addr
-	jr	.syntax_error
+	NEXT	':', sm_mem_write
+	jr	syntax_error
 
 .sm_addr:
 	ld	(DATA_1), de
 	ld	(DATA_2), de
 
-	call	.parse_next_token
-	NEXT	TOK_NUL, .print_mem
+	call	parse_next_token
+	NEXT	TOK_NUL, print_mem
 	NEXT	'.', .sm_mem_read
-	jr	.syntax_error
+	NEXT	':', sm_mem_write
+	jr	syntax_error
 
 .sm_mem_read:
-	call	.parse_next_token
+	call	parse_next_token
 	EXPECT	TOK_HEX
 	ld	(DATA_2), de
 
-	call	.parse_next_token
+	call	parse_next_token
 	EXPECT	TOK_NUL
-	jp	.print_mem
+	jp	print_mem
 
-.syntax_error:
-	ld	hl, .str_syntax_error
+sm_mem_write:
+	call	parse_next_token
+	NEXT	TOK_HEX, write_mem
+	NEXT	TOK_NUL, next_line
+	jr	syntax_error
+	
+syntax_error:
+	ld	hl, str_syntax_error
 	call	SYS_PRINT
-	jp	.next_line
+	jp	next_line
 
 	; =============================================
 	; 
@@ -80,19 +88,21 @@ monitor:
 	;
 	; =============================================
 
-.parse_next_token:
+parse_next_token:
 	ld	a, (hl)		; A = next char
 	ld	b, TOK_ERROR	; B = token to return if hex
 	ld	de, 0		; DE = the hex value
 
 	cp	' '		; skip spaces
-	jr	z, .parse_next_token
+	jr	nz, .check_token_chars
+	inc	hl
+	jr	parse_next_token
 
 .check_token_chars:
 	inc	hl
 	cp	13		; check for enter, dot, colon, r, i, o, space
 	ret	z
-	cp	0
+	cp	TOK_NUL
 	ret	z
 	cp	'.'
 	ret	z
@@ -160,39 +170,53 @@ monitor:
 
 	; =============================================
 	; 
-	; Actions executed in result of user requests
+	; Print memory from DATA_1 to DATA_2
 	; 
 	; =============================================
-	
-	; print memory from DATA_1 to DATA_2
-.print_mem:
+print_mem:
+	ld	de, (DATA_1)		; DE = current address
+
+.print_address
 	ld	a, 4			; print address
-	ld	de, (DATA_1)
 	call	SYS_PRINTHEX
 	ld	a, ':'
 	call	SYS_PUTC
-
-.next_addr:
-	push	de			; print data
 	ld	a, ' '
 	call	SYS_PUTC
+
+.print_next_data:
+	push	de			; print data
 	ld	a, (de)
-	ld	d, 0
 	ld	e, a
 	ld	a, 2
 	call	SYS_PRINTHEX
 	pop	de
+	ld	a, ' ' 
+	call	SYS_PUTC
 
-	inc	de			; DE++
+	inc	de			; increment current address
 
-	; print until data 2
-	ld	hl, (DATA_2)
+	; if DE == DATA_2, print enter and return
+	ld	hl, (DATA_2)		
 	inc	hl
-	call	SYS_COMPARE_16		; compares DE (current addr) with HL (DATA_2)
-	jr	nz, .next_addr
+	call	SYS_COMPARE_16
+	jp	nz, .check_for_newline
 
+	call	.print_enter		
+	jp	next_line		; return
+
+	; if address ends with 0x0 or 0x8, print ENTER and then the address
+.check_for_newline:
+	ld	a, e
+	and	0xf
+	jr	z, .newline_and_addr
+	cp	0x8
+	jr	z, .newline_and_addr
+
+	jr	.print_next_data		; no newline
+.newline_and_addr:
 	call	.print_enter
-	jp	.next_line
+	jp	.print_address
 
 .print_enter:
 	ld	a, 13
@@ -203,17 +227,31 @@ monitor:
 
 	; =============================================
 	; 
+	; Write to memory (address: DATA_1, data: E)
+	; 
+	; =============================================
+write_mem:
+	push	hl
+	ld	hl, (DATA_1)		; write to memory
+	ld	(hl), e
+	inc	hl			; increment address pointer
+	ld	(DATA_1), hl
+	pop	hl
+	jp	sm_mem_write		; continue parsing data
+
+	; =============================================
+	; 
 	; Strings
 	; 
 	; =============================================
 
-.str_welcome:
+str_welcome:
 	asciiz	"Fortuna Box monitor", 13, 10
 
-.str_prompt:
+str_prompt:
 	asciiz "* "
 
-.str_syntax_error:
+str_syntax_error:
 	asciiz "Syntax error", 13, 10
 
 ; vim:ts=8:sw=8:sts=8:noexpandtab
