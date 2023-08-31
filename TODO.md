@@ -33,7 +33,7 @@
 - [ ] Z80 Monitor
   - [x] Read memory
   - [x] Write memory
-  - [ ] Other commands
+  - [x] Other commands
   - [ ] Print registers
   - [ ] Save state and restore
 
@@ -56,3 +56,4 @@
 - [ ] Choose file + symbol
 - [ ] Hide addresses (checkbox)
 - [ ] Bug: show breakpoints after reset
+- [ ] Bug: fast run will not work without an initial step

@@ -57,6 +57,7 @@ next_line:
 	JPTOK	'X', 'x', exit_monitor
 	JPTOK	'I', 'i', .sm_input
 	JPTOK	'O', 'o', .sm_output
+	JPTOK	'R', 'r', .sm_run
 	jp	syntax_error		; if none of the above, syntax error
 
 .sm_addr:
@@ -102,6 +103,16 @@ next_line:
 	call	parse_next_token
 	EXPECT	TOK_NUL
 	jp	output
+
+.sm_run:
+	call	parse_next_token
+	EXPECT	TOK_HEX
+	ld	(DATA_1), de
+
+	call	parse_next_token
+	EXPECT	TOK_NUL
+	jp	run
+
 
 sm_mem_write:
 	call	parse_next_token
@@ -299,7 +310,16 @@ output:
 	; Exit monitor
 	; 
 	; =============================================
+run:
+	call	cleanup
+	ld	hl, (DATA_1)
+	jp	(hl)
+
 exit_monitor:
+	call	cleanup
+	ret
+
+cleanup:
 	ret
 
 	; =============================================
