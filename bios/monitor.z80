@@ -42,16 +42,22 @@ next_line:
 		jp	nz, syntax_error
 	endmacro
 
+	macro	JPTOK
+		cp	\1
+		jp	z, \3
+		cp	\2
+		jp	z, \3
+	endmacro
+
 .state_machine:
 	call	parse_next_token
 	NEXT	TOK_NUL, next_line	; skip to next state depending on 1st token
 	NEXT	TOK_HEX, .sm_addr
 	NEXT	':', sm_mem_write
-	cp	'x'
-	ret	z			; exit monitor if 'x'
-	cp	'X'
-	ret	z
-	jr	syntax_error		; if none of the above, syntax error
+	JPTOK	'X', 'x', exit_monitor
+	JPTOK	'I', 'i', .sm_input
+	JPTOK	'O', 'o', .sm_output
+	jp	syntax_error		; if none of the above, syntax error
 
 .sm_addr:
 	ld	(DATA_1), de
@@ -61,7 +67,7 @@ next_line:
 	NEXT	TOK_NUL, print_mem
 	NEXT	'.', .sm_mem_read
 	NEXT	':', sm_mem_write
-	jr	syntax_error
+	jp	syntax_error
 
 .sm_mem_read:
 	call	parse_next_token
@@ -72,12 +78,37 @@ next_line:
 	EXPECT	TOK_NUL
 	jp	print_mem
 
+.sm_input:
+	call	parse_next_token
+	EXPECT	TOK_HEX
+	ld	(DATA_1), de
+
+	call	parse_next_token
+	EXPECT	TOK_NUL
+	jp	input
+
+.sm_output:
+	call	parse_next_token
+	EXPECT	TOK_HEX
+	ld	(DATA_1), de
+
+	call	parse_next_token
+	EXPECT	':'
+
+	call	parse_next_token
+	EXPECT	TOK_HEX
+	ld	(DATA_2), de
+
+	call	parse_next_token
+	EXPECT	TOK_NUL
+	jp	output
+
 sm_mem_write:
 	call	parse_next_token
 	NEXT	TOK_HEX, write_mem
 	NEXT	TOK_NUL, next_line
 	jr	syntax_error
-	
+
 syntax_error:
 	ld	hl, str_syntax_error
 	call	SYS_PRINT
@@ -202,7 +233,7 @@ print_mem:
 	call	SYS_COMPARE_16
 	jp	nz, .check_for_newline
 
-	call	.print_enter		
+	call	print_enter		
 	jp	next_line		; return
 
 	; if address ends with 0x0 or 0x8, print ENTER and then the address
@@ -215,15 +246,8 @@ print_mem:
 
 	jr	.print_next_data		; no newline
 .newline_and_addr:
-	call	.print_enter
+	call	print_enter
 	jp	.print_address
-
-.print_enter:
-	ld	a, 13
-	call	SYS_PUTC
-	ld	a, 10
-	call	SYS_PUTC
-	ret
 
 	; =============================================
 	; 
@@ -241,9 +265,55 @@ write_mem:
 
 	; =============================================
 	; 
+	; I/O input (port: DATA_1)
+	; 
+	; =============================================
+input:
+	ld	bc, (DATA_1)
+	ld	a, 2
+	ld	e, c
+	call	SYS_PRINTHEX
+	ld	a, ':'
+	call	SYS_PUTC
+	ld	a, ' '
+	call	SYS_PUTC
+	in	e, (c)
+	ld	a, 2
+	call	SYS_PRINTHEX
+	call	print_enter
+	jp	next_line
+
+	; =============================================
+	; 
+	; I/O output (port: DATA_1, value: DATA_2)
+	; 
+	; =============================================
+output:
+	ld	bc, (DATA_1)
+	ld	de, (DATA_2)
+	out	(c), e
+	jp	next_line
+
+	; =============================================
+	; 
+	; Exit monitor
+	; 
+	; =============================================
+exit_monitor:
+	ret
+
+	; =============================================
+	; 
 	; Strings
 	; 
 	; =============================================
+
+print_enter:
+	ld	a, 13
+	call	SYS_PUTC
+	ld	a, 10
+	call	SYS_PUTC
+	ret
 
 str_tokens:
 	asciiz	13, ".:rRiIoOxX"

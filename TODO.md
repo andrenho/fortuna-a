@@ -31,6 +31,11 @@
   - [x] Serial card
   - [x] Memory map and monitor
 - [ ] Z80 Monitor
+  - [x] Read memory
+  - [x] Write memory
+  - [ ] Other commands
+  - [ ] Print registers
+  - [ ] Save state and restore
 
 # Phase 3 - storage
 
