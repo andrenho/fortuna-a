@@ -98,7 +98,7 @@ StepStatus step_nmi()
     uint16_t sp = ram(0x2014);
     StepStatus ss = {
             ram(0x2000), ram(0x2002), ram(0x2004), ram(0x2006), ram(0x2008), ram(0x200a), ram(0x200c), ram(0x200e),
-            ram(0x2010), ram(0x2012), sp, 0, {0}, true
+            ram(0x2010), ram(0x2012), sp, 0, {0}, bus::get_addr_high(), bus::get_ramonly(), true
     };
 
     // get stack

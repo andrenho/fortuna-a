@@ -13,17 +13,19 @@ namespace z80 {
 struct StepCycleStatus {
     uint8_t  data;
     uint16_t addr;
-    bool     m1    : 1;
-    bool     iorq  : 1;
-    bool     busak : 1;
-    bool     wait  : 1;
-    bool     int_  : 1;
+    bool     m1      : 1;
+    bool     iorq    : 1;
+    bool     busak   : 1;
+    bool     wait    : 1;
+    bool     int_    : 1;
     MemPins  mem_pins;
 };
 
 struct StepStatus {
     uint16_t af, bc, de, hl, afx, bcx, dex, hlx, ix, iy, sp, pc;
     uint16_t stack[8];
+    uint8_t  bank;
+    bool     ramonly;
     bool has_info;
 };
 

@@ -24,6 +24,7 @@ bool     get_m1();
 bool     get_int();
 bool     get_wait();
 bool     get_iorq();
+bool     get_ramonly();
 
 void     pulse_clk();
 void     release_clk();
@@ -43,7 +44,6 @@ void     set_addr(uint16_t addr);
 void     release_addr();
 
 uint8_t  get_addr_high();
-bool     get_ramonly();
 
 }
 

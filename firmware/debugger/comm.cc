@@ -166,6 +166,8 @@ static void print_step_status(z80::StepStatus ss)
         prhex(ss.pc);
         for (size_t i = 0; i < 8; ++i)
             prhex(ss.stack[i]);
+        prhex(ss.bank);
+        prhex(ss.ramonly);
     } else {
         prhex(ss.pc);
     }

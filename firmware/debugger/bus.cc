@@ -68,6 +68,11 @@ bool get_iorq()
     return PINL & _BV(PINL1);
 }
 
+bool get_ramonly()
+{
+    return PIND & _BV(PIND0);
+}
+
 void pulse_clk()
 {
     PORTA |= _BV(PA4);
@@ -152,11 +157,6 @@ uint8_t get_addr_high()
 {
     uint8_t b = PINB;
     return (b >> 4) & 0b111;
-}
-
-bool get_ramonly()
-{
-    return PIND & 1;
 }
 
 }
