@@ -59,5 +59,5 @@
 - [x] Hide addresses (checkbox)
 - [x] Choose file + symbol
 - [x] Bank + RAMONLY
-- [ ] Bug: show breakpoints after reset
-- [ ] Bug: fast run will not work without an initial step
+- [x] Bug: show breakpoints after reset
+- [x] Bug: fast run will not work without an initial step
