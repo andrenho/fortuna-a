@@ -51,7 +51,7 @@
 
 - [ ] Emulator: stop execution
 - [ ] Emulator: UART
-- [ ] Better registers
+- [x] Better registers
 - [ ] Bank + RAMONLY
 - [ ] Choose file + symbol
 - [ ] Hide addresses (checkbox)

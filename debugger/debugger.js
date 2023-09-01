@@ -117,19 +117,29 @@ function updateCode(src) {
 }
 
 async function updateRegisters(r) {
-    const hx = (n) => n !== undefined ? hex(n, 4) : "----";
-    e("reg-af").innerHTML = hx(r.af, 4);
-    e("reg-bc").innerHTML = hx(r.bc, 4);
-    e("reg-de").innerHTML = hx(r.de, 4);
-    e("reg-hl").innerHTML = hx(r.hl, 4);
-    e("reg-afx").innerHTML = hx(r.afx, 4);
-    e("reg-bcx").innerHTML = hx(r.bcx, 4);
-    e("reg-dex").innerHTML = hx(r.dex, 4);
-    e("reg-hlx").innerHTML = hx(r.hlx, 4);
-    e("reg-ix").innerHTML = hx(r.ix, 4);
-    e("reg-iy").innerHTML = hx(r.iy, 4);
-    e("reg-sp").innerHTML = hx(r.sp, 4);
-    e("reg-pc").innerHTML = hx(r.pc, 4);
+    const hx = (n, split) => {
+        if (n === undefined) {
+            return "";
+        } else if (split) {
+            const h = hex(n, 4);
+            return `<span class="reg-high">${h.substring(0, 2)}</span><span class="reg-low">${h.substring(2, 4)}</span>`;
+        } else {
+            return hex(n, 4);
+        }
+    };
+    const a = r.af >> 8;
+    e("reg-af").innerHTML = `${hex(a, 2)} ${String.fromCharCode(a)}`;
+    e("reg-bc").innerHTML = hx(r.bc, true);
+    e("reg-de").innerHTML = hx(r.de, true);
+    e("reg-hl").innerHTML = hx(r.hl, true);
+    e("reg-afx").innerHTML = hx(r.afx, true);
+    e("reg-bcx").innerHTML = hx(r.bcx, true);
+    e("reg-dex").innerHTML = hx(r.dex, true);
+    e("reg-hlx").innerHTML = hx(r.hlx, true);
+    e("reg-ix").innerHTML = hx(r.ix, false);
+    e("reg-iy").innerHTML = hx(r.iy, false);
+    e("reg-sp").innerHTML = hx(r.sp, false);
+    e("reg-pc").innerHTML = hx(r.pc, false);
 
     e("flag-s").checked = r.af & (1 << 7);
     e("flag-z").checked = r.af & (1 << 6);
