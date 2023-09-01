@@ -234,7 +234,6 @@ async function debugRun() {
 async function reset() {
     await apiReset();
     updateCodeLocation(0);
-    updateBreakpoints([]);
 }
 
 async function swapBreakpoint(addr) {
