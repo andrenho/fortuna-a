@@ -135,11 +135,13 @@ class Serial:
         if len(r) == 1:
             return { 'pc': r[0] }
         else:
-            af, bc, de, hl, afx, bcx, dex, hlx, ix, iy, sp, pc, st0, st1, st2, st3, st4, st5, st6, st7 = r
+            af, bc, de, hl, afx, bcx, dex, hlx, ix, iy, sp, pc, st0, st1, st2, st3, st4, st5, st6, st7, bank, ramonly = r
             return {
                 'af': af, 'bc': bc, 'de': de, 'hl': hl, 'afx': afx, 'bcx': bcx, 'dex': dex, 'hlx': hlx, 
                 'ix': ix, 'iy': iy, 'sp': sp, 'pc': pc,
-                'stack': [st0, st1, st2, st3, st4, st5, st6, st7]
+                'stack': [st0, st1, st2, st3, st4, st5, st6, st7],
+                'bank': bank,
+                'ramonly': ramonly,
             }
 
     def step_nmi(self):

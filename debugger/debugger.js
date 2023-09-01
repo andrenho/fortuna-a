@@ -142,7 +142,6 @@ function updateCode(src) {
 }
 
 function updateLabels(labels) {
-    console.log(labels);
     const options = ["<option>Symbols...</option>"];
     for (const lbl of Object.keys(labels).sort()) {
         options.push(`<option value="${labels[lbl]}">${lbl}</option>`);
@@ -184,6 +183,9 @@ async function updateRegisters(r) {
 
     for (let i = 0; i < 8; ++i)
         e(`stack-${i}`).innerHTML = r.stack ? hx(r.stack[i]) : "----";
+
+    e("bank").innerHTML = r.bank;
+    e("ramonly").innerHTML = r.ramonly;
 }
 
 function updateBreakpoints(bkps) {

@@ -155,8 +155,14 @@ void release_addr()
 
 uint8_t get_addr_high()
 {
-    uint8_t b = PINB;
-    return (b >> 4) & 0b111;
+    uint8_t v = 0;
+    if (PINB & _BV(PINB4))
+        v |= 0b1;
+    if (PINB & _BV(PINB5))
+        v |= 0b10;
+    if (PINB & _BV(PINB6))
+        v |= 0b100;
+    return v;
 }
 
 }

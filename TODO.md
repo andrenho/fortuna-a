@@ -47,13 +47,17 @@
 - [ ] Video card
 - [ ] Video card code
 
-# Emulator improvements
+# Hardware bugs/improvements
+
+- [ ] Debugger lines for A16, A17 and A18 are incorrect.
+
+# Emulator bugs/improvements
 
 - [ ] Emulator: stop execution
 - [ ] Emulator: UART
 - [x] Better registers
-- [ ] Hide addresses (checkbox)
-- [ ] Choose file + symbol
-- [ ] Bank + RAMONLY
+- [x] Hide addresses (checkbox)
+- [x] Choose file + symbol
+- [x] Bank + RAMONLY
 - [ ] Bug: show breakpoints after reset
 - [ ] Bug: fast run will not work without an initial step
