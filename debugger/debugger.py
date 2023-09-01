@@ -25,7 +25,7 @@ def compile(source_filename):
         exe += '.exe'
     if platform.system() == 'Darwin':
         exe += '_macos'
-    cp = subprocess.run([exe, '-chklabels', '-L', 'listing.txt', '-Llo', '-Lns', '-ignore-mult-inc', '-nosym', '-x', '-Fbin', '-o', 'rom.bin', source_filename], capture_output=True, text=True)
+    cp = subprocess.run([exe, '-chklabels', '-L', 'listing.txt', '-Llo', '-ignore-mult-inc', '-nosym', '-x', '-Fbin', '-o', 'rom.bin', source_filename], capture_output=True, text=True)
 
     if cp.returncode != 0:
         return { 'stderr': cp.stderr, 'status': cp.returncode }

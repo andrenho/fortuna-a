@@ -2,6 +2,10 @@
  * GLOBAL
  */
 
+:root {
+    --display-line-header: inline-block;
+}
+
 body {
     /* font-family: 'REM', sans-serif; */
     font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
@@ -114,6 +118,8 @@ button :active {
     max-height: calc(100vh - 240px);
 }
 
+.code-source-line {}
+
 .advanced {
     flex-grow: 1;
     padding: 6px;
@@ -175,11 +181,16 @@ button :active {
 
 .code-line-header {
     color: darkgray;
+    display: var(--display-line-header);
 }
 
 .code-line-filename {
     font-weight: bold;
-    color: deeppink;
+    color: white;
+    background-color: brown;
+    display: inline-block;
+    padding: 2px 24px;
+    margin-bottom: 8px;
 }
 
 .code-line-comment {
@@ -207,11 +218,11 @@ button :active {
 .register {
     padding: 6px;
     white-space: nowrap;
-    border: 1px black solid;
+    border: 1px lightgray solid;
     border-radius: 2px;
     text-align: center;
     min-width: 39px;
-    height: 19px;
+    height: 21px;
 }
 
 .reg-name {

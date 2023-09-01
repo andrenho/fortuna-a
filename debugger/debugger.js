@@ -10,6 +10,17 @@ let singleCycleCounter = 0;
 // EVENTS
 //
 
+window.addEventListener("load", async (e) => {
+    const a = localStorage.getItem("fortuna-show-address");
+    if (a === null)
+        a = true;
+    setShowAddress(a);
+    document.getElementById("show-address").checked = a;
+    
+    await recompileAndReset();
+    await reset();
+});
+
 const listeners = document.addEventListener("keydown", (e) => {
     switch (e.key) {
         case "1": tabSelect("code"); break;
@@ -19,11 +30,6 @@ const listeners = document.addEventListener("keydown", (e) => {
         case "w": reset(); break;
         case "x": recompileAndReset(); break;
     }
-});
-
-window.addEventListener("load", async (e) => {
-    await recompileAndReset();
-    await reset();
 });
 
 //
@@ -67,8 +73,9 @@ async function uploadRom(rom) {
 }
 
 function parseLine(line) {
-    line = `<span class="code-line-header">${line.slice(0,32)}</span>${line.slice(32)}`;
-    line = line.replace(/Source: "(.+?)"/, `Source: "<span class="code-line-filename">$1</span>"`);
+    if (!line.startsWith("Source"))
+        line = `<span class="code-line-header">${line.slice(0,33)}</span>${line.slice(33)}`;
+    line = line.replace(/Source: "(.+?)"/, `<span class="code-line-filename">$1</span>`);
     line = line.replace(/;(.+?)$/, `<span class="code-line-comment">;$1</span>`);
     return line;
 }
@@ -83,37 +90,64 @@ function updateCodeLocation(pc) {
     const el = e(`code-line-${pc}`);
     if (el) {
         el.classList.add("code-line-pc");
-        el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        el.scrollIntoView({ /* behavior: "smooth", */ block: "nearest" });
     }
 }
 
 function updateCode(src) {
     const codeDebug = e("code-debug");
     codeDebug.innerHTML = "";
+
+    let parsingLabels = false;
+    const labels = {};
     
     for (const line of src.split("\n")) {
-        const addr = parseInt(line.slice(3, 7), 16);
-        const codeLine = document.createElement("div");
-        codeLine.classList.add("code-line");
-        if (!isNaN(addr))
-            codeLine.id = `code-line-${addr}`;
-        if (addr === 0)
-            codeLine.classList.add("code-line-pc");
 
-        const bkp = document.createElement("div");
-        bkp.classList.add("bkp-area");
-        if (!isNaN(addr)) {
-            bkp.id = `bkp-${addr}`;
-            bkp.addEventListener("click", () => swapBreakpoint(addr));
+        if (line.startsWith("Labels by address")) {
+            parsingLabels = true;
+            continue;
         }
-        codeLine.appendChild(bkp);
 
-        const lineElement = document.createElement("div");
-        lineElement.innerHTML = parseLine(line);
-        codeLine.appendChild(lineElement);
-        
-        codeDebug.appendChild(codeLine);
+        if (!parsingLabels) {
+            const addr = parseInt(line.slice(3, 7), 16);
+            const codeLine = document.createElement("div");
+            codeLine.classList.add("code-line");
+            if (!isNaN(addr))
+                codeLine.id = `code-line-${addr}`;
+            if (addr === 0)
+                codeLine.classList.add("code-line-pc");
+    
+            const bkp = document.createElement("div");
+            bkp.classList.add("bkp-area");
+            if (!isNaN(addr)) {
+                bkp.id = `bkp-${addr}`;
+                bkp.addEventListener("click", () => swapBreakpoint(addr));
+            }
+            codeLine.appendChild(bkp);
+    
+            const lineElement = document.createElement("div");
+            lineElement.innerHTML = parseLine(line);
+            codeLine.appendChild(lineElement);
+            
+            codeDebug.appendChild(codeLine);
+            
+        } else {
+            const addr = parseInt(line.slice(0, 4), 16);
+            if (!isNaN(addr))
+                labels[line.slice(5)] = addr;
+        }
     }
+
+    updateLabels(labels);
+}
+
+function updateLabels(labels) {
+    console.log(labels);
+    const options = ["<option>Symbols...</option>"];
+    for (const lbl of Object.keys(labels).sort()) {
+        options.push(`<option value="${labels[lbl]}">${lbl}</option>`);
+    }
+    e("symbols").innerHTML = options.join("");
 }
 
 async function updateRegisters(r) {
@@ -230,6 +264,15 @@ async function recompileAndReset() {
 // CODE (advanced)
 //
 
+function showAddressChecked(event) {
+    setShowAddress(event.checked);
+    localStorage.setItem("fortuna-show-address", event.checked);
+}
+
+function setShowAddress(show) {
+    document.documentElement.style.setProperty("--display-line-header", show ? "inline-block" : "none");
+}
+
 function advancedChecked(event) {
     const elem = e("advancedText");
     elem.style.display = event.checked ? "flex" : "none";
@@ -345,6 +388,13 @@ async function memoryRequestUpdate() {
     }
 
     e("memory-holder").style.visibility = "visible";
+}
+
+function goToAddress(addr) {
+    const el = e(`code-line-${addr}`);
+    if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
 }
 
 //

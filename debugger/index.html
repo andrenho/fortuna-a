@@ -39,6 +39,9 @@
             <button type="button" id="run" onclick="debugRun()">Run (r)</button>
             <button type="button" id="step" onclick="reset()">Reset (w)</button>
             <button type="button" id="step" onclick="recompileAndReset()">Recompile & Reset (x)</button>
+            <select id="symbols" onchange="goToAddress(this.value)">
+                <option>Symbols...</option>
+            </select>
             <div class="running" id="running" style="display: none;">Running...</div>
         </div>
         <div class="code-area">
@@ -78,7 +81,7 @@
         </div>
         <div>
             <input type="checkbox" onclick="advancedChecked(this);">Advanced</input>
-            <input type="checkbox" onclick="showAddressChecked(this);">Show address/opcodes</input>
+            <input type="checkbox" id="show-address" onclick="showAddressChecked(this);">Show address/opcodes</input>
         </div>
         
         <div class="advanced" style="display: none;" id="advancedText">
