@@ -52,8 +52,8 @@
 - [ ] Emulator: stop execution
 - [ ] Emulator: UART
 - [x] Better registers
-- [ ] Bank + RAMONLY
 - [ ] Choose file + symbol
+- [ ] Bank + RAMONLY
 - [ ] Hide addresses (checkbox)
 - [ ] Bug: show breakpoints after reset
 - [ ] Bug: fast run will not work without an initial step
