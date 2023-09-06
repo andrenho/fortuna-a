@@ -12,20 +12,20 @@ init:
 	ld	a, ACIA_CONFIG
 	out	(IO_UART_CONFIG), a
 
+	;
+	; Print welcome message
+	;
+
+	ld	hl, .welcome
+	call	SYS_PRINT
+
 	; jump to monitor
 
-	ld	a, 42h
-	ld	bc, 0abcdh
-	ld	de, 1234h
-	ld	hl, 5678h
-	ld	ix, 90abh
-	ld	iy, 4321h
-
 	rst	08h
-halt:	jr	halt
 
-	ld	a, 'X'
-	call	SYS_PUTC
-	jr	halt
+.halt:	jr	.halt
+
+.welcome:
+	asciiz	13, 10, "Welcome to Fortuna Box!", 13, 10
 
 ; vim:ts=8:sw=8:sts=8:noexpandtab

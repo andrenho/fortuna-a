@@ -15,11 +15,14 @@ registers:
 	ld	(REGS+2), de		; DE
 	ld	(REGS+4), hl		; HL
 
+	ex	af, af'			; save AF
+
 	call	.put_sp_in_hl
 	ld	(REGS+6), hl		; SP
 
-	push	af			; AF
-	pop	hl
+	ex	af, af'			; restore AF
+	push	af
+	pop	hl			; AF
 	ld	(REGS+8), hl
 	
 	push	ix			; IX
@@ -42,42 +45,106 @@ registers:
 	;
 	; print registers
 	;
-	ld	hl, .a
+
+	call	print_enter
+
+	ld	hl, .a			; A
 	call	SYS_PRINT
 	ld	a, 2
 	ld	de, (REGS+9)
 	call	SYS_PRINTHEX
 
-	macro REG
-		ld	hl, \1
-		call	SYS_PRINT
-		ld	a, 2
-		ld	de, (REGS + \2 + 1)
-		call	SYS_PRINTHEX
-		ld	a, 2
-		ld	de, (REGS + \2)
-		call	SYS_PRINTHEX
-	endmacro
+	ld	de, .bc			; BC
+	ld	hl, 0
+	call	.print_reg
 
-	REG	.bc, 0
-	REG	.de, 2
-	REG	.hl, 4
-	REG	.ix, 10
-	REG	.iy, 12
-	REG	.pc, 14
-	REG	.sp, 6
-	
-	call	print_enter
+	ld	de, .de			; DE
+	ld	hl, 4
+	call	.print_reg
+
+	ld	de, .hl			; HL
+	ld	hl, 4
+	call	.print_reg
+
+	ld	de, .ix			; IX
+	ld	hl, 10
+	call	.print_reg
+
+	ld	de, .iy			; IY
+	ld	hl, 12
+	call	.print_reg
+
+	ld	de, .pc			; PC
+	ld	hl, 14
+	call	.print_reg
+
+	ld	de, .sp			; SP
+	ld	hl, 6
+	call	.print_reg
+
 
 	; 
 	; print flags
 	;
+
+	ld	hl, .flags
+	call	SYS_PRINT
+
+	ld	a, (REGS+8)		; A = F
+	ld	b, a
+
+	bit	0, b
+	jr	z, .skip1
+	ld	a, 'C'
+	call	SYS_PUTC
+.skip1:
+	bit	1, b
+	jr	z, .skip2
+	ld	a, 'N'
+	call	SYS_PUTC
+.skip2:
+	bit	2, b
+	jr	z, .skip3
+	ld	a, 'P'
+	call	SYS_PUTC
+.skip3:
+	bit	4, b
+	jr	z, .skip4
+	ld	a, 'H'
+	call	SYS_PUTC
+.skip4:
+	bit	6, b
+	jr	z, .skip5
+	ld	a, 'Z'
+	call	SYS_PUTC
+.skip5:
+	bit	7, b
+	jr	z, .skip6
+	ld	a, 'S'
+	call	SYS_PUTC
+.skip6:
+
+	call	print_enter
 
 	; restore registers
 	pop	hl
 	pop	de
 	pop	bc
 	pop	af
+	ret
+
+.print_reg:			; print text in DE and register in REGS + HL
+	ex	de, hl
+	call	SYS_PRINT
+	ld	hl, REGS + 1
+	add	hl, de
+	ld	e, (hl)
+	ld	a, 2
+	call	SYS_PRINTHEX
+	dec	hl
+	ld	e, (hl)
+	ld	a, 2
+	call	SYS_PRINTHEX
 	ret
 
 .put_sp_in_hl:
@@ -99,5 +166,6 @@ registers:
 .iy:	asciiz	" iy:"
 .pc:	asciiz	" pc:"
 .sp:	asciiz	" sp:"
+.flags: asciiz  " flags:"
 
 ; vim:ts=8:sw=8:sts=8:noexpandtab

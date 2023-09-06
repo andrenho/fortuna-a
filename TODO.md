@@ -30,12 +30,11 @@
   - [x] CPU card
   - [x] Serial card
   - [x] Memory map and monitor
-- [ ] Z80 Monitor
+- [x] Z80 Monitor
   - [x] Read memory
   - [x] Write memory
   - [x] Other commands
-  - [ ] Print registers
-  - [ ] Save state and restore
+  - [x] Print registers
 
 # Phase 3 - storage
 
