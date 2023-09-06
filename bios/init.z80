@@ -14,6 +14,13 @@ init:
 
 	; jump to monitor
 
+	ld	a, 42h
+	ld	bc, 0abcdh
+	ld	de, 1234h
+	ld	hl, 5678h
+	ld	ix, 90abh
+	ld	iy, 4321h
+
 	rst	08h
 halt:	jr	halt
 

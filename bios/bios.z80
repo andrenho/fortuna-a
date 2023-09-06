@@ -10,6 +10,11 @@
 	org	08h
 	jp	monitor
 
+	; RST 10h - print registers
+	org	10h
+	call	registers
+	ret
+
 	; NMI interrupt (66h) - used by the debugger
 	
 	org	66h
@@ -22,7 +27,8 @@
 	; BIOS code
 	;
 
-	include init.z80
 	include monitor.z80
+	include registers.z80
+	include init.z80
 
 ; vim:ts=8:sw=8:sts=8:noexpandtab

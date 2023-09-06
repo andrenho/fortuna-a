@@ -14,8 +14,7 @@ TOK_ERROR = '?'
 	; =============================================
 
 monitor:
-	ld	hl, str_welcome
-	call	SYS_PRINT
+	rst	10h
 
 next_line:
 	ld	hl, str_prompt
@@ -337,9 +336,6 @@ print_enter:
 
 str_tokens:
 	asciiz	13, ".:rRiIoOxX"
-
-str_welcome:
-	asciiz	"Fortuna Box monitor", 13, 10
 
 str_prompt:
 	asciiz "* "

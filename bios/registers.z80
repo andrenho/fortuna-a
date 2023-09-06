@@ -1,0 +1,103 @@
+REGS = 20a4h
+
+registers:
+	; save registers
+	push	af
+	push	bc
+	push	de
+	push	hl
+
+	;
+	; read registers
+	;
+
+	ld	(REGS), bc		; BC
+	ld	(REGS+2), de		; DE
+	ld	(REGS+4), hl		; HL
+
+	call	.put_sp_in_hl
+	ld	(REGS+6), hl		; SP
+
+	push	af			; AF
+	pop	hl
+	ld	(REGS+8), hl
+	
+	push	ix			; IX
+	pop	hl
+	ld	(REGS+10), hl
+	
+	push	iy			; IY
+	pop	hl
+	ld	(REGS+12), hl
+	
+	; get PC
+	call	.put_sp_in_hl
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ex	de, hl
+	dec	hl			; -1 from the rst call
+	ld	(REGS+14), hl
+
+	;
+	; print registers
+	;
+	ld	hl, .a
+	call	SYS_PRINT
+	ld	a, 2
+	ld	de, (REGS+9)
+	call	SYS_PRINTHEX
+
+	macro REG
+		ld	hl, \1
+		call	SYS_PRINT
+		ld	a, 2
+		ld	de, (REGS + \2 + 1)
+		call	SYS_PRINTHEX
+		ld	a, 2
+		ld	de, (REGS + \2)
+		call	SYS_PRINTHEX
+	endmacro
+
+	REG	.bc, 0
+	REG	.de, 2
+	REG	.hl, 4
+	REG	.ix, 10
+	REG	.iy, 12
+	REG	.pc, 14
+	REG	.sp, 6
+	
+	call	print_enter
+
+	; 
+	; print flags
+	;
+
+	; restore registers
+	pop	hl
+	pop	de
+	pop	bc
+	pop	af
+	ret
+
+.put_sp_in_hl:
+	ld	hl, 0
+	add	hl, sp
+	ld	b, 0
+	ld	c, 12
+	add	hl, bc
+	ret
+
+	;
+	; strings
+	;
+.a:	asciiz	"a:"
+.bc:	asciiz	" bc:"
+.de:	asciiz	" de:"
+.hl:	asciiz	" hl:"
+.ix:	asciiz	" ix:"
+.iy:	asciiz	" iy:"
+.pc:	asciiz	" pc:"
+.sp:	asciiz	" sp:"
+
+; vim:ts=8:sw=8:sts=8:noexpandtab
