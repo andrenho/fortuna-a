@@ -87,35 +87,49 @@ int main(void)
 }
 #endif
 
+void spi_xfer(uint8_t data)
+{
+    USIDR = data;
+
+    // Configure SPI settings for MSB
+    uint8_t usicr_msb = (1 << USIWM0) | (0 << USICS0) | (1 << USITC);
+    
+    // Configure SPI settings for LSB
+    uint8_t usicr_lsb = (1 << USIWM0) | (0 << USICS0) | (1 << USITC) | (1 << USICLK);
+
+    // SPI transfer loop for 8 bits
+    PORTD &= ~_BV(PORTD4);
+    for (int i = 0; i < 16; i++) {
+        if (i % 2 == 0) {
+            USICR = usicr_msb;
+        } else {
+            USICR = usicr_lsb;
+        }
+    }
+    PORTD |= _BV(PORTD4);
+}
+
 int main()
 {
+    // initialize
     DDRB |= _BV(DDB7) | _BV(DDB6);  // SCLK, DO = output
-    DDRD |= _BV(DDD2) | _BV(DDD4);  // R, SD_CS = output
-    PORTD |= _BV(PORTD4);
+    DDRD |= _BV(DDD1) | _BV(DDD2) | _BV(DDD4);  // RCLK, R, SD_CS = output
+    PORTD |= _BV(PD4);
+
+    _delay_ms(200);
+    
+    uint8_t a = 0;
+    for (;;) {
+        spi_xfer(a++);
+
+        PORTD |= _BV(PD1);
+        PORTD &= ~_BV(PD1);
+
+        _delay_ms(40);
+    }
 
     for (;;) {
-        PORTD &= ~_BV(PORTD4);
-
-        USIDR = 0xab;
-
-        // Configure SPI settings for MSB
-        uint8_t usicr_msb = (1 << USIWM0) | (0 << USICS0) | (1 << USITC);
-        
-        // Configure SPI settings for LSB
-        uint8_t usicr_lsb = (1 << USIWM0) | (0 << USICS0) | (1 << USITC) | (1 << USICLK);
-
-        // SPI transfer loop for 8 bits
-        for (int i = 0; i < 16; i++) {
-            if (i % 2 == 0) {
-                USICR = usicr_msb;
-            } else {
-                USICR = usicr_lsb;
-            }
-        }
-
-        PORTD |= _BV(PORTD4);
-
-        _delay_ms(1);
+        // spi_xfer(0x4e);
     }
 
 }
