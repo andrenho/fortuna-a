@@ -62,6 +62,8 @@ async function uploadRom(rom) {
     const codeDebug = e("code-debug");
     codeDebug.innerHTML = "Uploading ROM ";
     for (let i = 0; i < rom.length; i += 64) {
+        if (i % (64 * 16) == 0)
+            codeDebug.innerHTML += " ";
         codeDebug.innerHTML += ".";
         try {
             await apiMemoryWrite(i, rom.slice(i, i + 64));
@@ -70,6 +72,23 @@ async function uploadRom(rom) {
         }
     }
     codeDebug.innerHTML += " Done!";
+}
+
+async function clearROM(fill) {
+    const data = fill ? Array.from({ length: 64 }, (_, index) => index + 32) : Array(64).fill(Math.floor(Math.random() * (126 - 33 + 1)) + 33);    
+    const codeDebug = e("code-debug");
+    codeDebug.innerHTML = "Clearing ROM ";
+    for (let i = 0; i < 0x2000; i += 64) {
+        if (i % (64 * 16) == 0)
+            codeDebug.innerHTML += " ";
+        codeDebug.innerHTML += ".";
+        try {
+            await apiMemoryWrite(i, data);
+        } catch (ex) {
+            codeDebug.innerHTML += "X";
+        }
+    }
+    codeDebug.innerHTML += " Done!";    
 }
 
 function parseLine(line) {
