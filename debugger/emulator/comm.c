@@ -2,8 +2,15 @@
 
 #include <stdarg.h>
 #include <string.h>
-#include <util.h>
 #include <unistd.h>
+
+#if __APPLE__
+#  include <util.h>
+#else
+#  include <pty.h>
+#  include <stdio.h>
+#  include <termios.h>
+#endif
 
 #define DEBUG 1
 

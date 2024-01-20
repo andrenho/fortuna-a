@@ -38,7 +38,7 @@
 
 # Phase 3 - storage
 
-- [ ] Storage card
+- [x] Storage card
 - [ ] Z80 routines
 
 # Phase 4 - video
