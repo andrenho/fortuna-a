@@ -847,12 +847,6 @@
         (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209"
           (reference "J14") (unit 1)
         )
-        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/afd1b413-de30-4838-bb16-3d0c9f3cd196"
-          (reference "J12") (unit 1)
-        )
-        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/34f47b44-6e82-4397-9bc8-849df4113da9"
-          (reference "J13") (unit 1)
-        )
       )
     )
   )

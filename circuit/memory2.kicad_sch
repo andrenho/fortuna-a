@@ -3463,7 +3463,7 @@
   (symbol (lib_id "Connector_Generic:Conn_01x06") (at 234.95 98.425 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 1df4d949-7246-438c-8225-b9c1dbfef6de)
-    (property "Reference" "J4" (at 238.125 98.425 0)
+    (property "Reference" "J41" (at 238.125 98.425 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "Port A" (at 238.125 100.965 0)
@@ -3483,12 +3483,6 @@
     (pin "6" (uuid fc522576-9d7b-42ca-92f2-281344124f0b))
     (instances
       (project "fortuna-box"
-        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209"
-          (reference "J4") (unit 1)
-        )
-        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/afd1b413-de30-4838-bb16-3d0c9f3cd196"
-          (reference "J7") (unit 1)
-        )
         (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/9a1861e1-3c11-472c-8fe5-ac282332e2ba"
           (reference "J41") (unit 1)
         )
@@ -3742,7 +3736,7 @@
   (symbol (lib_id "Connector_Generic:Conn_01x08") (at 256.54 179.07 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 3e03200d-2104-4d80-b09b-a015e67d81dd)
-    (property "Reference" "J14" (at 254 179.07 0)
+    (property "Reference" "J51" (at 254 179.07 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "Port F" (at 254 181.61 0)
@@ -3764,15 +3758,6 @@
     (pin "8" (uuid 6fa37734-1735-4ab0-b4df-d91459366502))
     (instances
       (project "fortuna-box"
-        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209"
-          (reference "J14") (unit 1)
-        )
-        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/afd1b413-de30-4838-bb16-3d0c9f3cd196"
-          (reference "J12") (unit 1)
-        )
-        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/34f47b44-6e82-4397-9bc8-849df4113da9"
-          (reference "J13") (unit 1)
-        )
         (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/9a1861e1-3c11-472c-8fe5-ac282332e2ba"
           (reference "J51") (unit 1)
         )
@@ -3973,7 +3958,7 @@
   (symbol (lib_id "Connector_Generic:Conn_01x10") (at 234.95 123.825 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 720f71e5-cd18-4976-af71-6b3702eca032)
-    (property "Reference" "J1" (at 238.125 123.825 0)
+    (property "Reference" "J6" (at 238.125 123.825 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "Port B" (at 238.125 126.365 0)
@@ -3997,9 +3982,6 @@
     (pin "9" (uuid 801a9d58-0ea0-4b49-b71e-e8f0f073df74))
     (instances
       (project "fortuna-box"
-        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209"
-          (reference "J1") (unit 1)
-        )
         (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/9a1861e1-3c11-472c-8fe5-ac282332e2ba"
           (reference "J6") (unit 1)
         )
@@ -4110,7 +4092,7 @@
   (symbol (lib_id "Connector_Generic:Conn_01x08") (at 234.315 153.67 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 832b349d-4319-4a8e-b3a1-33090aaf78c2)
-    (property "Reference" "J5" (at 237.49 153.67 0)
+    (property "Reference" "J32" (at 237.49 153.67 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "Port D" (at 237.49 156.21 0)
@@ -4132,9 +4114,6 @@
     (pin "8" (uuid b7d9ac65-521b-41e5-8807-4e16dda02d1a))
     (instances
       (project "fortuna-box"
-        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209"
-          (reference "J5") (unit 1)
-        )
         (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/9a1861e1-3c11-472c-8fe5-ac282332e2ba"
           (reference "J32") (unit 1)
         )
@@ -4254,7 +4233,7 @@
   (symbol (lib_id "Connector_Generic:Conn_01x06") (at 255.905 98.425 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 9ce2c4d3-f1e1-4f35-bdce-c359cffe3b4f)
-    (property "Reference" "J43" (at 252.73 98.425 0)
+    (property "Reference" "J42" (at 252.73 98.425 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "Port G" (at 252.73 100.965 0)
@@ -4274,12 +4253,6 @@
     (pin "6" (uuid a73294dd-0598-4398-b270-de355976d3e1))
     (instances
       (project "fortuna-box"
-        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209"
-          (reference "J43") (unit 1)
-        )
-        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/afd1b413-de30-4838-bb16-3d0c9f3cd196"
-          (reference "J33") (unit 1)
-        )
         (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/9a1861e1-3c11-472c-8fe5-ac282332e2ba"
           (reference "J42") (unit 1)
         )
@@ -4290,7 +4263,7 @@
   (symbol (lib_id "Connector_Generic:Conn_01x08") (at 256.54 153.67 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 9d8bfd43-a005-42fd-946c-7d79a14f7054)
-    (property "Reference" "J3" (at 254 153.67 0)
+    (property "Reference" "J46" (at 254 153.67 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "Port E" (at 254 156.21 0)
@@ -4312,9 +4285,6 @@
     (pin "8" (uuid 12a57d05-f562-41fd-a02b-75a8f73a05f9))
     (instances
       (project "fortuna-box"
-        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209"
-          (reference "J3") (unit 1)
-        )
         (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/9a1861e1-3c11-472c-8fe5-ac282332e2ba"
           (reference "J46") (unit 1)
         )
@@ -4910,7 +4880,7 @@
   (symbol (lib_id "Connector_Generic:Conn_01x10") (at 256.54 123.825 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid e847b24b-3d26-4a71-afe6-b0fc356e0f66)
-    (property "Reference" "J2" (at 253.365 123.825 0)
+    (property "Reference" "J45" (at 253.365 123.825 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "Port C" (at 253.365 126.365 0)
@@ -4934,9 +4904,6 @@
     (pin "9" (uuid 5d2ae4bb-70f9-4890-a949-7781251f6f17))
     (instances
       (project "fortuna-box"
-        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209"
-          (reference "J2") (unit 1)
-        )
         (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/9a1861e1-3c11-472c-8fe5-ac282332e2ba"
           (reference "J45") (unit 1)
         )

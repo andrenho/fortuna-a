@@ -466,7 +466,7 @@
   (symbol (lib_id "Connector_Generic:Conn_01x06") (at 253.365 31.75 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 30479d64-1fd7-491d-b8b2-0a79a6c37b01)
-    (property "Reference" "J43" (at 250.19 31.75 0)
+    (property "Reference" "J44" (at 250.19 31.75 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "Port G" (at 250.19 34.29 0)
@@ -486,12 +486,6 @@
     (pin "6" (uuid 73264419-5e0c-4678-9e07-40c81e738d76))
     (instances
       (project "fortuna-box"
-        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209"
-          (reference "J43") (unit 1)
-        )
-        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/afd1b413-de30-4838-bb16-3d0c9f3cd196"
-          (reference "J33") (unit 1)
-        )
         (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/7a4166e2-b1d1-4968-8160-8d4c6a581842"
           (reference "J44") (unit 1)
         )
@@ -502,7 +496,7 @@
   (symbol (lib_id "Connector_Generic:Conn_01x10") (at 231.775 54.61 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 7d47d76d-cdc9-4d3b-bf8a-a95688e33ec0)
-    (property "Reference" "J1" (at 234.95 54.61 0)
+    (property "Reference" "J39" (at 234.95 54.61 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "Port B" (at 234.95 57.15 0)
@@ -526,15 +520,6 @@
     (pin "9" (uuid c22e4b31-083a-4ce1-9153-6e7c52f5c6f3))
     (instances
       (project "fortuna-box"
-        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209"
-          (reference "J1") (unit 1)
-        )
-        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/4037b4b4-0005-458e-a3e9-fe2ae826ab0c"
-          (reference "J20") (unit 1)
-        )
-        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/0ad0c907-f2a9-47ff-aff1-7aaecbdef7ee"
-          (reference "J23") (unit 1)
-        )
         (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/7a4166e2-b1d1-4968-8160-8d4c6a581842"
           (reference "J39") (unit 1)
         )
@@ -545,7 +530,7 @@
   (symbol (lib_id "Connector_Generic:Conn_01x10") (at 254 54.61 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid ba5169b0-3e39-4445-8361-00af8ba047cb)
-    (property "Reference" "J2" (at 250.825 54.61 0)
+    (property "Reference" "J40" (at 250.825 54.61 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "Port C" (at 250.825 57.15 0)
@@ -569,15 +554,6 @@
     (pin "9" (uuid 3719ee95-7523-49f1-98c5-f9ac71806b27))
     (instances
       (project "fortuna-box"
-        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209"
-          (reference "J2") (unit 1)
-        )
-        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/4037b4b4-0005-458e-a3e9-fe2ae826ab0c"
-          (reference "J21") (unit 1)
-        )
-        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/0ad0c907-f2a9-47ff-aff1-7aaecbdef7ee"
-          (reference "J24") (unit 1)
-        )
         (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/7a4166e2-b1d1-4968-8160-8d4c6a581842"
           (reference "J40") (unit 1)
         )
@@ -588,7 +564,7 @@
   (symbol (lib_id "Connector_Generic:Conn_01x06") (at 232.41 31.75 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid f06346d4-fb8f-48bc-bae6-5c0ca67d6155)
-    (property "Reference" "J4" (at 235.585 31.75 0)
+    (property "Reference" "J37" (at 235.585 31.75 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "Port A" (at 235.585 34.29 0)
@@ -608,12 +584,6 @@
     (pin "6" (uuid e6ad6290-c867-46c1-b3a2-70641f3b8dc1))
     (instances
       (project "fortuna-box"
-        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209"
-          (reference "J4") (unit 1)
-        )
-        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/afd1b413-de30-4838-bb16-3d0c9f3cd196"
-          (reference "J7") (unit 1)
-        )
         (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/7a4166e2-b1d1-4968-8160-8d4c6a581842"
           (reference "J37") (unit 1)
         )

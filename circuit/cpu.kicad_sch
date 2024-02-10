@@ -2828,7 +2828,7 @@
   (symbol (lib_id "Connector_Generic:Conn_01x10") (at 208.915 114.935 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 5ca850c3-0be9-4cb3-839e-995ef9616e93)
-    (property "Reference" "J1" (at 212.09 114.935 0)
+    (property "Reference" "J8" (at 212.09 114.935 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "Port B" (at 212.09 117.475 0)
@@ -2852,9 +2852,6 @@
     (pin "9" (uuid 4d7f1ec2-f7c9-49cd-a34c-38ee7643448d))
     (instances
       (project "fortuna-box"
-        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209"
-          (reference "J1") (unit 1)
-        )
         (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/afd1b413-de30-4838-bb16-3d0c9f3cd196"
           (reference "J8") (unit 1)
         )
@@ -2992,7 +2989,7 @@
   (symbol (lib_id "Connector_Generic:Conn_01x08") (at 208.915 144.78 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 890b3011-3a80-4c15-bdf7-f5f02e8d730e)
-    (property "Reference" "J5" (at 212.09 144.78 0)
+    (property "Reference" "J9" (at 212.09 144.78 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "Port D" (at 212.09 147.32 0)
@@ -3014,9 +3011,6 @@
     (pin "8" (uuid e788cc8f-abdb-440d-b880-ac5b5f0f9863))
     (instances
       (project "fortuna-box"
-        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209"
-          (reference "J5") (unit 1)
-        )
         (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/afd1b413-de30-4838-bb16-3d0c9f3cd196"
           (reference "J9") (unit 1)
         )
@@ -3252,7 +3246,7 @@
   (symbol (lib_id "Connector_Generic:Conn_01x06") (at 208.915 90.805 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid bb723983-4183-4845-8acd-a6f70fbc9f55)
-    (property "Reference" "J4" (at 212.09 90.805 0)
+    (property "Reference" "J7" (at 212.09 90.805 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "Port A" (at 212.09 93.345 0)
@@ -3272,9 +3266,6 @@
     (pin "6" (uuid 2c787b4a-e5f5-46f7-a726-7fbe8c41341d))
     (instances
       (project "fortuna-box"
-        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209"
-          (reference "J4") (unit 1)
-        )
         (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/afd1b413-de30-4838-bb16-3d0c9f3cd196"
           (reference "J7") (unit 1)
         )
@@ -3318,7 +3309,7 @@
   (symbol (lib_id "Connector_Generic:Conn_01x08") (at 229.87 144.78 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid d3aa8594-1eb5-4042-bb6f-f736b3e8894c)
-    (property "Reference" "J3" (at 227.33 144.78 0)
+    (property "Reference" "J11" (at 227.33 144.78 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "Port E" (at 227.33 147.32 0)
@@ -3340,9 +3331,6 @@
     (pin "8" (uuid 0e5422f9-d4b5-4662-88a2-1e873d05b1b7))
     (instances
       (project "fortuna-box"
-        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209"
-          (reference "J3") (unit 1)
-        )
         (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/afd1b413-de30-4838-bb16-3d0c9f3cd196"
           (reference "J11") (unit 1)
         )
@@ -3353,7 +3341,7 @@
   (symbol (lib_id "Connector_Generic:Conn_01x10") (at 229.87 114.935 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid d8093015-e535-4501-b3b4-863afb3bb884)
-    (property "Reference" "J2" (at 226.695 114.935 0)
+    (property "Reference" "J10" (at 226.695 114.935 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "Port C" (at 226.695 117.475 0)
@@ -3377,9 +3365,6 @@
     (pin "9" (uuid f1e25552-3afa-4ef5-b9c3-a36b8ae7c705))
     (instances
       (project "fortuna-box"
-        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209"
-          (reference "J2") (unit 1)
-        )
         (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/afd1b413-de30-4838-bb16-3d0c9f3cd196"
           (reference "J10") (unit 1)
         )
@@ -3447,7 +3432,7 @@
   (symbol (lib_id "Connector_Generic:Conn_01x08") (at 259.08 149.86 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid eaec3ab5-f3b1-4e96-9c04-898d38bbd78f)
-    (property "Reference" "J3" (at 256.54 149.86 0)
+    (property "Reference" "J12" (at 256.54 149.86 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "Port F" (at 256.54 152.4 0)
@@ -3469,14 +3454,8 @@
     (pin "8" (uuid 2c21cc28-1098-40ef-8fc6-3a1d5f1fdfcf))
     (instances
       (project "fortuna-box"
-        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209"
-          (reference "J3") (unit 1)
-        )
         (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/afd1b413-de30-4838-bb16-3d0c9f3cd196"
           (reference "J12") (unit 1)
-        )
-        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/34f47b44-6e82-4397-9bc8-849df4113da9"
-          (reference "J13") (unit 1)
         )
       )
     )
@@ -3485,7 +3464,7 @@
   (symbol (lib_id "Connector_Generic:Conn_01x06") (at 229.87 90.805 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid f9dcc3f6-0110-4aa2-890a-06f654e1d1b9)
-    (property "Reference" "J43" (at 226.695 90.805 0)
+    (property "Reference" "J33" (at 226.695 90.805 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "Port G" (at 226.695 93.345 0)
@@ -3505,9 +3484,6 @@
     (pin "6" (uuid 4e9ed550-44e3-4433-99c6-92a55cdcb3a6))
     (instances
       (project "fortuna-box"
-        (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209"
-          (reference "J43") (unit 1)
-        )
         (path "/0e4c4e8a-78e0-4f49-88dc-754c12656209/afd1b413-de30-4838-bb16-3d0c9f3cd196"
           (reference "J33") (unit 1)
         )
