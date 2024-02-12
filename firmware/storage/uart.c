@@ -10,8 +10,8 @@ static int uart_putchar(char c, FILE* f)
 
     if (c == '\n')
         uart_putchar('\r', f);
-    loop_until_bit_is_set(UCSRA, UDRE);
-    UDR = c;
+    loop_until_bit_is_set(UCSR0A, UDRE0);
+    UDR0 = c;
     return 0;
 }
 
@@ -19,8 +19,8 @@ static int uart_getchar(FILE* f)
 {
     (void) f;
 
-    loop_until_bit_is_set(UCSRA, RXC);
-    return UDR;
+    loop_until_bit_is_set(UCSR0A, RXC0);
+    return UDR0;
 }
 
 void uart_init(void)
@@ -28,12 +28,12 @@ void uart_init(void)
     _delay_ms(100);
     
     // set speed
-    UBRRH = UBRRH_VALUE;
-    UBRRL = UBRRL_VALUE;
+    UBRR0H = UBRRH_VALUE;
+    UBRR0L = UBRRL_VALUE;
 
     // set config
-    UCSRC = (1<<USBS) | (1<<UCSZ1) | (1<<UCSZ0);   // Async-mode 
-    UCSRB = (1<<RXEN) | (1<<TXEN);     // Enable Receiver and Transmitter
+    UCSR0C = (1<<USBS0) | (1<<UCSZ01) | (1<<UCSZ00);   // Async-mode 
+    UCSR0B = (1<<RXEN0) | (1<<TXEN0);     // Enable Receiver and Transmitter
 
     static FILE uart = FDEV_SETUP_STREAM(uart_putchar, uart_getchar, _FDEV_SETUP_RW);
     stdin = stdout = &uart;

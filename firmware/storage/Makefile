@@ -2,7 +2,7 @@
 PROJECT=fb-storage
 
 # Object files (one for each source file)
-OBJECTS=main.o
+OBJECTS=main.o uart.o
 
 # Avrdude configuration to connect on the PI. See avrdude_gpio.conf.
 AVRDUDE_CONFIG=pi_rst
