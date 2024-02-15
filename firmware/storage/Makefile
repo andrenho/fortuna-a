@@ -29,7 +29,7 @@ AVRDUDE_FLAGS=-p ${MCU_AVRDUDE} -C +./avrdude_gpio.conf -c ${AVRDUDE_CONFIG} -V
 CC=avr-gcc
 WARNINGS=-Wall -Wextra \
 	 -Wformat=2 -Wno-unused-parameter -Wshadow \
-	 -Wwrite-strings -Wold-style-definition \
+	 -Wwrite-strings \
 	 -Wredundant-decls -Wnested-externs -Wmissing-include-dirs -Wjump-misses-init -Wlogical-op
 CPPFLAGS=-std=c11 ${WARNINGS} -O3 -DF_CPU=${F_CPU} -DBAUD=${BAUD} -mmcu=${MCU_GCC} -ffunction-sections -fdata-sections -mcall-prologues
 
