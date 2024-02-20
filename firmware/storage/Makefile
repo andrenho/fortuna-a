@@ -8,7 +8,7 @@ OBJECTS=main.o uart.o
 AVRDUDE_CONFIG=pi_rst
 
 # AVR fuses: external clock
-FUSES=-U lfuse:w:0xde:m -U hfuse:w:0xdf:m -U efuse:w:0xff:m
+FUSES=-U lfuse:w:0xff:m -U hfuse:w:0xd9:m -U efuse:w:0xff:m
 
 # Microcontroller
 MCU_GCC=atmega328
