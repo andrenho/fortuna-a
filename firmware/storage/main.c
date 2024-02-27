@@ -20,6 +20,7 @@
 
 volatile bool y2r = false;
 volatile bool y2w = false;
+volatile uint8_t last_data = 0;
 
 static void pulse_LED(int times)
 {
@@ -31,11 +32,18 @@ static void pulse_LED(int times)
     }
 }
 
+static inline uint8_t get_data()
+{
+    uint8_t pd = PIND, pc = PINC;
+    return ((pc >> 2) & 0xf) | (pd & 0xf0);
+}
+
 int main()
 {
     DDRC |= _BV(PC0) | _BV(PC1);   // LED and R
     PORTD |= _BV(PD2) | _BV(PD3);  // pullups on Y2R and Y2W
 
+    pulse_R();
     pulse_R();
 
     EICRA |= _BV(ISC01) | _BV(ISC11);  // falling edge triggers INT0 and INT1 (Y2R, Y2W)
@@ -49,14 +57,21 @@ int main()
 
         if (y2r) {
             y2r = false;
-            while (PIND & _BV(PD2) == 0) {
-                pulse_R();
+            putchar('A');
+            while (PIND & _BV(PIND2) == 0) {
+                putchar('B');
             }
+            putchar('C');
+            pulse_R();
+            putchar('D');
         }
 
         if (y2w) {
             y2w = false;
-            // pulse_R();
+            last_data = get_data();
+            printf("%X ", last_data);
+            pulse_R();
+            pulse_R();
         }
     }
 }
