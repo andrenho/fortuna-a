@@ -38,6 +38,20 @@ static inline uint8_t get_data()
     return ((pc >> 2) & 0xf) | (pd & 0xf0);
 }
 
+static inline void set_data(uint8_t v)
+{
+    DDRC |= _BV(PC2) | _BV(PC3) | _BV(PC4) | _BV(PC5);
+    DDRD |= _BV(PD4) | _BV(PD5) | _BV(PD6) | _BV(PD7);
+    PORTC |= (PORTC & 0b11000011) | ((v & 0xf) << 2);
+    PORTD |= (PORTD & 0b11110000) | ((v >> 4) & 0xf0);
+}
+
+static inline void release_data()
+{
+    DDRC &= ~(_BV(PC2) | _BV(PC3) | _BV(PC4) | _BV(PC5));
+    DDRD &= ~(_BV(PD4) | _BV(PD5) | _BV(PD6) | _BV(PD7));
+}
+
 int main()
 {
     DDRC |= _BV(PC0) | _BV(PC1);   // LED and R
@@ -56,6 +70,7 @@ int main()
     for (;;) {
 
         if (y2r) {
+            set_data(last_data + 1);
             y2r = false;
             putchar('A');
             while (PIND & _BV(PIND2) == 0) {
@@ -63,6 +78,7 @@ int main()
             }
             putchar('C');
             pulse_R();
+            release_data();
             putchar('D');
         }
 
