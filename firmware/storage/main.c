@@ -49,8 +49,9 @@ int main()
 
         if (y2r) {
             y2r = false;
-            // pulse_R();
-            while (PIND & _BV(PD2) == 0);
+            while (PIND & _BV(PD2) == 0) {
+                pulse_R();
+            }
         }
 
         if (y2w) {
