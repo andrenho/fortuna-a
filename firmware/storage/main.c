@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdint.h>
 
@@ -8,60 +9,95 @@
 
 #include "uart.h"
 
-#define get_Y2W() (PINB & _BV(PB1))
-#define get_Y2R() (PINB & _BV(PB0))
-
+/*
 #define get_DATA()     (PIND)
 #define set_DATA(v)    { DDRD = 0xff; PORTD = v; }
 #define release_DATA() { PORTD = 0x0; DDRD = 0x0; }
+*/
 
 #define set_LED(v) { if (v) PORTC |= _BV(PC0); else PORTC &= ~_BV(PC0); }
-#define set_R(v)   { if (v) PORTC |= _BV(PC1); else PORTC &= ~_BV(PC1); }
+#define pulse_R() { PORTC |= _BV(PC1); _delay_ms(1); PORTC &= ~_BV(PC1); _delay_ms(1); }
 
-#define pulse_R() { PORTC |= _BV(PC1); PORTC &= ~_BV(PC1); }
+volatile bool y2r = false;
+volatile bool y2w = false;
+volatile uint8_t last_data = 0;
+
+static void pulse_LED(int times)
+{
+    for (int i = 0; i < times; ++i) {
+        set_LED(1);
+        _delay_ms(30);
+        set_LED(0);
+        _delay_ms(250);
+    }
+}
+
+static inline uint8_t get_data()
+{
+    uint8_t pd = PIND, pc = PINC;
+    return ((pc >> 2) & 0xf) | (pd & 0xf0);
+}
+
+static inline void set_data(uint8_t v)
+{
+    DDRC |= _BV(PC2) | _BV(PC3) | _BV(PC4) | _BV(PC5);
+    DDRD |= _BV(PD4) | _BV(PD5) | _BV(PD6) | _BV(PD7);
+    PORTC |= (PORTC & 0b11000011) | ((v & 0xf) << 2);
+    PORTD |= (PORTD & 0b11110000) | ((v >> 4) & 0xf0);
+}
+
+static inline void release_data()
+{
+    DDRC &= ~(_BV(PC2) | _BV(PC3) | _BV(PC4) | _BV(PC5));
+    DDRD &= ~(_BV(PD4) | _BV(PD5) | _BV(PD6) | _BV(PD7));
+}
 
 int main()
 {
-    DDRB = 0x0;
-    DDRC |= _BV(PC0) | _BV(PC1);
-    DDRD = 0x0;
+    DDRC |= _BV(PC0) | _BV(PC1);   // LED and R
+    PORTD |= _BV(PD2) | _BV(PD3);  // pullups on Y2R and Y2W
 
-    // pull-up resistors on I/O input, enable interrupts
-    PORTB |= _BV(PB0) | _BV(PB1);
-    PCMSK0 |= _BV(PCINT0) | _BV(PCINT1);
-
-    sei();
+    pulse_R();
     pulse_R();
 
-    for (;;) {
-        /*
-        if (get_Y2W() == 0) {
-            uint8_t data = get_DATA();
-            set_LED(data == 0x24);
-            pulse_R();
-        } else if (get_Y2R() == 0) {
-            set_DATA(0x65);
-            _delay_us(200);
-            pulse_R();
-            release_DATA();
-            while (get_Y2R() == 0);
-        }
-        */
-    }
+    EICRA |= _BV(ISC01) | _BV(ISC11);  // falling edge triggers INT0 and INT1 (Y2R, Y2W)
+    EIMSK |= _BV(INT0) | _BV(INT1);    // enable interrupts INT0, INT1
+    sei();
 
-    /*
     uart_init();
+    printf("Initialized.\n");
 
     for (;;) {
-        printf("Hello.\n");
-        PORTC |= _BV(PC0);
-        _delay_ms(200);
-        PORTC &= ~_BV(PC0);
-        _delay_ms(200);
+
+        if (y2r) {
+            set_data(last_data + 1);
+            y2r = false;
+            putchar('A');
+            while (PIND & _BV(PIND2) == 0) {
+                putchar('B');
+            }
+            putchar('C');
+            pulse_R();
+            release_data();
+            putchar('D');
+        }
+
+        if (y2w) {
+            y2w = false;
+            last_data = get_data();
+            printf("%X ", last_data);
+            pulse_R();
+            pulse_R();
+        }
     }
-    */
 }
 
-ISR(PCINT0_vect) {
-    set_LED(1);
+ISR(INT0_vect)  // on Y2R falling
+{
+    y2r = true;
+}
+
+ISR(INT1_vect)  // on Y2W falling
+{
+    y2w = true;
 }
