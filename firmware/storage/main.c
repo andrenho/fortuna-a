@@ -41,6 +41,7 @@ int main()
 
     spi_init();
     output_init();
+    uart_init();
 
     pulse_R();
     pulse_R();
