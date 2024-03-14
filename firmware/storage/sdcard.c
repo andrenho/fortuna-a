@@ -5,11 +5,10 @@
 #include <stdio.h>
 
 #include "ansi.h"
-#include "config.h"
-#include "dev/spi.h"
+#include "spi.h"
 
-#define set_CE()   { PORTG |= _BV(PG5); /* debug_spi_inactive(PSTR("SD")); */ }
-#define clear_CE() { PORTG &= ~_BV(PG5); /* debug_spi_active(PSTR("SD")); */ }
+#define set_CE()   { PORTB |= _BV(PB1); /* debug_spi_inactive(PSTR("SD")); */ }
+#define clear_CE() { PORTB &= ~_BV(PB1); /* debug_spi_active(PSTR("SD")); */ }
 
 #define MAX_READ_ATTEMPTS   20
 #define MAX_WRITE_ATTEMPTS 100
@@ -42,7 +41,7 @@ static void print_sdcard_state(uint8_t r1)
 
 void sdcard_init(void)
 {
-    DDRG = _BV(DDG5);
+    DDRB = _BV(DDB1);
 }
 
 static void sdcard_poweron(void)

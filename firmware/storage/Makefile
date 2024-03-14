@@ -2,23 +2,25 @@
 PROJECT=fb-storage
 
 # Object files (one for each source file)
-OBJECTS=main.o uart.o output.o spi.o
+OBJECTS=main.o uart.o output.o spi.o sdcard.o
 
 # Avrdude configuration to connect on the PI. See avrdude_gpio.conf.
 AVRDUDE_CONFIG=pi_rst
 
 # AVR fuses: external clock
 FUSES=-U lfuse:w:0xff:m -U hfuse:w:0xd9:m -U efuse:w:0xff:m
+# FUSES=-U lfuse:w:0xe2:m -U hfuse:w:0xd9:m -U efuse:w:0xff:m
 
 # Microcontroller
-MCU_GCC=atmega328
+MCU_GCC=atmega328p
 MCU_AVRDUDE=m328p
 
 # Microcontroller speed, in Hz. Used by avr-libc for delays.
 F_CPU=16500000UL
+# F_CPU=8000000UL
 
 # Serial speed, in baud. Used by avr-libc for UART speed calculation.
-BAUD=9600
+BAUD=19200
 SERIAL_PORT=/dev/ttyS0
 
 # Additional options

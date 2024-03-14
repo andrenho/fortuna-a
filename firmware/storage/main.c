@@ -8,6 +8,7 @@
 #include <util/delay.h>
 
 #include "output.h"
+#include "sdcard.h"
 #include "spi.h"
 #include "uart.h"
 
@@ -37,11 +38,15 @@ static inline uint8_t get_data()
 
 int main()
 {
+    uart_init();
+    printf("\033[2JInitialized.\n");
+
     DDRC = _BV(PC0) | _BV(PC1);   // LED and R
 
     spi_init();
     output_init();
-    uart_init();
+
+    sdcard_init();
 
     pulse_R();
     pulse_R();
