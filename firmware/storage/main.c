@@ -8,6 +8,7 @@
 #include <util/delay.h>
 
 #include "output.h"
+#include "spi.h"
 #include "uart.h"
 
 #define get_Y2W() (PIND & _BV(PIND3))
@@ -36,19 +37,18 @@ static inline uint8_t get_data()
 
 int main()
 {
-    output_init();
-
     DDRC = _BV(PC0) | _BV(PC1);   // LED and R
 
+    spi_init();
+    output_init();
+    uart_init();
+
     pulse_R();
     pulse_R();
 
-    EICRA |= _BV(ISC11);  // falling edge triggers INT1 (Y2R)
+    EICRA |= _BV(ISC11);   // falling edge triggers INT1 (Y2R)
     EIMSK |= _BV(INT1);    // enable interrupts INT1
     sei();
-
-    uart_init();
-    printf("Initialized.\n");
 
     for (;;) {
 
@@ -56,7 +56,6 @@ int main()
             y2w = false;
             last_data = get_data();
             output_set(last_data + 1);
-            printf("%X ", last_data);
             pulse_R();
             pulse_R();
         }

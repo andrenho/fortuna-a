@@ -2,7 +2,7 @@
 PROJECT=fb-storage
 
 # Object files (one for each source file)
-OBJECTS=main.o uart.o output.o
+OBJECTS=main.o uart.o output.o spi.o
 
 # Avrdude configuration to connect on the PI. See avrdude_gpio.conf.
 AVRDUDE_CONFIG=pi_rst
@@ -21,6 +21,9 @@ F_CPU=16500000UL
 BAUD=9600
 SERIAL_PORT=/dev/ttyS0
 
+# Additional options
+DEBUG_SDCARD=2
+
 #
 # Rules
 #
@@ -31,7 +34,8 @@ WARNINGS=-Wall -Wextra \
 	 -Wformat=2 -Wno-unused-parameter -Wshadow \
 	 -Wwrite-strings \
 	 -Wredundant-decls -Wnested-externs -Wmissing-include-dirs -Wjump-misses-init -Wlogical-op
-CPPFLAGS=-std=c11 ${WARNINGS} -O3 -DF_CPU=${F_CPU} -DBAUD=${BAUD} -mmcu=${MCU_GCC} -ffunction-sections -fdata-sections -mcall-prologues
+CPPFLAGS=-std=c11 ${WARNINGS} -O3 -DF_CPU=${F_CPU} -DBAUD=${BAUD} -mmcu=${MCU_GCC} \
+	 -ffunction-sections -fdata-sections -mcall-prologues -DDEBUG_SDCARD=${DEBUG_SDCARD}
 
 all: ${PROJECT}.hex
 
