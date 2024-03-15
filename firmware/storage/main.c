@@ -38,15 +38,23 @@ static inline uint8_t get_data()
 
 int main()
 {
-    uart_init();
-    printf("\033[2JInitialized.\n");
-
-    DDRC = _BV(PC0) | _BV(PC1);   // LED and R
-
     spi_init();
     output_init();
 
+    uart_init();
+    printf("\e[1;1H\e[2JInitialized.\n");
+
+    DDRC = _BV(PC0) | _BV(PC1);   // LED and R
+
+
+    /*
     sdcard_init();
+
+    spi_send(0xff);
+
+    // sdcard_setup();
+    for (;;) ;
+    */
 
     pulse_R();
     pulse_R();

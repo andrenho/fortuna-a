@@ -15,6 +15,12 @@
 
 static bool was_initialized = false;
 
+void sdcard_init(void)
+{
+    DDRB = _BV(DDB1);
+    set_CE();
+}
+
 static void command(uint8_t cmd, uint32_t args, uint8_t crc)
 {
     spi_send(cmd | 0x40);
@@ -38,11 +44,6 @@ static void print_sdcard_state(uint8_t r1)
     if (r1 & (1 << 6)) printf_P(PSTR("param_error "));
 }
 #endif
-
-void sdcard_init(void)
-{
-    DDRB = _BV(DDB1);
-}
 
 static void sdcard_poweron(void)
 {
