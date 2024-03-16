@@ -14,6 +14,7 @@ void spi_init(void)
 {
     DDRB |= (1 << DDB2) | (1 << DDB3) | (1 << DDB5);   // MOSI, SCK: output
     // PB2 (SS) must be set to output, otherwise SPI will not work
+    PORTB |= (1 << PB2);
     
     // enable SPI, set as MASTER, clock to fosc/128 (TODO - can it go faster?)
     SPCR = (1 << SPE) | (1 << MSTR) | (1 << SPR1) | (1 << SPR0); // | (1 << SPI2X);

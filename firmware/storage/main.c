@@ -36,25 +36,28 @@ static inline uint8_t get_data()
     return ((pc >> 2) & 0xf) | (pd & 0xf0);
 }
 
+#define set_CE()   { PORTB |= _BV(PB1); /* debug_spi_inactive(PSTR("SD")); */ }
+#define clear_CE() { PORTB &= ~_BV(PB1); /* debug_spi_active(PSTR("SD")); */ }
+
 int main()
 {
     spi_init();
     output_init();
-
-    uart_init();
-    printf("\e[1;1H\e[2JInitialized.\n");
-
-    DDRC = _BV(PC0) | _BV(PC1);   // LED and R
-
-
-    /*
     sdcard_init();
 
-    spi_send(0xff);
+    uart_init();
+    getchar();
+    printf("\e[1;1H\e[2JInitialized.\n");
 
-    // sdcard_setup();
+    sdcard_init();
+
+    sdcard_setup();
+
+    printf("Done.\n");
     for (;;) ;
-    */
+
+#if 0
+    DDRC = _BV(PC0) | _BV(PC1);   // LED and R
 
     pulse_R();
     pulse_R();
@@ -68,11 +71,13 @@ int main()
         if (y2w) {
             y2w = false;
             last_data = get_data();
-            output_set(last_data + 1);
+            output_set(last_data);
             pulse_R();
             pulse_R();
+            // printf("%02X ", last_data);
         }
     }
+#endif
 }
 
 ISR(INT1_vect)  // on Y2W falling
